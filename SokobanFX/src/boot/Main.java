@@ -24,6 +24,7 @@ public class Main extends Application {
 
 	public void start(Stage primaryStage) {
 		try {
+			System.out.println("test");
 			String musicFile="./resources/Music/song.mp3";
 			Media song=new Media(new File(musicFile).toURI().toString());
 			this.m=new MediaPlayer(song);
