@@ -10,14 +10,11 @@ public class Record implements Recordable
 {
 	@Id
 	private int levelId;
-	@Column(name="numOfSteps")
+	private String username;
+	@Column(name="NumOfSteps")
 	private int numOfSteps;
-	@Column(name="numOfSteps")
-
-
-
-
-
+	@Column(name="time")
+	private int time;
 
 
 	@Override

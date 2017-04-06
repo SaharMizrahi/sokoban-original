@@ -9,7 +9,7 @@ public class Member implements Recordable
 {
 
 	@Id
-	private String userName;
+	private String username;
 	@Column(name="password")
 	private String password;
 
