@@ -22,7 +22,7 @@ public class Main extends Application {
 
 	MediaPlayer m;
 	@Override
-
+//sasasasa
 	public void start(Stage primaryStage) {
 		try {
 			System.out.println("test");
