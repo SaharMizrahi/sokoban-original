@@ -13,17 +13,23 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 
-@Entity(name="Records")
+@Entity
 public class Record implements Recordable,Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static SessionFactory factory;
 
 	@EmbeddedId
-	private RecordKey key;
-	@Column(name="NumOfSteps")
-	private int numOfSteps;
+	private RecordsKey key;
 	@Column(name="time")
 	private int time;
+	@Column(name="steps")
+	private int steps;	
+	
 
 
 	@Override
@@ -54,37 +60,35 @@ public class Record implements Recordable,Serializable
 
 
 
-	public int getNumOfSteps()
-	{
-		return numOfSteps;
+	
+	public Record() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 
-	public void setNumOfSteps(int numOfSteps)
-	{
-		this.numOfSteps = numOfSteps;
+
+
+	public Record(RecordsKey key, int time, int steps) {
+		super();
+		this.key = key;
+		this.time = time;
+		this.steps = steps;
 	}
 
 
-	public RecordKey getKey()
+
+
+	public RecordsKey getKey()
 	{
 		return key;
 	}
 
 
 
-	public void setKey(RecordKey key)
+	public void setKey(RecordsKey key)
 	{
 		this.key = key;
-	}
-
-
-
-	public Record(RecordKey key, int numOfSteps, int time) {
-		super();
-		this.key = key;
-		this.numOfSteps = numOfSteps;
-		this.time = time;
 	}
 
 
@@ -95,6 +99,7 @@ public class Record implements Recordable,Serializable
 	}
 
 
+
 	public void setTime(int time)
 	{
 		this.time = time;
@@ -102,12 +107,26 @@ public class Record implements Recordable,Serializable
 
 
 
-	public Record() {
-		super();
-		// TODO Auto-generated constructor stub
+	public int getSteps()
+	{
+		return steps;
 	}
 
 
 
+	public void setSteps(int steps)
+	{
+		this.steps = steps;
+	}
+
+
+
+	public static long getSerialversionuid()
+	{
+		return serialVersionUID;
+	}
 	
+
+
+		
 }

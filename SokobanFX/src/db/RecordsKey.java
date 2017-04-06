@@ -2,16 +2,13 @@ package db;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-
 @Embeddable
-public class RecordKey implements Serializable
+public class RecordsKey implements Serializable
 {
-	@Column(name="username")
+
 	private String username;
-	@Column(name="LevelId")
-	private int levelId;
+	private int levelID;
 	public String getUsername()
 	{
 		return username;
@@ -20,20 +17,20 @@ public class RecordKey implements Serializable
 	{
 		this.username = username;
 	}
-	public int getLevelId()
+	public int getLevelID()
 	{
-		return levelId;
+		return levelID;
 	}
-	public void setLevelId(int levelId)
+	public void setLevelID(int levelID)
 	{
-		this.levelId = levelId;
+		this.levelID = levelID;
 	}
-	public RecordKey(String username, int levelId) {
+	public RecordsKey(String username, int levelID) {
 		super();
 		this.username = username;
-		this.levelId = levelId;
+		this.levelID = levelID;
 	}
-	public RecordKey() {
+	public RecordsKey() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

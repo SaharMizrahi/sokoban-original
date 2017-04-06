@@ -5,7 +5,7 @@ package boot;
 import db.Member;
 import db.RecLevel;
 import db.Record;
-import db.RecordKey;
+import db.RecordsKey;
 import javafx.application.Application;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -103,15 +103,13 @@ public class Main extends Application {
 		launch(args);
 		*/
 		
-		Member m1=new Member("c","1234");
-		Member m2=new Member("d","5678");
+		Member m1=new Member("a");
+		Member m2=new Member("b");
 		RecLevel l=new RecLevel(1,10,2);
-		Record r1=new Record(new RecordKey("c",1),30,5);
-		Record r2=new Record(new RecordKey("d",1),31,5);
+		Record r1=new Record(new RecordsKey("a",1),30,5);
+		Record r2=new Record(new RecordsKey("b",2),30,5);
 
 		m1.addRecord();
-		System.out.println("finish update");
-
 		m2.addRecord();
 		l.addRecord();
 		r1.addRecord();

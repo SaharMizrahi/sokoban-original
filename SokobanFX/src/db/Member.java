@@ -1,10 +1,9 @@
 package db;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -12,17 +11,17 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-@Entity(name="Members1")
+@Entity(name="Members")
 public class Member implements Recordable
 {
 
 	private static SessionFactory factory;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String username;
-	@Column(name="password")
-	private String password;
+	@OneToMany
+	@JoinColumn(name="username")
+	private java.util.List<Record> userrecords;
 
 
 	@Override
@@ -38,8 +37,8 @@ public class Member implements Recordable
 		Session session = factory.openSession();
 		try {
 			tx = session.beginTransaction();
-			System.out.println(""+this.username+" "+this.password);
-		    session.save(new Member(this.getUsername(),this.getPassword()));
+			
+		    session.save(this);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -64,22 +63,11 @@ public class Member implements Recordable
 	}
 
 
-	public String getPassword()
-	{
-		return password;
-	}
 
-
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
-
-
-	public Member(String username, String password) {
+	public Member(String username) {
 		super();
 		this.username = username;
-		this.password = password;
+		
 	}
 
 

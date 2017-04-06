@@ -16,14 +16,12 @@
 	<!-- Echo all executed SQL to stdout -->
 	<property name="show_sql">true</property>
    <!-- List of XML mapping files -->
-   <!-- <mapping class="db.Record" resource="/record.hbm.xml"/>
-   <mapping class="db.Level" resource="/level.hbm.xml"/>
-   <mapping class="db.Member" resource="/member.hbm.xml"/>
-   <mapping class="db.RecordKey" resource="/recordkey.hbm.xml"/>-->
-	<mapping class="db.Member"></mapping>
-	<mapping class="db.RecLevel"></mapping>
-	<mapping class="db.Record"></mapping>
-	<mapping class="db.RecordKey"></mapping>
+   <mapping class="db.Member"></mapping>
+   <mapping class="db.RecLevel"></mapping>
+   <mapping class="db.Record"></mapping>
+   <mapping class="db.RecordsKey"></mapping>
+   
+  
 	
    
 
