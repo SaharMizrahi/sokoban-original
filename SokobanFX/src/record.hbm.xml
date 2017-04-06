@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="db.Level" table="Levels">
+		<id name="levelId" column="LevelId" type="int">
+		<id name="username" column="username" type="string">
+			<generator class="native" />
+		</id>
+		<property name="numOfSteps" column="numOfsteps" type="int" />
+		<property name="time" column="time" type="int" />
+	</class>
+</hibernate-mapping>
