@@ -21,6 +21,7 @@ public class Level implements Recordable
 	public void addRecord()
 	{
 		// TODO Auto-generated method stub
+		
 
 	}
 
