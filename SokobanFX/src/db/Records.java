@@ -1,17 +1,12 @@
 package db;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 
-@Entity(name="Members")
+@Entity(name="Recrods")
 public class Records implements Recordable
 {
-		@Id
-		private String userName;
-		@Column(name="password")
-		private String password;
+
 
 
 	@Override
