@@ -18,7 +18,8 @@
    <!-- List of XML mapping files -->
    <mapping class="db.Member"></mapping>
    <mapping class="db.RecLevel"></mapping>
-   <mapping class="db.Record"></mapping>
+      <mapping class="db.Record"></mapping>
+   
    <mapping class="db.RecordsKey"></mapping>
    
   

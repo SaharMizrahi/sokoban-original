@@ -2,6 +2,12 @@ package boot;
 /*Gal Ezra and Sahar Mizrahi Sokoban project
  * */
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import db.Member;
 import db.RecLevel;
 import db.Record;
@@ -14,6 +20,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	MediaPlayer m;
+	private static SessionFactory factory;
 	@Override
 //sasasasa
 	public void start(Stage primaryStage) {
@@ -102,18 +109,49 @@ public class Main extends Application {
 
 		launch(args);
 		*/
-		
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
 		Member m1=new Member("a");
 		Member m2=new Member("b");
 		RecLevel l=new RecLevel(1,10,2);
 		Record r1=new Record(new RecordsKey("a",1),30,5);
-		Record r2=new Record(new RecordsKey("b",2),30,5);
+		Record r2=new Record(new RecordsKey("b",1),30,5);
+		Transaction tx = null;
+		int recID = 0;
+		Session session = factory.openSession();
+		try {
+			tx = session.beginTransaction();
+			session.save(m1);
+			tx.commit();
+			tx = session.beginTransaction();
+			session.save(m2);
+			tx.commit();
+			tx = session.beginTransaction();
+			session.save(l);
+			tx.commit();
+			tx = session.beginTransaction();
 
-		m1.addRecord();
+			session.save(r1);
+			session.save(r2);
+			tx.commit();
+			System.out.println("check");
+
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+	
+
+		/*m1.addRecord();
 		m2.addRecord();
 		l.addRecord();
 		r1.addRecord();
-		r2.addRecord();
+		r2.addRecord();*/
 		System.out.println("finish update");
 		
 

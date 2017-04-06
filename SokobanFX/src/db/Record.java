@@ -3,28 +3,27 @@ package db;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 
-@Entity
-public class Record implements Recordable,Serializable
+@Entity(name="Records")
+@IdClass(RecordsKey.class)
+public class Record implements Serializable
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static SessionFactory factory;
 
-	@EmbeddedId
-	private RecordsKey key;
+	
+	@Id
+	private String username;
+	@Id
+	private int levelID;
+	
 	@Column(name="time")
 	private int time;
 	@Column(name="steps")
@@ -32,31 +31,6 @@ public class Record implements Recordable,Serializable
 	
 
 
-	@Override
-	public int addRecord()
-	{
-		
-		// TODO Auto-generated method stub
-		Configuration configuration = new Configuration();
-		configuration.configure();
-		factory = configuration.buildSessionFactory();
-		Transaction tx = null;
-		int recID = 0;
-	
-		Session session = factory.openSession();
-		try {
-			tx = session.beginTransaction();
-			session.save(this);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return recID;
-	}
 
 
 
@@ -71,7 +45,8 @@ public class Record implements Recordable,Serializable
 
 	public Record(RecordsKey key, int time, int steps) {
 		super();
-		this.key = key;
+		this.levelID=key.getLevelID();
+		this.username=key.getUsername();
 		this.time = time;
 		this.steps = steps;
 	}
@@ -79,17 +54,6 @@ public class Record implements Recordable,Serializable
 
 
 
-	public RecordsKey getKey()
-	{
-		return key;
-	}
-
-
-
-	public void setKey(RecordsKey key)
-	{
-		this.key = key;
-	}
 
 
 
