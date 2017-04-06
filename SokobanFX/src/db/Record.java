@@ -1,5 +1,7 @@
 package db;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,7 +14,7 @@ import org.hibernate.cfg.Configuration;
 
 
 @Entity(name="Recrods")
-public class Record implements Recordable
+public class Record implements Recordable,Serializable
 {
 	private static SessionFactory factory;
 
@@ -39,7 +41,7 @@ public class Record implements Recordable
 		Session session = factory.openSession();
 		try {
 			tx = session.beginTransaction();
-			recID = (Integer) session.save(this);
+			//recID = (Integer) session.save(this);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

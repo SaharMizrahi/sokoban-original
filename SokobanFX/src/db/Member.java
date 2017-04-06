@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-@Entity(name="Members")
+@Entity(name="Members1")
 public class Member implements Recordable
 {
 
@@ -35,7 +35,7 @@ public class Member implements Recordable
 		Session session = factory.openSession();
 		try {
 			tx = session.beginTransaction();
-			recID = (Integer) session.save(this);
+			//recID = (Integer) session.save(this);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

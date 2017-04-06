@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="db.Record" table="Records">
-		<id name="username" column="Username" type="string">
+	<class name="db.Member" table="Members1">
+		<id name="username" column="username" type="string">
 		
-			<generator class="native" />
+			 <generator class="native" />
 		</id>
 		<property name="password" column="password" type="string" />
 		

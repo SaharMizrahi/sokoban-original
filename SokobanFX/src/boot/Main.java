@@ -109,6 +109,8 @@ public class Main extends Application {
 		Record r2=new Record(1,"B",31,5);
 
 		m1.addRecord();
+		System.out.println("finish update");
+
 		m2.addRecord();
 		l.addRecord();
 		r1.addRecord();
