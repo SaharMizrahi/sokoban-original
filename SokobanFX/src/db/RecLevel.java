@@ -2,6 +2,8 @@ package db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.HibernateException;
@@ -11,13 +13,14 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 @Entity(name="Levels")
-public class Level implements Recordable
+public class RecLevel implements Recordable
 {
 
 
 	private static SessionFactory factory;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int levelID;
 	@Column(name="size")
 	private int size;
@@ -52,7 +55,7 @@ public class Level implements Recordable
 	}
 
 
-	public Level(int levelID, int size, int numberOfBox) {
+	public RecLevel(int levelID, int size, int numberOfBox) {
 		super();
 		this.levelID = levelID;
 		this.size = size;
@@ -96,7 +99,7 @@ public class Level implements Recordable
 	}
 
 
-	public Level() {
+	public RecLevel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

@@ -2,6 +2,8 @@ package db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.HibernateException;
@@ -17,6 +19,7 @@ public class Member implements Recordable
 	private static SessionFactory factory;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String username;
 	@Column(name="password")
 	private String password;
@@ -35,7 +38,8 @@ public class Member implements Recordable
 		Session session = factory.openSession();
 		try {
 			tx = session.beginTransaction();
-			//recID = (Integer) session.save(this);
+			System.out.println(""+this.username+" "+this.password);
+		    session.save(new Member(this.getUsername(),this.getPassword()));
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

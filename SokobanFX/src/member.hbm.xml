@@ -2,11 +2,11 @@
 <!DOCTYPE hibernate-mapping PUBLIC  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="db.Member" table="Members1">
-		<id name="username" column="username" type="string">
+		<id name="username" column="Members1.username" type="string">
 		
 			 <generator class="native" />
 		</id>
-		<property name="password" column="password" type="string" />
+		<property name="password" column="Members1.password" type="string" />
 		
 	</class>
 </hibernate-mapping>

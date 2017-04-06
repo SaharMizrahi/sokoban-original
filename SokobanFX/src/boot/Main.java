@@ -2,9 +2,10 @@ package boot;
 /*Gal Ezra and Sahar Mizrahi Sokoban project
  * */
 
-import db.Level;
 import db.Member;
+import db.RecLevel;
 import db.Record;
+import db.RecordKey;
 import javafx.application.Application;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -102,11 +103,11 @@ public class Main extends Application {
 		launch(args);
 		*/
 		
-		Member m1=new Member("A","1234");
-		Member m2=new Member("b","5678");
-		Level l=new Level(1,10,2);
-		Record r1=new Record(1,"A",30,5);
-		Record r2=new Record(1,"B",31,5);
+		Member m1=new Member("c","1234");
+		Member m2=new Member("d","5678");
+		RecLevel l=new RecLevel(1,10,2);
+		Record r1=new Record(new RecordKey("c",1),30,5);
+		Record r2=new Record(new RecordKey("d",1),31,5);
 
 		m1.addRecord();
 		System.out.println("finish update");

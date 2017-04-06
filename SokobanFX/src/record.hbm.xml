@@ -2,12 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC  "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="db.Record" table="Records">
-		<composite-id>
-		<key-property name="username" column="username" type="string" />
-		<key-property name="levelId" column="LevelId" type="string" />
-		
-           
-        </composite-id> 
+
 		<property name="numOfSteps" column="numOfsteps" type="int" />
 		<property name="time" column="time" type="int" />
 	</class>

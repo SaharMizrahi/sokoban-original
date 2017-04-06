@@ -3,8 +3,8 @@ package db;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -13,14 +13,13 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 
-@Entity(name="Recrods")
+@Entity(name="Records")
 public class Record implements Recordable,Serializable
 {
 	private static SessionFactory factory;
 
-	@Id
-	private int levelId;
-	private String username;
+	@EmbeddedId
+	private RecordKey key;
 	@Column(name="NumOfSteps")
 	private int numOfSteps;
 	@Column(name="time")
@@ -41,7 +40,7 @@ public class Record implements Recordable,Serializable
 		Session session = factory.openSession();
 		try {
 			tx = session.beginTransaction();
-			//recID = (Integer) session.save(this);
+			session.save(this);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -53,29 +52,6 @@ public class Record implements Recordable,Serializable
 		return recID;
 	}
 
-
-	public int getLevelId()
-	{
-		return levelId;
-	}
-
-
-	public void setLevelId(int levelId)
-	{
-		this.levelId = levelId;
-	}
-
-
-	public String getUsername()
-	{
-		return username;
-	}
-
-
-	public void setUsername(String username)
-	{
-		this.username = username;
-	}
 
 
 	public int getNumOfSteps()
@@ -90,6 +66,29 @@ public class Record implements Recordable,Serializable
 	}
 
 
+	public RecordKey getKey()
+	{
+		return key;
+	}
+
+
+
+	public void setKey(RecordKey key)
+	{
+		this.key = key;
+	}
+
+
+
+	public Record(RecordKey key, int numOfSteps, int time) {
+		super();
+		this.key = key;
+		this.numOfSteps = numOfSteps;
+		this.time = time;
+	}
+
+
+
 	public int getTime()
 	{
 		return time;
@@ -102,18 +101,13 @@ public class Record implements Recordable,Serializable
 	}
 
 
-	public Record(int levelId, String username, int numOfSteps, int time) {
-		super();
-		this.levelId = levelId;
-		this.username = username;
-		this.numOfSteps = numOfSteps;
-		this.time = time;
-	}
-
 
 	public Record() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+
+
 	
 }
