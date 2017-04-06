@@ -1,6 +1,6 @@
 package db;
 
-public class Levels implements Recordable
+public class Level implements Recordable
 {
 
 	@Override

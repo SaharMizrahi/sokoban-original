@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="Members")
-public class Members implements Recordable
+public class Member implements Recordable
 {
 
 	@Id
