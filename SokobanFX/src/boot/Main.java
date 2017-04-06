@@ -2,20 +2,12 @@ package boot;
 /*Gal Ezra and Sahar Mizrahi Sokoban project
  * */
 
-import java.io.File;
-import java.util.List;
-
-import Controler.SokobanController;
-import Model.MyModel;
+import db.Level;
+import db.Member;
+import db.Record;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import view.MainWindowController;
 
 
 public class Main extends Application {
@@ -24,7 +16,7 @@ public class Main extends Application {
 	@Override
 //sasasasa
 	public void start(Stage primaryStage) {
-		try {
+		/*try {
 			System.out.println("test");
 			String musicFile="./resources/Music/song.mp3";
 			Media song=new Media(new File(musicFile).toURI().toString());
@@ -97,7 +89,7 @@ public class Main extends Application {
 
 		} catch(Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	public void stop()
 	{
@@ -105,9 +97,25 @@ public class Main extends Application {
 	}
 	public static void main(String[] args) {
 
-
+/*
 
 		launch(args);
+		*/
+		
+		Member m1=new Member("A","1234");
+		Member m2=new Member("b","5678");
+		Level l=new Level(1,10,2);
+		Record r1=new Record(1,"A",30,5);
+		Record r2=new Record(1,"B",31,5);
+
+		m1.addRecord();
+		m2.addRecord();
+		l.addRecord();
+		r1.addRecord();
+		r2.addRecord();
+		System.out.println("finish update");
+		
+
 
 
 	}
