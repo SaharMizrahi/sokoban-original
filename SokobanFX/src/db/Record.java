@@ -6,12 +6,15 @@ import javax.persistence.Id;
 
 
 @Entity(name="Recrods")
-public class Records implements Recordable
+public class Record implements Recordable
 {
 	@Id
 	private int levelId;
 	@Column(name="numOfSteps")
 	private int numOfSteps;
+	@Column(name="numOfSteps")
+
+
 
 
 
