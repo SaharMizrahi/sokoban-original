@@ -2,19 +2,22 @@ package boot;
 /*Gal Ezra and Sahar Mizrahi Sokoban project
  * */
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import java.io.File;
+import java.util.List;
 
-import db.Member;
-import db.RecLevel;
-import db.Record;
-import db.RecordsKey;
+import org.hibernate.SessionFactory;
+
+import Controler.SokobanController;
+import Model.MyModel;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import view.MainWindowController;
 
 
 public class Main extends Application {
@@ -22,9 +25,9 @@ public class Main extends Application {
 	MediaPlayer m;
 	private static SessionFactory factory;
 	@Override
-//sasasasa
+
 	public void start(Stage primaryStage) {
-		/*try {
+		try {
 			System.out.println("test");
 			String musicFile="./resources/Music/song.mp3";
 			Media song=new Media(new File(musicFile).toURI().toString());
@@ -93,11 +96,11 @@ public class Main extends Application {
 				sc.getMs().setPort(port);
 			serverThread.start();
 			}
-			musicThread.start();
+			//musicThread.start();
 
 		} catch(Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 	public void stop()
 	{
@@ -105,54 +108,11 @@ public class Main extends Application {
 	}
 	public static void main(String[] args) {
 
-/*
+
 
 		launch(args);
-		*/
-		Configuration configuration = new Configuration();
-		configuration.configure();
-		factory = configuration.buildSessionFactory();
-		Member m1=new Member("a");
-		Member m2=new Member("b");
-		RecLevel l=new RecLevel(1,10,2);
-		Record r1=new Record(new RecordsKey("a",1),30,5);
-		Record r2=new Record(new RecordsKey("b",1),30,5);
-		Transaction tx = null;
-		int recID = 0;
-		Session session = factory.openSession();
-		try {
-			tx = session.beginTransaction();
-			session.save(m1);
-			tx.commit();
-			tx = session.beginTransaction();
-			session.save(m2);
-			tx.commit();
-			tx = session.beginTransaction();
-			session.save(l);
-			tx.commit();
-			tx = session.beginTransaction();
-
-			session.save(r1);
-			session.save(r2);
-			tx.commit();
-			System.out.println("check");
-
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
 		
-	
-
-		/*m1.addRecord();
-		m2.addRecord();
-		l.addRecord();
-		r1.addRecord();
-		r2.addRecord();*/
-		System.out.println("finish update");
+		
 		
 
 

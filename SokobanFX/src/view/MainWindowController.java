@@ -18,6 +18,8 @@ import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -38,22 +40,37 @@ public class MainWindowController extends Observable  implements Initializable,V
 	@FXML
 	Text myText;
 	Timer t;
-	
-
-
 	@FXML
 	Text mySteps;
 	StringProperty Counter;
 	StringProperty stepCounter;
+	@FXML Button saveRecButton=new Button();
 	
 
-
-
+	@FXML public void saveLevelRecord()
+	{
+			String s=null;
+			TextInputDialog tid=new TextInputDialog();
+			tid.setTitle("Saving Record Dialog");
+			tid.setHeaderText("Welcome to our Sokoban DataBase :-)");
+			tid.setContentText("Enter you name");
+			tid.showAndWait();
+			s=tid.getResult();
+			
+	}
+	
+	
+	
+	
 	public void setDone(boolean b)
 	{
 		this.sd.setDone(b);
 		if (b)
+		{
 			t.cancel();
+			
+			saveRecButton.setDisable(false);
+		}
 	}
 	public String getArrByString()
 	{
@@ -211,7 +228,6 @@ public class MainWindowController extends Observable  implements Initializable,V
 		Counter=new SimpleStringProperty();
 		stepCounter=new SimpleStringProperty();
 		
-		
 		this.setSteps(0);
 		this.setCount(0);
 		myText.textProperty().bind(Counter);
@@ -311,7 +327,7 @@ public class MainWindowController extends Observable  implements Initializable,V
 	 */
 	public void loadFileMethod()
 	{
-
+		this.saveRecButton.setDisable(true);
 	 FileChooser fc = new FileChooser();
 
 	 fc.setTitle("open sokoban level file:");

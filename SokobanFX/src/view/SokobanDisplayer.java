@@ -99,6 +99,7 @@ public class SokobanDisplayer extends Canvas  {
 
 				A=HM.get('D');
 				gc.drawImage(A, 0, 0, W, H);
+				
 			}
 			else
 			{
