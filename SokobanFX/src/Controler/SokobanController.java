@@ -8,9 +8,6 @@ import java.util.Observer;
 
 import Controller.Server.MyServer;
 import Model.ModelInterface;
-import javafx.event.EventHandler;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import view.ViewInterface;
 
 
@@ -29,36 +26,16 @@ public class SokobanController implements Observer {
 	private CommandsFactory cF;
 	private MyServer ms;
 	private boolean isFinish=false;
-	private Stage myStage;
 	
-	/**sets the stage of the application
-	 * 
-	 * @param myStage out source stage
-	 */
-	public void setMyStage(Stage myStage)
-	{
-		this.myStage = myStage;
-		myStage.setOnCloseRequest(new EventHandler<WindowEvent>()
-		{
-			
-			@Override
-			public void handle(WindowEvent event)
-			{
-				// TODO Auto-generated method stub
-				if (event.getEventType()==WindowEvent.WINDOW_CLOSE_REQUEST)
-				{
-					closeAll();
-				}
-				
-			}
-		});
-	}
-	/**
+	
+	
+			/**
 	 * 
 	 * @return the server
 	 */
 	public MyServer getMs()
 	{
+		
 		return ms;
 	}
 	/**sets the server
@@ -140,8 +117,11 @@ public class SokobanController implements Observer {
 		
 		String[]s=cmd.split(" ");
 		command=cF.getCM().get(s[0]).create();
+
 		if(command!=null)
 		{
+			command.setStr(cmd);
+			command.setmM(this.getMM());
 			if(s[0].toLowerCase().compareTo("exit")==0)
 			{
 				try {
@@ -163,27 +143,51 @@ public class SokobanController implements Observer {
 				}
 				
 			}
-			if(s[0].toLowerCase().compareTo("load")==0)
+			else if(s[0].toLowerCase().compareTo("load")==0)
 			{
 				this.isFinish=false;
 
 				
 			}
-			if (s[0].toLowerCase().compareTo("move")==0)
+			else if (s[0].toLowerCase().compareTo("move")==0)
 			{
+		
 				this.getMv().setDirection(s[1]);
 			}
 			if(!this.isFinish)
 			{
-			command.setStr(cmd);
-			command.setmM(this.getMM());
+			
+
 			this.controller.getmQ().add(command);
 			return true;
+			}
+			else if (s[0].toLowerCase().compareTo("record")==0)
+			{
+				try {
+					command.execute();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return true;
 			}
 			
 			
 		}
+		else
+		{
 		System.out.println("wrong command");
+		return false;
+		}
 		return false;
 
 		

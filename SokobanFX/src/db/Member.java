@@ -17,7 +17,7 @@ public class Member
 	@OneToMany
 	@JoinColumn(name="username")
 	private List<Record> userrecords;
-
+	
 	
 
 	public String getUsername()

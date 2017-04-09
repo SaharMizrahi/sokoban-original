@@ -35,6 +35,38 @@ public class Record implements Serializable
 
 
 	
+	public String getUsername()
+	{
+		return username;
+	}
+
+
+
+
+	public void setUsername(String username)
+	{
+		this.username = username;
+	}
+
+
+
+
+	public int getLevelID()
+	{
+		return levelID;
+	}
+
+
+
+
+	public void setLevelID(int levelID)
+	{
+		this.levelID = levelID;
+	}
+
+
+
+
 	public Record() {
 		super();
 		// TODO Auto-generated constructor stub

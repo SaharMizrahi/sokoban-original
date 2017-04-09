@@ -55,7 +55,7 @@ public class CommandsFactory {
 		public FunctionalCommand create()
 		{
 			// TODO Auto-generated method stub
-			return null;
+			return new saveRecCommand();
 		}
 		
 	}
