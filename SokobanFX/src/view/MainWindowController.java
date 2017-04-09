@@ -44,19 +44,22 @@ public class MainWindowController extends Observable  implements Initializable,V
 	Text mySteps;
 	StringProperty Counter;
 	StringProperty stepCounter;
+	String levelID;
 	@FXML Button saveRecButton=new Button();
 	
 
 	@FXML public void saveLevelRecord()
 	{
-			String s=null;
+			String record="";
+			String usernameInput=null;
 			TextInputDialog tid=new TextInputDialog();
 			tid.setTitle("Saving Record Dialog");
 			tid.setHeaderText("Welcome to our Sokoban DataBase :-)");
 			tid.setContentText("Enter you name");
 			tid.showAndWait();
-			s=tid.getResult();
-			
+			usernameInput=tid.getResult();
+			record="record "+usernameInput+" "+levelID+" "+mySteps+" "+t;
+			this.setUserCommand(record);
 	}
 	
 	
@@ -336,11 +339,12 @@ public class MainWindowController extends Observable  implements Initializable,V
 	 if (chosen!=null)
 	 {
 		String fileName= chosen.getName();
+		this.levelID=""+fileName.charAt(0);
 		this.setUserCommand("load "+fileName);
 		
 		startCounter();
 		 this.steps=0;
-
+		 
 
 	 }
 

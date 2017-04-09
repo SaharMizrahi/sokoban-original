@@ -106,6 +106,13 @@ public class SokobanController implements Observer {
 	 * @param cmd It's the String that reference the command
 	 * @return true/false if this is an actual command
 	 */
+	public boolean runUserCommand1(String cmd)
+	{
+		CommandCreator cc;
+		FunctionalCommand fc;
+		return isFinish;
+		
+	}
 	public boolean runUserCommand(String cmd)
 	{
 		CommandCreator cC;

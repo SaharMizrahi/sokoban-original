@@ -21,6 +21,43 @@ public class CommandsFactory {
 		CM.put("load", new LoadLevelCommandCreator());
 		CM.put("save", new SaveLevelCommandCreator());
 		CM.put("exit", new ExitCommandCreator());
+		CM.put("record", new saveRecCommandCreator());
+		CM.put("derecord",new deleteRecCommandCreator());
+		CM.put("query", new queryCommandCreator());
+		
+	}
+	public class deleteRecCommandCreator implements CommandCreator
+	{
+
+		@Override
+		public FunctionalCommand create()
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
+	public class queryCommandCreator implements CommandCreator
+	{
+
+		@Override
+		public FunctionalCommand create()
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
+	public class saveRecCommandCreator implements CommandCreator
+	{
+
+		@Override
+		public FunctionalCommand create()
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	}
 	public class ExitCommandCreator implements CommandCreator
 	{
@@ -68,6 +105,7 @@ public class CommandsFactory {
 		public FunctionalCommand create() {
 			// TODO Auto-generated method stub
 			return new MoveCommand(new Level());
+		
 		}
 	
 	}
