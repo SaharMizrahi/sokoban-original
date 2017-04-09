@@ -1,6 +1,7 @@
 package Controler;
 
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -98,7 +99,7 @@ public class SokobanController implements Observer {
 		this.controller.finishAllCommands();
 		this.ms.closeAllSockets();
 		this.mv.closeAllThreads();
-		System.exit(0);
+
 		
 	}
 	/**After get a command from the GUI/Server this method initlized the command and push it to the queue
@@ -110,7 +111,26 @@ public class SokobanController implements Observer {
 	{
 		CommandCreator cc;
 		FunctionalCommand fc;
-		return isFinish;
+		String []s=cmd.split(" ");
+		fc=this.cF.getCM().get(s[0]).create();
+		fc.setStr(cmd);
+		try {
+			fc.execute();
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 		
 	}
 	public boolean runUserCommand(String cmd)
@@ -119,54 +139,56 @@ public class SokobanController implements Observer {
 		FunctionalCommand command;
 		
 		String[]s=cmd.split(" ");
-		if(s[0].toLowerCase().compareTo("load")==0)
+		command=cF.getCM().get(s[0]).create();
+		if(command!=null)
 		{
-			this.isFinish=false;
-		}
-		else if (s[0].toLowerCase().compareTo("exit")==0)
-		{
-			if(s[1].toLowerCase().compareTo("no")!=0)
+			if(s[0].toLowerCase().compareTo("exit")==0)
 			{
-				this.saveProtocol(s[1]);
+				try {
+					command.execute();
+					this.closeAll();
+					System.exit(0);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
-			else
-				{
-
-					this.closeAll();
-				}
-			
-		}
-		else if(s[0].toLowerCase().compareTo("close")==0)
-		{
-			this.ms.closeAllSockets();
-		}
-		if (s[0].toLowerCase().compareTo("move")==0)
-		{
-			this.getMv().setDirection(s[1]);
-		}
-		if(!this.isFinish)
-		{		
-		
-			cC=cF.getCM().get(s[0]);
-			if (cC!=null)
+			if(s[0].toLowerCase().compareTo("load")==0)
 			{
-					command=cC.create();
-					
-					if (command!=null)
-					{//add this command to my controller queue
-						
-						command.setStr(cmd);
-						//command.setLev(MM.getCurrentLevel());
-						command.setmM(this.MM);
-						this.controller.getmQ().add(command);
-						return true;
-						
-					}
-			
+				this.isFinish=false;
+
+				
 			}
+			if (s[0].toLowerCase().compareTo("move")==0)
+			{
+				this.getMv().setDirection(s[1]);
+			}
+			if(!this.isFinish)
+			{
+			command.setStr(cmd);
+			command.setmM(this.getMM());
+			this.controller.getmQ().add(command);
+			return true;
+			}
+			
+			
 		}
+		System.out.println("wrong command");
 		return false;
+
+		
+
+
 	}
 	/**
 	 * After one observable did notifyObservers() this method check which observable has changed, and act in a specific way 

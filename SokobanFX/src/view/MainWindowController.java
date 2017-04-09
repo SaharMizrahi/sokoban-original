@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -19,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -299,29 +302,24 @@ public class MainWindowController extends Observable  implements Initializable,V
 	 */
 	public void exit()
 	{
-		this.setUserCommand("exit no");
+		this.setUserCommand("exit");
 	}
 	/**
 	 * saving the level
 	 */
 	public void saveFileMethod()
 	{
-		if (arr!=null)
-		{
-			FileChooser fc=new FileChooser();
-			fc.setInitialDirectory(new File("./resources/Levels"));
-			fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text doc(*.txt)", "*.txt"));
-			fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML doc(*.xml)", "*.xml"));
-			fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Object file(*.obj)", "*.obj"));
-	
-			File chosen=fc.showSaveDialog(null);
-			if (chosen!=null)
-			{
-				sd.requestFocus();
-				String fileName=chosen.getName();
-				this.setUserCommand("save "+fileName);
-			}
-		}
+		List<String> choices = new ArrayList<>();
+		choices.add("txt");
+		choices.add("xml");
+		choices.add("obj");
+
+		ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+		dialog.setTitle("Saving File Dialog");
+		dialog.setHeaderText("Saving File...");
+		dialog.setContentText("Choose your file type:");
+		dialog.showAndWait();
+		this.setUserCommand("save "+this.levelID+"."+dialog.getSelectedItem());
 		
 
 	}
