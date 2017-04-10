@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 public class DBWindowController implements Initializable
 {
-	
+
 	List<Record> resultList;
 	DBManager dbm=new DBManager();
 	Stage primarystage;
@@ -36,21 +36,21 @@ public class DBWindowController implements Initializable
 	@FXML
 	private Text levelID;
 	@FXML
-	private Text time;	
+	private Text time;
 	@FXML
 	private Text steps;
-	
+
 	@FXML
 	public void exit()
 	{
-		
+
 	}
 	@FXML
 	public void openGameScene()
 	{
 		if (primarystage!=null)
 		{
-			
+
 			if(gameScene!=null)
 			{
 				primarystage.setScene(gameScene);
@@ -66,23 +66,37 @@ public class DBWindowController implements Initializable
 		{
 			tableData.add(list.get(i));
 		}
-		
+
 		myTable.getColumns().clear();
 
 		myTable.setItems(tableData);
 		System.out.println("check123");*/
-		
 
 
-		
+
+
 	}
+	@FXML
 	public void sortNRowsByTime()
 	{
-		List<Record> list=dbm.sortRecordsByTime(5);
-		
+		List<Record> list=dbm.sortRecordsByTime(9);
+		tableData.clear();
 		for(int i=1;i<list.size();i++)
 		{
 			tableData.add(list.get(i));
+
+		}
+		myTable.setItems(tableData);
+	}
+
+	public void sortNRowsBySteps()
+	{
+		List<Record> list=dbm.sortRecordsBySteps(9);
+		tableData.clear();
+		for(int i=1;i<list.size();i++)
+		{
+			tableData.add(list.get(i));
+
 		}
 		myTable.setItems(tableData);
 	}
@@ -107,13 +121,13 @@ public class DBWindowController implements Initializable
 		this.myTable = myTable;
 		this.primarystage = primarystage;
 		this.gameScene = gameScene;
-		
+
 	}
 	public DBWindowController() {
 		super();
 		// TODO Auto-generated constructor stub
-		
-		
+
+
 
 	}
 	@Override
@@ -127,7 +141,7 @@ public class DBWindowController implements Initializable
 			tableData.add(resultList.get(i));
 		myTable.getColumns().clear();
 		myTable.setItems(tableData);
-		
+
 
 		myTable.getColumns().add(usernameCol);
 		myTable.getColumns().add(timeCol);
@@ -138,10 +152,10 @@ public class DBWindowController implements Initializable
 		usernameCol.setCellValueFactory(new PropertyValueFactory("username"));
 		timeCol.setCellValueFactory(new PropertyValueFactory("time"));
 		stepsCol.setCellValueFactory(new PropertyValueFactory("steps"));
-		
+
 
 	}
-	
-	
-	
+
+
+
 }

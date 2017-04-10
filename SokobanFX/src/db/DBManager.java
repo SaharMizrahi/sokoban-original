@@ -15,13 +15,27 @@ public class DBManager implements DBManagerInterface
 {
 	private static SessionFactory factory;
 
-	public List sortRecordsByTime(int num)
+	public List<Record> sortRecordsByTime(int num)
 	{
 		Configuration configuration = new Configuration();
 		configuration.configure();
 		factory = configuration.buildSessionFactory();
 		Session session = factory.openSession();
-		Query query = session.createQuery("FROM Records E " + "ORDER BY E.time DESC");
+		Query query = session.createQuery("FROM Records E " + "ORDER BY E.time ASC");
+		query.setMaxResults(num);
+		// session.close();
+
+		return query.list();
+
+	}
+
+	public List sortRecordsBySteps(int num)
+	{
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query = session.createQuery("FROM Records E " + "ORDER BY E.steps ASC");
 		query.setMaxResults(num);
 		// session.close();
 
@@ -84,6 +98,21 @@ public class DBManager implements DBManagerInterface
 		return query.list();
 
 	}
+
+	@Override
+	public List<Record> showRecordsByMember(String username)
+	{
+		// TODO Auto-generated method stub
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query = session.createQuery("SELECT levelID,time,steps FROM Records WHERE username =  " + username);
+
+		return query.list();
+
+	}
+
 
 	public List<Record> showTop(int levelID, String sortArg, int numOfRec)
 	{
