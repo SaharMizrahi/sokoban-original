@@ -8,7 +8,8 @@ public interface DBManagerInterface
 	public void deleteRecord(Object o);
 	public List<Record> showAllRecords();
 	public List<Record> showLevelRecords(int levelID);
-	
+	public List<Record> showTop(int levelID,String sortArg,int numOfRec);
+
 
 
 }

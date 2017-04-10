@@ -32,26 +32,21 @@
               <columns>
                 <TableColumn fx:id="usernameCol" prefWidth="93.0" text="Username" />
                 <TableColumn fx:id="timeCol" prefWidth="57.0" text="Time" />
-                  <TableColumn fx:id="stepsCol" prefWidth="75.0" text="Steps" />
+                  <TableColumn fx:id="stepsCol" prefWidth="76.0" text="Steps" />
               </columns>
             </TableView>
          </center>
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Highscores">
                   <items>
                     <MenuItem mnemonicParsing="false" text="Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Sort By">
                   <items>
                     <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
                   </items>
                 </Menu>
               </menus>

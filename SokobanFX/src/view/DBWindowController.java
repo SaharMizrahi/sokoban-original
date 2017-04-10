@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 
 public class DBWindowController implements Initializable
 {
+	
+	List<Record> resultList;
 	DBManager dbm=new DBManager();
 	Stage primarystage;
 	Scene gameScene;
@@ -59,27 +61,16 @@ public class DBWindowController implements Initializable
 	@FXML
 	public void func()
 	{
-		List<Record> list=dbm.showAllRecords();
+		/*List<Record> list=dbm.showAllRecords();
 		for(int i=1;i<list.size();i++)
 		{
 			tableData.add(list.get(i));
 		}
-		myTable.getColumns().clear();
-		myTable.setItems(tableData);
-		myTable.getColumns().add(usernameCol);
-		myTable.getColumns().add(timeCol);
-		myTable.getColumns().add(stepsCol);
-		System.out.println("check "+myTable.getItems().get(0).getUsername());
-
-
-
-		usernameCol.setCellValueFactory(new PropertyValueFactory("username"));
-		timeCol.setCellValueFactory(new PropertyValueFactory("time"));
-		stepsCol.setCellValueFactory(new PropertyValueFactory("steps"));
+		
 		myTable.getColumns().clear();
 
 		myTable.setItems(tableData);
-		System.out.println("check123");
+		System.out.println("check123");*/
 		
 
 
@@ -122,28 +113,21 @@ public class DBWindowController implements Initializable
 		super();
 		// TODO Auto-generated constructor stub
 		
-		tableData=FXCollections.observableArrayList();
-		myTable.setItems(tableData);
-
-		myTable.getColumns().add(usernameCol);
-		myTable.getColumns().add(timeCol);
-		myTable.getColumns().add(stepsCol);
-
-
-
-		usernameCol.setCellValueFactory(new PropertyValueFactory("username"));
-		timeCol.setCellValueFactory(new PropertyValueFactory("time"));
-		stepsCol.setCellValueFactory(new PropertyValueFactory("steps"));
-
+		
 
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		// TODO Auto-generated method stub
-		
+		dbm=new DBManager();
 		tableData=FXCollections.observableArrayList();
+		resultList=dbm.showTop(1,"time",5);
+		for(int i=0;i<resultList.size();i++)
+			tableData.add(resultList.get(i));
+		myTable.getColumns().clear();
 		myTable.setItems(tableData);
+		
 
 		myTable.getColumns().add(usernameCol);
 		myTable.getColumns().add(timeCol);

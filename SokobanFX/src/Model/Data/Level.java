@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 
 public class Level implements Serializable{
+		
 		private ArrayList<Item> BoxList;
 		private ArrayList<Item> CharacterList;
 		private ArrayList<Item> DestinyList;
