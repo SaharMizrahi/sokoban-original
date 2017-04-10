@@ -1,10 +1,13 @@
 package db;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 /*This class managed the data base activity
  * */
 public class DBManager implements DBManagerInterface
@@ -12,8 +15,24 @@ public class DBManager implements DBManagerInterface
 	private static SessionFactory factory;
 	
 	
+	
+	
+	public List sortRecordsByTime(int num)
+	{
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Session session=factory.openSession();
+		Query query=session.createQuery("FROM Records E "+"ORDER BY E.time DESC");
+		query.setMaxResults(num);
+		//session.close();
+		
+		return query.list();
+		
+	}
 	public void addRecord(Object o)
 	{
+		
 		Configuration configuration = new Configuration();
 		configuration.configure();
 		factory = configuration.buildSessionFactory();
@@ -41,6 +60,25 @@ public class DBManager implements DBManagerInterface
 	{
 		
 	}
-
+	@Override
+	public List<Record> showAllRecords()
+	{
+		// TODO Auto-generated method stub
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Session session=factory.openSession();	
+		Query query=session.createQuery("FROM Records E");
+		
+		return query.list();
+	}
+	@Override
+	public List<Record> showLevelRecords(int levelID)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 
 }

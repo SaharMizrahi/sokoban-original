@@ -68,6 +68,7 @@ public class MainWindowController extends Observable implements Initializable, V
 			{
 				primarystage.setScene(dbScene);
 				primarystage.show();
+				
 			}
 		}
 	}

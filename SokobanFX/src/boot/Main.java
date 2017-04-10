@@ -35,7 +35,7 @@ public class Main extends Application {
 			FXMLLoader fl1=new FXMLLoader();
 			FXMLLoader fl2=new FXMLLoader();
 			BorderPane gameRoot = fl1.load(getClass().getResource("MainWindow.fxml").openStream());
-			BorderPane DBRoot=fl2.load(getClass().getResource("test.fxml").openStream());
+			BorderPane DBRoot=fl2.load(getClass().getResource("DBWindow.fxml").openStream());
 			MainWindowController mwc=fl1.getController();
 			DBWindowController dbwc=fl2.getController();
 			SokobanController sc=new SokobanController();
