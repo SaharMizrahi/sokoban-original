@@ -72,10 +72,8 @@ public class SokobanController implements Observer {
 	 */
 	public void closeAll()
 	{
-		System.out.println("closing!!!");
 		this.controller.finishAllCommands();
 		this.ms.closeAllSockets();
-		this.mv.closeAllThreads();
 
 		
 	}
@@ -84,33 +82,7 @@ public class SokobanController implements Observer {
 	 * @param cmd It's the String that reference the command
 	 * @return true/false if this is an actual command
 	 */
-	public boolean runUserCommand1(String cmd)
-	{
-		CommandCreator cc;
-		FunctionalCommand fc;
-		String []s=cmd.split(" ");
-		fc=this.cF.getCM().get(s[0]).create();
-		fc.setStr(cmd);
-		try {
-			fc.execute();
-			return true;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-		
-	}
-	public boolean runUserCommand(String cmd)
+		public boolean runUserCommand(String cmd)
 	{
 		CommandCreator cC;
 		FunctionalCommand command;

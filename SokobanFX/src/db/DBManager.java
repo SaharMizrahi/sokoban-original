@@ -15,34 +15,7 @@ public class DBManager implements DBManagerInterface
 {
 	private static SessionFactory factory;
 
-	public List<Record> sortRecordsByTime(int num)
-	{
-		Configuration configuration = new Configuration();
-		configuration.configure();
-		factory = configuration.buildSessionFactory();
-		Session session = factory.openSession();
-		Query query = session.createQuery("FROM Records E " + "ORDER BY E.time ASC");
-		query.setMaxResults(num);
-		// session.close();
-
-		return query.list();
-
-	}
-
-	public List sortRecordsBySteps(int num)
-	{
-		Configuration configuration = new Configuration();
-		configuration.configure();
-		factory = configuration.buildSessionFactory();
-		Session session = factory.openSession();
-		Query query = session.createQuery("FROM Records E " + "ORDER BY E.steps ASC");
-		query.setMaxResults(num);
-		// session.close();
-
-		return query.list();
-
-	}
-
+	
 	public void addRecord(Object o)
 	{
 
@@ -69,7 +42,24 @@ public class DBManager implements DBManagerInterface
 
 	public void deleteRecord(Object o)
 	{
-
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Transaction tx = null;
+		int recID = 0;
+		Session session = factory.openSession();
+		try {
+			tx = session.beginTransaction();
+			session.delete(o);
+			tx.commit();
+			System.out.println("Record deleted...");
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
@@ -114,7 +104,7 @@ public class DBManager implements DBManagerInterface
 	}
 
 
-	public List<Record> showTop(int levelID, String sortArg, int numOfRec)
+	public List<Record> showTop(String argType,String arg, String sortArg, String numOfRec)
 	{
 
 		// TODO Auto-generated method stub
@@ -122,10 +112,88 @@ public class DBManager implements DBManagerInterface
 		configuration.configure();
 		factory = configuration.buildSessionFactory();
 		Session session = factory.openSession();
-		Query query = session
-				.createQuery("FROM Records E WHERE levelID = " + levelID + " ORDER BY E." + sortArg + " ASC");
-		query.setMaxResults(numOfRec);
+		Query query;
+		if(argType=="username")
+		{
+			query = session.createQuery("FROM Records E WHERE "+argType+" LIKE '"+arg + "' ORDER BY E." + sortArg + " ASC");
+
+		}
+		else
+		{
+			query = session.createQuery("FROM Records E WHERE "+argType+" = "+arg + " ORDER BY E." + sortArg + " ASC");
+
+		}
+		query.setMaxResults(Integer.parseInt(numOfRec));
 		return query.list();
 	}
+
+
+
+	@Override
+	public List<Record> showRecordsByLevelID(int levelID)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isMemberExist(String username)
+	{
+		// TODO Auto-generated method stub
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query = session.createQuery("FROM Members E WHERE username LIKE '"+username+"'" );
+		if(query.list()==null)
+			return false;
+		return true;
+	}
+
+	@Override
+	public boolean isLevelExist(int levelID)
+	{
+		// TODO Auto-generated method stub
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query = session.createQuery("FROM Levels E WHERE levelID = "+levelID );
+		if(query.list().size()==0)
+			return false;
+		return true;
+	}
+
+	@Override
+	public boolean isRecordExist(String username, int levelID)
+	{
+		// TODO Auto-generated method stub
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Session session = factory.openSession();
+		Query query = session.createQuery("FROM Records E WHERE username LIKE '"+username+"' AND levelID = "+levelID );
+		if(query.list().size()==0)
+			return false;
+		return true;
+
+	}
+
+	@Override
+	public Object findRecord(String username, int levelID)
+	{
+		// TODO Auto-generated method stub
+		if(this.isRecordExist(username, levelID))
+		{
+			Configuration configuration = new Configuration();
+			configuration.configure();
+			factory = configuration.buildSessionFactory();
+			Session session = factory.openSession();
+			Query query = session.createQuery("FROM Records E WHERE username LIKE '"+username+"' AND levelID = "+levelID );
+			return query.list().get(0);
+		}
+		return null;
+	}
+
 
 }

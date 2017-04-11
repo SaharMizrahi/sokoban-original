@@ -11,10 +11,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import db.DBManager;
+import db.Member;
+import db.Record;
+import db.RecordsKey;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
@@ -29,6 +34,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * Our view in the sokoban game
@@ -53,19 +59,82 @@ public class MainWindowController extends Observable implements Initializable, V
 	private Text mySteps;
 	private StringProperty Counter;
 	private StringProperty stepCounter;
-	private String levelID;
+	private int levelID;
 	private Scene dbScene;
 	private Stage primarystage;
+	private DBWindowController dbwc;
 	@FXML
-	private Button saveRecButton = new Button();
 
+	private Button saveRecButton = new Button();
+	
+
+	public Scene getDbScene()
+	{
+		return dbScene;
+	}
+
+	public void setDbScene(Scene dbScene)
+	{
+		this.dbScene = dbScene;
+	}
+
+	public DBWindowController getDbwc()
+	{
+		return dbwc;
+	}
+
+	public void setDbwc(DBWindowController dbwc)
+	{
+		this.dbwc = dbwc;
+	}
 
 	public void openDBStage()
 	{
+		saveRecButton.setDisable(true);
+		DBManager dbm=new DBManager();
+		TextInputDialog usernameDialog = new TextInputDialog("USERNAME");
+		usernameDialog.setTitle("Saving Record Dialog");
+		usernameDialog.setHeaderText("Welcome To Our Sokoban DataBase:");
+		usernameDialog.setContentText("Please enter your name:");
+
+		// Traditional way to get the response value.
+		Optional<String> result = usernameDialog.showAndWait();
+		if(!dbm.isMemberExist(result.get()))
+		{
+			dbm.addRecord(new Member(result.get()));
+			dbm.addRecord(new Record(new RecordsKey(result.get(), levelID), count, steps));
+		}
+		else
+		{
+			if(dbm.isRecordExist(result.get(), levelID))
+			{
+				Record rec=(Record)dbm.findRecord(result.get(), levelID);
+				if((rec.getSteps()>steps)||((rec.getSteps()==steps)&&(rec.getTime()>count)))
+				{
+				dbm.deleteRecord(rec);
+
+				dbm.addRecord(new Record(new RecordsKey(result.get(), levelID), count, steps));
+				}
+				else
+				{
+					System.out.println("You have an old record that is better that your current, try again :)");
+				}
+
+			}
+			else
+			{
+				dbm.addRecord(new Record(new RecordsKey(result.get(), levelID), count, steps));
+
+			}
+		}
+		
+
+		dbwc.updateTable();
 		if(primarystage!=null)
 		{
 			if(dbScene!=null)
 			{
+				
 				primarystage.setScene(dbScene);
 				primarystage.show();
 				
@@ -133,22 +202,22 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.stepCounter = stepCounter;
 	}
 
-	public String getLevelID()
+	public int getLevelID()
 	{
 		return levelID;
 	}
 
-	public void setLevelID(String levelID)
+	public void setLevelID(int levelID)
 	{
 		this.levelID = levelID;
 	}
 
-	public Scene getDbScene()
+	public Scene getDBScene()
 	{
 		return dbScene;
 	}
 
-	public void setDbScene(Scene dbScene)
+	public void setDBScene(Scene dbScene)
 	{
 		this.dbScene = dbScene;
 	}
@@ -161,6 +230,18 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void setPrimarystage(Stage primarystage)
 	{
 		this.primarystage = primarystage;
+		this.primarystage.setOnCloseRequest(new EventHandler<WindowEvent>()
+		{
+			
+			@Override
+			public void handle(WindowEvent event)
+			{
+				// TODO Auto-generated method stub
+				closeAllThreads();
+				
+			}
+		});
+	
 	}
 
 	public Button getSaveRecButton()
@@ -214,10 +295,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		return "level is empty";
 	}
 
-	public void closeAllThreads()
-	{
 
-	}
 
 	/**
 	 * set the default keys(arrows)
@@ -393,13 +471,13 @@ public class MainWindowController extends Observable implements Initializable, V
 
 		this.setChanged();
 		this.notifyObservers();
-		// SC.setMWC(this);
+
 
 	}
 
 	/**
 	 * 
-	 * @return the seconds count
+	 * @return the second count
 	 */
 	public int getCount()
 	{
@@ -473,10 +551,11 @@ public class MainWindowController extends Observable implements Initializable, V
 
 		fc.setTitle("open sokoban level file:");
 		fc.setInitialDirectory(new File("./resources/Levels"));
+		
 		File chosen = fc.showOpenDialog(null);
 		if (chosen != null) {
 			String fileName = chosen.getName();
-			this.levelID = "" + fileName.charAt(0);
+			this.levelID =Integer.parseInt(""+fileName.charAt(0));
 			this.setUserCommand("load " + fileName);
 
 			startCounter();
@@ -537,6 +616,13 @@ public class MainWindowController extends Observable implements Initializable, V
 	{
 		// TODO Auto-generated method stub
 		return this.sd.getDirection();
+	}
+
+	@Override
+	public void closeAllThreads()
+	{
+		// TODO Auto-generated method stub
+		this.setUserCommand("exit");
 	}
 
 }

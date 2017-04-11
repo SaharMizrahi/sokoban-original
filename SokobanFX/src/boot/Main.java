@@ -23,15 +23,16 @@ import view.MainWindowController;
 
 public class Main extends Application {
 
-	MediaPlayer m;
 	private static SessionFactory factory;
 	@Override
 
 	public void start(Stage primaryStage) {
 		try {
+			MediaPlayer m;
+
 			String musicFile="./resources/Music/song.mp3";
 			Media song=new Media(new File(musicFile).toURI().toString());
-			this.m=new MediaPlayer(song);
+			m=new MediaPlayer(song);
 			FXMLLoader fl1=new FXMLLoader();
 			FXMLLoader fl2=new FXMLLoader();
 			BorderPane gameRoot = fl1.load(getClass().getResource("MainWindow.fxml").openStream());
@@ -44,9 +45,9 @@ public class Main extends Application {
 			Scene dbScene=new Scene(DBRoot, 650, 650);
 			gameScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(gameScene);
-			mwc.setDbScene(dbScene);
-			
+			mwc.setDBScene(dbScene);
 			mwc.setPrimarystage(primaryStage);
+			mwc.setDbwc(dbwc);
 			dbwc.setPrimarystage(primaryStage);
 			dbwc.setGameScene(gameScene);
 			primaryStage.show();
