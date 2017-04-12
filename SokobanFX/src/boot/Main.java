@@ -110,7 +110,7 @@ public class Main extends Application {
 				sc.getMs().setPort(port);
 			serverThread.start();
 			}
-			//musicThread.start();
+			musicThread.start();
 
 		} catch(Exception e) {
 			e.printStackTrace();
