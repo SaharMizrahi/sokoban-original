@@ -5,10 +5,15 @@ package boot;
 import java.io.File;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import Controler.SokobanController;
 import Model.MyModel;
+import db.RecLevel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javassist.compiler.ast.Member;
 import view.DBWindowController;
 import view.MainWindowController;
 
@@ -29,7 +35,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			MediaPlayer m;
-
+			//initalizeDataBase(); אם תרצה להעלות קצת נתונים לדטא בייס אצלך
 			String musicFile="./resources/Music/song.mp3";
 			Media song=new Media(new File(musicFile).toURI().toString());
 			m=new MediaPlayer(song);
@@ -125,5 +131,36 @@ public class Main extends Application {
 
 
 
+	}
+	//so you will have all the data that in our data base
+	public void initalizeDataBase()
+	{
+		
+		Configuration configuration = new Configuration();
+		configuration.configure();
+		factory = configuration.buildSessionFactory();
+		Transaction tx = null;
+		int recID = 0;
+		Session session = factory.openSession();
+		try {
+			tx = session.beginTransaction();
+			session.save(new RecLevel(1, 10, 2));
+			session.save(new RecLevel(2, 10, 3));
+			session.save(new RecLevel(3, 10, 4));
+			session.save(new Member("sahar"));
+			session.save(new Member("gal"));
+			session.save(new Member("eden"));
+			session.save(new Member("roee"));
+			session.save(new Member("maayan"));
+
+			tx.commit();
+			System.out.println("Record added...");
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
 }

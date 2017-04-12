@@ -545,7 +545,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	 */
 	public void loadFileMethod()
 	{
-
+		time.cancel();
 		this.saveRecButton.setDisable(true);
 		FileChooser fc = new FileChooser();
 
