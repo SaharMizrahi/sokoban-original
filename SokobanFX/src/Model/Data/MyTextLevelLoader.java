@@ -37,7 +37,10 @@ public class MyTextLevelLoader implements LevelLoader{
 			{
 				S=BR.readLine();
 				for (int j=0;j<width;j++)
+				{
 					arr[i][j]=S.charAt(j);
+					
+				}
 			}
 			
 			newLev=Loading2DLevel(arr,length,width);

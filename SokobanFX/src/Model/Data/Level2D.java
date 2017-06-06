@@ -14,6 +14,14 @@ public class Level2D extends Level implements Serializable {
 	private int Width;
 	private Item[][] Map;
 	
+	
+	public boolean isValidPosition(Position position)
+	{
+		if(position.getRow()<0||position.getRow()>Length-1||position.getCol()<0||position.getCol()>Width-1)
+			return false;
+		else return true;
+		
+	}
 	public char[][] toCharArray()
 	{
 		char[][] arr=new char[Length][Width];
@@ -26,85 +34,85 @@ public class Level2D extends Level implements Serializable {
 	public void setInPlace(Item it, Position dest)
 	{
 		Position oldPos=it.getPos();
-		if (this.Map[dest.getX()][dest.getY()] instanceof Destination)
+		if (this.Map[dest.getCol()][dest.getRow()] instanceof Destination)
 		{
 			if (it.isOnDest())
 			{
-				Item temp=this.Map[it.getPos().getX()][it.getPos().getY()];
-				this.Map[it.getPos().getX()][it.getPos().getY()]=null;		
-				this.Map[it.getPos().getX()][it.getPos().getY()]=new Destination();
-				this.Map[it.getPos().getX()][it.getPos().getY()].setPos(temp.getPos());
-				this.Map[it.getPos().getX()][it.getPos().getY()].setOnDest(false);
-				this.Map[dest.getX()][dest.getY()]=null;
-				this.Map[dest.getX()][dest.getY()]=temp;
-				this.Map[dest.getX()][dest.getY()].setPos(dest);
-				this.Map[dest.getX()][dest.getY()].setOnDest(true);
+				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;		
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Destination();
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(temp.getPos());
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setOnDest(false);
+				this.Map[dest.getCol()][dest.getRow()]=null;
+				this.Map[dest.getCol()][dest.getRow()]=temp;
+				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
+				this.Map[dest.getCol()][dest.getRow()].setOnDest(true);
 			}
 			else
 			{
-				Item temp=this.Map[it.getPos().getX()][it.getPos().getY()];
-				this.Map[it.getPos().getX()][it.getPos().getY()]=null;		
-				this.Map[it.getPos().getX()][it.getPos().getY()]=new Floor();
-				this.Map[it.getPos().getX()][it.getPos().getY()].setPos(temp.getPos());
-				this.Map[it.getPos().getX()][it.getPos().getY()].setOnDest(false);
-				this.Map[dest.getX()][dest.getY()]=null;
-				this.Map[dest.getX()][dest.getY()]=temp;
-				this.Map[dest.getX()][dest.getY()].setPos(dest);
-				this.Map[dest.getX()][dest.getY()].setOnDest(true);
+				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;		
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Floor();
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(temp.getPos());
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setOnDest(false);
+				this.Map[dest.getCol()][dest.getRow()]=null;
+				this.Map[dest.getCol()][dest.getRow()]=temp;
+				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
+				this.Map[dest.getCol()][dest.getRow()].setOnDest(true);
 			}
 		}
 		else if (it.isOnDest())
 		{
 			
-			if (this.Map[dest.getX()][dest.getY()].isOnDest())
+			if (this.Map[dest.getCol()][dest.getRow()].isOnDest())
 			{
-				Item temp=this.Map[it.getPos().getX()][it.getPos().getY()];
-				this.Map[it.getPos().getX()][it.getPos().getY()]=null;		
-				this.Map[it.getPos().getX()][it.getPos().getY()]=new Destination();
-				this.Map[it.getPos().getX()][it.getPos().getY()].setOnDest(false);
-				this.Map[it.getPos().getX()][it.getPos().getY()].setPos(oldPos);
-				this.Map[dest.getX()][dest.getY()]=null;
-				this.Map[dest.getX()][dest.getY()]=temp;
-				this.Map[dest.getX()][dest.getY()].setPos(dest);
-				this.Map[dest.getX()][dest.getY()].setOnDest(true);
+				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;		
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Destination();
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setOnDest(false);
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(oldPos);
+				this.Map[dest.getCol()][dest.getRow()]=null;
+				this.Map[dest.getCol()][dest.getRow()]=temp;
+				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
+				this.Map[dest.getCol()][dest.getRow()].setOnDest(true);
 			}
 			else
 			{
-				Item temp=this.Map[it.getPos().getX()][it.getPos().getY()];
-				this.Map[it.getPos().getX()][it.getPos().getY()]=null;
-				this.Map[it.getPos().getX()][it.getPos().getY()]=new Destination();
-				this.Map[it.getPos().getX()][it.getPos().getY()].setPos(oldPos);
-				this.Map[dest.getX()][dest.getY()]=null;
-				this.Map[dest.getX()][dest.getY()]=temp;
-				this.Map[dest.getX()][dest.getY()].setPos(dest);
-				this.Map[dest.getX()][dest.getY()].setOnDest(false);
+				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Destination();
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(oldPos);
+				this.Map[dest.getCol()][dest.getRow()]=null;
+				this.Map[dest.getCol()][dest.getRow()]=temp;
+				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
+				this.Map[dest.getCol()][dest.getRow()].setOnDest(false);
 			}
 		}
 		else
 		{
-			if (this.Map[dest.getX()][dest.getY()].isOnDest())
+			if (this.Map[dest.getCol()][dest.getRow()].isOnDest())
 			{
-				Item temp=this.Map[it.getPos().getX()][it.getPos().getY()];
-				this.Map[it.getPos().getX()][it.getPos().getY()]=null;
+				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;
 				
-				this.Map[it.getPos().getX()][it.getPos().getY()]=new Floor();
-				this.Map[it.getPos().getX()][it.getPos().getY()].setPos(oldPos);
-				this.Map[dest.getX()][dest.getY()]=null;
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Floor();
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(oldPos);
+				this.Map[dest.getCol()][dest.getRow()]=null;
 				
-				this.Map[dest.getX()][dest.getY()]=temp;
-				this.Map[dest.getX()][dest.getY()].setPos(dest);
-				this.Map[dest.getX()][dest.getY()].setOnDest(true);
+				this.Map[dest.getCol()][dest.getRow()]=temp;
+				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
+				this.Map[dest.getCol()][dest.getRow()].setOnDest(true);
 
 			}
 			else
 			{
-				Item temp=this.Map[it.getPos().getX()][it.getPos().getY()];
-				this.Map[it.getPos().getX()][it.getPos().getY()]=null;
-				this.Map[it.getPos().getX()][it.getPos().getY()]=new Floor();
-				this.Map[it.getPos().getX()][it.getPos().getY()].setPos(oldPos);
-				this.Map[dest.getX()][dest.getY()]=null;
-				this.Map[dest.getX()][dest.getY()]=temp;
-				this.Map[dest.getX()][dest.getY()].setPos(dest);
+				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;
+				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Floor();
+				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(oldPos);
+				this.Map[dest.getCol()][dest.getRow()]=null;
+				this.Map[dest.getCol()][dest.getRow()]=temp;
+				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
 			}
 		}
 		
@@ -116,22 +124,23 @@ public class Level2D extends Level implements Serializable {
 	public void setMap(Item[][] map) {
 		Map = map;
 	}
-	public boolean checkPosition(Position pos)
+	public void clearPosition(Position pos)
 	{
-		if (
-				(pos.getX()<0)||
-				(pos.getX()>=Length)||
-				(pos.getY()<0)||
-				(pos.getY()>=Width))
-			return false;
-		else
-			return true;
+		if(isValidPosition(pos))
+		{
+			
+			Map[pos.getRow()][pos.getCol()]=new Floor();
+			Map[pos.getRow()][pos.getCol()].setPos(pos);
+		}
 	}
-	public Item getItemByPosition(Position ItemPos)
+	public Item getItemByPosition(Position initPos)
 	{
-		
-		
-		return Map[ItemPos.getX()][ItemPos.getY()];
+		int col=initPos.getCol();
+		int row=initPos.getRow();
+		if((col<0)||(row<0)||(col>this.Width)||(row>this.Length))
+			return null;
+		else
+			return Map[row][col];
 	}
 	public XMLDecoder XMLReading(XMLDecoder XC)
 	{

@@ -29,14 +29,14 @@ public class MoveCommand extends FunctionalCommand implements Command {
 		{
 			case "up":
 			{
-				posB=A.getPos().getForward();
-				posC=posB.getForward();		
+				posB=A.getPos().getUp();
+				posC=posB.getUp();		
 				
 				break;
 			}
 			case "down":
-				posB=A.getPos().getBackward();
-				posC=posB.getBackward();	
+				posB=A.getPos().getDown();
+				posC=posB.getDown();	
 				
 				break;
 			case "right":

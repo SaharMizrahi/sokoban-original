@@ -1,10 +1,8 @@
 package SearchLib;
 
-import java.util.List;
-
-public interface Searcher<T> {
-	
-	public Solution search(Searchable<T> s);
+public interface Searcher<T>
+{
+	public Solution search(Searchable<T> searchable);
 	public int getNumberOfNodesEvaluated();
 
 }

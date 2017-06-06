@@ -1,7 +1,5 @@
 package Model.Data;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 import javafx.scene.image.Image;
@@ -18,6 +16,9 @@ public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Position pos;
 	private boolean onDest;
+	
+	
+	
 	
 	public Image getImage()
 	{

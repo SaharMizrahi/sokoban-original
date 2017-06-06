@@ -1,59 +1,87 @@
 package SearchLib;
 
-
-
-public class State<T> {
+public class State<T>
+{
 	private State<T> cameFrom;
-	private T state;
 	private double cost;
-	private Action action;
+	private T state;
+	private ComplexAction action;
 	
-	
+
 	
 	@Override
-	public boolean equals(Object o) {
-		State<T> s = (State<T>)o;
-		return state.equals(s.state);
-	}
-	@Override
-	public int hashCode() {		
-		return state.hashCode();
-	}
-		
-	@Override
-	public String toString() {		
-		return state.toString();
-	}
-	public State(T state)
+	public int hashCode()
 	{
-		this.state=state;
+		return state.hashCode();
+		
 	}
-	public Action getAction() {
+	public ComplexAction getAction()
+	{
+		
 		return action;
 	}
-	public void setAction(Action action) {
-		this.action = action;
+	public void setAction(ComplexAction action2)
+	{
+		this.action = action2;
 	}
-	public State<T> getCameFrom() {
+	public State<T> getCameFrom()
+	{
+		
 		return cameFrom;
 	}
-	public void setCameFrom(State<T> cameFrom) {
+	public void setCameFrom(State<T> cameFrom)
+	{
 		this.cameFrom = cameFrom;
 	}
-	public T getState() {
-		return state;
-	}
-	public void setState(T state) {
-		this.state = state;
-	}
-	public double getCost() {
+	public double getCost()
+	{
 		return cost;
 	}
-	public void setCost(double cost) {
+	public void setCost(double cost)
+	{
 		this.cost = cost;
 	}
+	public T getState()
+	{
+		return state;
+	}
+	public void setState(T state)
+	{
+		this.state = state;
+	}
 	
-	
-	
+	@Override
+	public boolean equals(Object obj)
+	{
+		
+		
+		return state.equals(((State)obj).state);
+		
+	}
+	public State(State<T> cameFrom, double cost, T state,ComplexAction action) {
+		super();
+		this.cameFrom = cameFrom;
+		this.cost = cost;
+		this.state = state;
+		this.action = action;
+	}
+	public State(State<T> otherState) {
+		super();
+		// TODO Auto-generated constructor stub
+		this.cameFrom=otherState.cameFrom;
+		this.cost=otherState.cost;
+		this.state=otherState.state;
+		this.action=otherState.action;
+		
+	}
+	public State() {
+		super();
+		// TODO Auto-generated constructor stub
+		this.cameFrom=null;
+		this.cost=100000;
+		this.action=null;
+		this.state=null;
+	}
+
 
 }

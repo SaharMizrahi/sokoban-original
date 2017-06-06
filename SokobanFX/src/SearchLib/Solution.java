@@ -1,28 +1,46 @@
 package SearchLib;
 
 import java.util.LinkedList;
-import java.util.List;
 
-public class Solution {
-	private LinkedList<Action> actions = new LinkedList<Action>();
-
-	public List<Action> getActions() {
-		return actions;
+public class Solution
+{
+	LinkedList<Action> actionList;
+	
+	public void showSolution()
+	{
+		if (actionList!=null)
+		{
+			for (Action action : actionList)
+			{
+				System.out.println(action.toString()+" ");
+			}
+		}
 	}
 
-	public void setActions(LinkedList<Action> actions) {
-		this.actions = actions;
+	public Solution(LinkedList<Action> solution) {
+		super();
+		this.actionList = solution;
+	}
+
+	public Solution() {
+		super();
+		// TODO Auto-generated constructor stub
+		actionList=new LinkedList<>();
+	}
+
+	public LinkedList<Action> getActionList()
+	{
+		return actionList;
+	}
+
+	public void setActionList(LinkedList<Action> linkedList)
+	{
+		this.actionList = linkedList;
 	}
 	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		
-		for (Action a : actions) {
-			sb.append(a.getName()).append("\n");
-		}
-		
-		return sb.toString();
-	}
+	
+
+
+	
 
 }
