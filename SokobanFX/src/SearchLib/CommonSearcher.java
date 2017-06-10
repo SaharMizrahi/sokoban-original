@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 
 public abstract class CommonSearcher<T> implements Searcher<T>
 {
+	private State<T> finalState;
 	protected int evaluatedNodes;
 	protected PriorityQueue<State<T>> openList;
 	@Override
@@ -22,7 +23,9 @@ public abstract class CommonSearcher<T> implements Searcher<T>
 			actions.addFirst(currState.getAction().getAction());
 			if(currState.getAction().getHistory()!=null)
 				for(int i=currState.getAction().getHistory().size()-1;i>=0;i--)
+				{
 					actions.addFirst((Action) currState.getAction().getHistory().toArray()[i]);
+				}
 			currState = iterator;
 			iterator=currState.getCameFrom();
 
@@ -38,6 +41,7 @@ public abstract class CommonSearcher<T> implements Searcher<T>
 	}
 	public CommonSearcher()
 	{
+		finalState=null;
 		openList=new PriorityQueue<>(new Comparator<State<T>>()
 		{
 
@@ -61,6 +65,48 @@ public abstract class CommonSearcher<T> implements Searcher<T>
 	public CommonSearcher(int evaluatedNodes, PriorityQueue<State<T>> openList) {
 		super();
 		this.evaluatedNodes = evaluatedNodes;
+		this.openList = openList;
+	}
+
+
+
+	public State<T> getFinalState()
+	{
+		return finalState;
+	}
+
+
+
+	public void setFinalState(State<T> finalState)
+	{
+		this.finalState = finalState;
+	}
+
+
+
+	public int getEvaluatedNodes()
+	{
+		return evaluatedNodes;
+	}
+
+
+
+	public void setEvaluatedNodes(int evaluatedNodes)
+	{
+		this.evaluatedNodes = evaluatedNodes;
+	}
+
+
+
+	public PriorityQueue<State<T>> getOpenList()
+	{
+		return openList;
+	}
+
+
+
+	public void setOpenList(PriorityQueue<State<T>> openList)
+	{
 		this.openList = openList;
 	}
 

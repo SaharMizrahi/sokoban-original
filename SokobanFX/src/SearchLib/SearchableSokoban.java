@@ -223,7 +223,7 @@ public class SearchableSokoban implements Searchable<SokobanState>
 		{
 			SokobanState inerState=new SokobanState();
 			inerState.setPlayerPosition(level.getCharacter().getPos());
-			ArrayList<Item> destinationList=level.getDestinyList();
+			ArrayList<Item> destinationList=level.getDestinationList();
 			ArrayList<Position> positionList=new ArrayList<>();
 			for (Item d: destinationList)
 			

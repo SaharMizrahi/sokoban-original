@@ -90,7 +90,7 @@ public class MyTextLevelLoader implements LevelLoader{
 						newLev.getMap()[i][j].setOnDest(true);
 						break;
 					case "o":
-						newLev.getDestinyList().add(newLev.getMap()[i][j]);
+						newLev.getDestinationList().add(newLev.getMap()[i][j]);
 						break;
 					case "#":
 						newLev.getWallList().add(newLev.getMap()[i][j]);

@@ -1,6 +1,7 @@
 package SearchLib;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import Model.Data.Item;
 import Model.Data.Level2D;
@@ -12,6 +13,7 @@ public class BoxSearchable extends CommonSearchable
 	private PlayerSearchable playerSearchable;
 	private Position playerPosition;
 	private char[][] charMap;
+	private LinkedList<Position> currentBoxPositions;
 
 	
 
@@ -19,10 +21,13 @@ public class BoxSearchable extends CommonSearchable
 			Searcher<Position> searcher,PlayerSearchable playerSearchable) {
 		super(fromPosition, toPosition, level);
 		// TODO Auto-generated constructor stub
+		currentBoxPositions=new LinkedList<>();
+		for(Item it : level.getBoxList())
+			currentBoxPositions.add(it.getPos());
 		this.searcher=searcher;
 		this.playerSearchable=playerSearchable;
-		this.playerPosition=this.getLevel().getCharacter().getPos();
-		this.setPlayerPosition(level.getCharacter().getPos());
+		if(playerSearchable!=null)
+			this.playerPosition=playerSearchable.getFromPosition();
 		initCharMap();
 	}
 	public void initCharMap()
@@ -39,14 +44,7 @@ public class BoxSearchable extends CommonSearchable
 				{
 					
 					charMap[i][j]=itemMap[i][j].getChar();
-					if(charMap[i][j]=='@')
-					{
-						if(!this.getFromPosition().equals(new Position(i,j)))
-							charMap[i][j]='#';
-						
-							
-						
-					}
+
 
 				}
 		}
@@ -98,14 +96,17 @@ public class BoxSearchable extends CommonSearchable
 	public HashMap<ComplexAction, State<Position>> getAllPossibleStates(State<Position> s)
 	{
 		// TODO Auto-generated method stub
-		if(s.getCameFrom()==null)//it's the initial state
+
+		Position temp=null;
+		//updating player/box positions for checking possibles moves
+		if(s.getCameFrom()!=null)//its not the initial state
 		{
-			this.setPlayerPosition(this.getLevel().getCharacter().getPos());
+		temp=s.getCameFrom().getState();
+		playerPosition=temp;
+		currentBoxPositions.remove(temp);
+		currentBoxPositions.add(s.getState());
 		}
-		else//it;s a new state
-		{
-			this.setPlayerPosition(s.getCameFrom().getState());
-		}
+		
 		
 		
 		Solution playerPath=null;
@@ -123,8 +124,7 @@ public class BoxSearchable extends CommonSearchable
 				playerSearchable.setFromPosition(playerPosition);
 				playerSearchable.setToPosition(this.getPlayerNeededPosition(boxPos, action));
 				playerSearchable.setLevel(getLevel());
-				//System.out.println("player is at: "+playerSearchable.getFromPosition());
-				//System.out.println("player go to"+playerSearchable.getToPosition());
+				playerSearchable.setCurrentBoxPositions(currentBoxPositions);
 				playerPath=searcher.search(playerSearchable);
 				if(playerPath!=null)
 				{
@@ -132,9 +132,17 @@ public class BoxSearchable extends CommonSearchable
 					ca=new ComplexAction(action, playerPath.getActionList());
 					state=new State<Position>(s, s.getCost()+1,boxNextPos , ca);
 					possibleStates.put(ca, state);
+					System.out.println("box from:"+s.getState()+"to:"+boxNextPos+" "+playerPath.getActionList()+" "+action);
+
 					
 				}
 			}
+		}
+		if(s.getCameFrom()!=null)
+		{
+			currentBoxPositions.remove(s.getState());
+			currentBoxPositions.add(temp);
+			
 		}
 		return possibleStates;
 		
@@ -172,13 +180,24 @@ public class BoxSearchable extends CommonSearchable
 		}
 		if(this.getLevel().isValidPosition(playerPos)&&this.getLevel().isValidPosition(goalPos))//it's not out of bounds
 		{
-			
 			//check if player can go there
-			if(charMap[playerPos.getRow()][playerPos.getRow()]==' '||charMap[playerPos.getRow()][playerPos.getRow()]=='o'||charMap[playerPos.getRow()][playerPos.getRow()]=='A')
+			if(charMap[playerPos.getRow()][playerPos.getCol()]==' '||charMap[playerPos.getRow()][playerPos.getCol()]=='o'||charMap[playerPos.getRow()][playerPos.getCol()]=='A')
 			{
-				if(charMap[goalPos.getRow()][goalPos.getRow()]==' '||charMap[goalPos.getRow()][goalPos.getRow()]=='o'||charMap[goalPos.getRow()][goalPos.getRow()]=='A')
+				if(charMap[goalPos.getRow()][goalPos.getCol()]==' '||charMap[goalPos.getRow()][goalPos.getCol()]=='o'||charMap[goalPos.getRow()][goalPos.getCol()]=='A')
 					return true;
 			}
+			else
+				if(charMap[playerPos.getRow()][playerPos.getCol()]=='@')//the box first position
+				{
+					//check in the uodated positions list
+					for(Position pos : currentBoxPositions)
+						if(playerPos.equals(pos))
+							return false;
+					return true;
+					
+				}
+			
+			
 
 			
 
@@ -218,7 +237,17 @@ public class BoxSearchable extends CommonSearchable
 
 	public void setPlayerPosition(Position playerPosition)
 	{
+		if(playerSearchable!=null)
+			playerSearchable.setFromPosition(playerPosition);
 		this.playerPosition = playerPosition;
+	}
+	public LinkedList<Position> getCurrentBoxPositions()
+	{
+		return currentBoxPositions;
+	}
+	public void setCurrentBoxPositions(LinkedList<Position> currentBoxPositions)
+	{
+		this.currentBoxPositions = currentBoxPositions;
 	}
 	
 

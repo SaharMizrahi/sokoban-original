@@ -14,7 +14,7 @@ public class Level implements Serializable{
 		
 		private ArrayList<Item> BoxList;
 		private ArrayList<Item> CharacterList;
-		private ArrayList<Item> DestinyList;
+		private ArrayList<Item> DestinationList;
 		private ArrayList<Item> WallList;
 		private ArrayList<Position> ConquredDestinations;
 		
@@ -112,13 +112,13 @@ public class Level implements Serializable{
 		}
 	
 	
-		public ArrayList<Item> getDestinyList() {
-			return DestinyList;
+		public ArrayList<Item> getDestinationList() {
+			return DestinationList;
 		}
 	
 	
-		public void setDestinyList(ArrayList<Item> destinyList) {
-			DestinyList = destinyList;
+		public void setDestinationList(ArrayList<Item> destinationList) {
+			DestinationList = destinationList;
 		}
 	
 	
@@ -136,7 +136,7 @@ public class Level implements Serializable{
 	{
 		this.WallList=new ArrayList<Item>();
 		this.BoxList=new ArrayList<Item>();
-		this.DestinyList=new ArrayList<Item>();
+		this.DestinationList=new ArrayList<Item>();
 		this.CharacterList=new ArrayList<Item>();
 		this.ConquredDestinations=new ArrayList<Position>();
 		

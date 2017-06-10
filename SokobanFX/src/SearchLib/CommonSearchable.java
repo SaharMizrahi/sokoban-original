@@ -11,6 +11,7 @@ public abstract class CommonSearchable implements Searchable<Position>
 	private Level2D level;
 	
 	
+	
 
 	
 

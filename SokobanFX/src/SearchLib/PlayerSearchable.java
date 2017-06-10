@@ -1,6 +1,7 @@
 package SearchLib;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import Model.Data.Item;
 import Model.Data.Level2D;
@@ -9,10 +10,21 @@ import Model.Data.Position;
 public class PlayerSearchable extends CommonSearchable
 {
 
-	public char[][] charMap;
+	private char[][] charMap;
+	private LinkedList<Position> currentBoxPositions;
 	public PlayerSearchable(Position fromPosition, Position toPosition, Level2D level) {
 		super(fromPosition, toPosition, level);
 		// TODO Auto-generated constructor stub
+	}
+
+	public LinkedList<Position> getCurrentBoxPositions()
+	{
+		return currentBoxPositions;
+	}
+
+	public void setCurrentBoxPositions(LinkedList<Position> currentBoxPositions)
+	{
+		this.currentBoxPositions = currentBoxPositions;
 	}
 
 	@Override
@@ -21,6 +33,7 @@ public class PlayerSearchable extends CommonSearchable
 		// TODO Auto-generated method stub
 		HashMap<ComplexAction,State<Position>> possibleStates=new HashMap<>();
 		Position currentPosition=s.getState();
+		
 		//move up
 		if(checkPossibleMove(currentPosition, Action.UP))
 			possibleStates.put(new ComplexAction(Action.UP, null), new State<>(s,s.getCost()+1,currentPosition.getUp(),new ComplexAction(Action.UP, null)));
@@ -42,48 +55,52 @@ public class PlayerSearchable extends CommonSearchable
 	{
 		// TODO Auto-generated method stub
 		Position firstPos=null;
-		Position secondPos=null;
-		Item firstItem=null;
-		Item secondItem=null;
+		char c;
+		Item it=null;
 
 		switch(action)
 		{//get the first and second positions
 		case UP:
 			firstPos=currentPosition.getUp();
-			secondPos=firstPos.getUp();
 			break;
 			
 		case DOWN:
 			firstPos=currentPosition.getDown();
-			secondPos=firstPos.getDown();
 			break;
 		case LEFT:
 			firstPos=currentPosition.getLeft();
-			secondPos=firstPos.getLeft();
 			break;
 		case RIGHT:
 			firstPos=currentPosition.getRight();
-			secondPos=firstPos.getRight();
 			break;
 		}
-		if(getLevel().isValidPosition(firstPos))
-			firstItem=getLevel().getItemByPosition(firstPos);
-		if(getLevel().isValidPosition(secondPos))			
-			secondItem=getLevel().getItemByPosition(secondPos);
-		if(firstItem!=null)
+		
+		if(firstPos!=null)
 		{
-			//if empty or target
-			if((firstItem.getChar()==' ')||((firstItem.getChar()=='o')))
-				return true;
-			//if wall
-			else if (firstItem.getChar()=='#')
-				return false;
-			else//it's a box
+			if(this.getLevel().isValidPosition(firstPos))
 			{
-				return false;
-			}
+				it=this.getLevel().getItemByPosition(firstPos);
 
+				c=it.getChar();
+				if(c==' '||c=='A'||c=='o')
+					return true;
+				if(c=='@')
+				{
+					for(Position p : currentBoxPositions)
+					{
+						if(firstPos.equals(p))
+						{
+							return false;
+						}
+					}
+					return true;
+				}
+
+				
+			}
 		}
+
+
 
 		return false;
 	}

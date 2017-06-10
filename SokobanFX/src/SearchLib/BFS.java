@@ -23,11 +23,13 @@ public class BFS<T> extends CommonSearcher<T>
 		HashSet<State<T>> closed=new HashSet<>();
 		closed.clear();
 		State<T> state=searchable.getInitialState();
+		//state.setCameFrom(getFinalState());
 		this.openList.add(state);
 		
 		while(!this.openList.isEmpty())
 		{
 			State<T> currentState=this.openList.poll();
+
 			this.evaluatedNodes++;
 			closed.add(currentState);
 			if(currentState.equals(searchable.getGoalState()))
@@ -35,6 +37,7 @@ public class BFS<T> extends CommonSearcher<T>
 			
 						Solution solution=new Solution();
 						solution.setActionList(backTrace(currentState));
+						setFinalState(currentState);
 						return solution;
 					}
 			HashMap<ComplexAction,State<T>> map=searchable.getAllPossibleStates(currentState);
