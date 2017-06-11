@@ -1,36 +1,54 @@
 package SokobanSolver;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 import Model.Data.Level2D;
-import Model.Data.MyTextLevelLoader;
-import StripsLib.PlanAction;
-import StripsLib.Strips;
+import Model.Data.LevelLoaderCreator;
+import Model.Data.LevelLoaderFactory;
+import Model.Data.LevelSaverFactory;
 
 public class test
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) 
 	{
 		Level2D level=null;
-		try {
-			level=(Level2D) new MyTextLevelLoader().loadLevel(new FileInputStream(new File(args[0])));
-			PlannableSokoban ps=new PlannableSokoban(level);
-			Strips strips=new Strips();
-			List<PlanAction> list=strips.plan(ps);
-			SokobanSolution solution=new SokobanSolution(list);
-			System.out.println(solution.toString());
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+			LevelLoaderFactory llf=new LevelLoaderFactory();
+			LevelSaverFactory lsf=new LevelSaverFactory();
+			LevelLoaderCreator llc=null;
+			
+			String arg0Suffix="",arg1Suffix="";
+			String []arr;
+			arg0Suffix=args[0].substring(args[0].length()-3, args[0].length());
+			try {
+				level=(Level2D) llf.getLLHM().get(arg0Suffix).create().loadLevel(new FileInputStream(new File(args[0])));
+				SokobanSolver sokobanSolver=new SokobanSolver();
+				Writer writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(args[1]))));
+				writer.write(sokobanSolver.solveLevel(level).toString());
+				writer.close();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+			
+
+	
 
 
 	
@@ -41,4 +59,5 @@ public class test
 
 
 	}
+
 }
