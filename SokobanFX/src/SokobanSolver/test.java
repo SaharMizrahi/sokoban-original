@@ -1,4 +1,4 @@
-package SearchLib;
+package SokobanSolver;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +8,9 @@ import java.io.IOException;
 import Model.Data.Level2D;
 import Model.Data.MyTextLevelLoader;
 import Model.Data.Position;
+import SearchLib.BFS;
+import SearchLib.Solution;
+import SearchLib.State;
 
 public class test
 {

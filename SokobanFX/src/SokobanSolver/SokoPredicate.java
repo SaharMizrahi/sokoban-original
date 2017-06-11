@@ -1,4 +1,6 @@
-package StripsLib;
+package SokobanSolver;
+
+import StripsLib.Predicate;
 
 public class SokoPredicate extends Predicate
 {
@@ -11,7 +13,7 @@ public class SokoPredicate extends Predicate
 	@Override
 	public boolean isContradict(Predicate p)
 	{
-		return super.isContradict(p) || (!id.equals(p.id)&& value.equals(p.value)||(value.equals(p.value)&&(!type.equals(p.type))));
+		return super.isContradict(p) || (!id.equals(p.getId())&& value.equals(p.getValue())||(value.equals(p.getValue())&&(!type.equals(p.getType()))));
 		
 	}
 

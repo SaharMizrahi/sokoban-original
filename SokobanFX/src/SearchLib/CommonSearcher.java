@@ -14,24 +14,36 @@ public abstract class CommonSearcher<T> implements Searcher<T>
 
 
 	
-	protected LinkedList<Action> backTrace(State<T> goalState) {
-		LinkedList<Action> actions = new LinkedList<>();
-		State<T> currState = goalState;
-		State<T> iterator=currState.getCameFrom();
-		while (currState.getCameFrom() != null)
-		{
-			actions.addFirst(currState.getAction().getAction());
-			if(currState.getAction().getHistory()!=null)
-				for(int i=currState.getAction().getHistory().size()-1;i>=0;i--)
-				{
-					actions.addFirst((Action) currState.getAction().getHistory().toArray()[i]);
-				}
-			currState = iterator;
-			iterator=currState.getCameFrom();
+	protected LinkedList<Action> backTrace(State<T> goalState) 
+	{
 
+		LinkedList<Action> list=new LinkedList<>();
+		State<T> current=goalState;
+		while(current!=null)
+		{
+
+			if(current.getAction()!=null)
+			{
+
+				if(current.getAction().getAction()!=null)
+				{
+					list.addFirst(current.getAction().getAction());
+					if(current.getAction().getHistory()!=null)
+					{
+						for(int i=0;i<current.getAction().getHistory().size();i++)
+						{
+							list.addFirst(current.getAction().getHistory().get(i));
+						}
+					}
+				}
+			}
+			
+
+			current=current.getCameFrom();
 		}
 
-		return actions;
+		return list;
+		
 	}
 	@Override
 	public int getNumberOfNodesEvaluated()

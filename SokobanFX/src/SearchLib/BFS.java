@@ -29,7 +29,6 @@ public class BFS<T> extends CommonSearcher<T>
 		while(!this.openList.isEmpty())
 		{
 			State<T> currentState=this.openList.poll();
-
 			this.evaluatedNodes++;
 			closed.add(currentState);
 			if(currentState.equals(searchable.getGoalState()))

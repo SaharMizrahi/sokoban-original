@@ -1,4 +1,4 @@
-package SearchLib;
+package SokobanSolver;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import Model.Data.Item;
 import Model.Data.Level2D;
 import Model.Data.Position;
+import SearchLib.Action;
+import SearchLib.ComplexAction;
+import SearchLib.State;
 
 public class PlayerSearchable extends CommonSearchable
 {

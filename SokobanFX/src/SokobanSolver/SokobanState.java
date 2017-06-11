@@ -1,4 +1,4 @@
-package SearchLib;
+package SokobanSolver;
 
 import java.util.ArrayList;
 import java.util.List;

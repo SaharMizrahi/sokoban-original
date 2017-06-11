@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import Model.Data.Level2D;
 import Model.Data.MyTextLevelLoader;
+import SokobanSolver.PlannableSokoban;
 
 public class test
 {

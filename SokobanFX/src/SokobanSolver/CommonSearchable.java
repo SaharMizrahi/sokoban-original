@@ -1,7 +1,10 @@
-package SearchLib;
+package SokobanSolver;
 
 import Model.Data.Level2D;
 import Model.Data.Position;
+import SearchLib.Action;
+import SearchLib.Searchable;
+import SearchLib.State;
 
 public abstract class CommonSearchable implements Searchable<Position>
 {

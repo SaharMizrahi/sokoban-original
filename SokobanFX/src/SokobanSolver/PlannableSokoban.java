@@ -1,4 +1,4 @@
-package StripsLib;
+package SokobanSolver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,9 +11,11 @@ import Model.Data.Level2D;
 import Model.Data.Position;
 import SearchLib.Action;
 import SearchLib.BFS;
-import SearchLib.BoxSearchable;
-import SearchLib.PlayerSearchable;
 import SearchLib.Solution;
+import StripsLib.Clause;
+import StripsLib.PlanAction;
+import StripsLib.Plannable;
+import StripsLib.Predicate;
 
 public class PlannableSokoban implements Plannable
 {
@@ -164,7 +166,7 @@ public class PlannableSokoban implements Plannable
 				satisfyingActions=new HashSet<>();
 				PlanAction pa=new PlanAction("MoveBox",topPredicate.getId() , topPredicate.getValue());
 				pa.setEffects(new Clause(
-						new SokoPredicate("BoxAt", pa.id, pa.value),
+						new SokoPredicate("BoxAt", pa.getId(), pa.getValue()),
 						new SokoPredicate("PlayerAt", "Player", playerCurrentPosition.toString()),
 						new SokoPredicate("ClearAt", playerPos.toString(), playerPos.toString())));
 				pa.setPreConditions(new Clause(new SokoPredicate("ClearAt", topPredicate.getValue(), topPredicate.getValue())));

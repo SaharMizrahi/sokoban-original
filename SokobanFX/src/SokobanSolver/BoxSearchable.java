@@ -1,4 +1,4 @@
-package SearchLib;
+package SokobanSolver;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,6 +6,11 @@ import java.util.LinkedList;
 import Model.Data.Item;
 import Model.Data.Level2D;
 import Model.Data.Position;
+import SearchLib.Action;
+import SearchLib.ComplexAction;
+import SearchLib.Searcher;
+import SearchLib.Solution;
+import SearchLib.State;
 
 public class BoxSearchable extends CommonSearchable
 {
@@ -132,7 +137,6 @@ public class BoxSearchable extends CommonSearchable
 					ca=new ComplexAction(action, playerPath.getActionList());
 					state=new State<Position>(s, s.getCost()+1,boxNextPos , ca);
 					possibleStates.put(ca, state);
-					System.out.println("box from:"+s.getState()+"to:"+boxNextPos+" "+playerPath.getActionList()+" "+action);
 
 					
 				}
@@ -181,26 +185,25 @@ public class BoxSearchable extends CommonSearchable
 		if(this.getLevel().isValidPosition(playerPos)&&this.getLevel().isValidPosition(goalPos))//it's not out of bounds
 		{
 			//check if player can go there
-			if(charMap[playerPos.getRow()][playerPos.getCol()]==' '||charMap[playerPos.getRow()][playerPos.getCol()]=='o'||charMap[playerPos.getRow()][playerPos.getCol()]=='A')
-			{
-				if(charMap[goalPos.getRow()][goalPos.getCol()]==' '||charMap[goalPos.getRow()][goalPos.getCol()]=='o'||charMap[goalPos.getRow()][goalPos.getCol()]=='A')
-					return true;
-			}
+			char player,goal;
+			player=charMap[playerPos.getRow()][playerPos.getCol()];
+			goal=charMap[goalPos.getRow()][goalPos.getCol()];
+			
+			if((player=='A'||player==' '||player=='o')&&(goal=='A'||goal==' '||goal=='o'))//both are empty slots
+				return true;
+			else if(player=='#'||goal=='#')//one of them is a wall
+					return false;
 			else
-				if(charMap[playerPos.getRow()][playerPos.getCol()]=='@')//the box first position
+			{
+				for(Position pos : this.currentBoxPositions)
 				{
-					//check in the uodated positions list
-					for(Position pos : currentBoxPositions)
-						if(playerPos.equals(pos))
-							return false;
-					return true;
-					
+					if(playerPos.equals(pos)||(goalPos.equals(pos)))
+						return false;
 				}
+				return true;
+			}
+				
 			
-			
-
-			
-
 		}
 
 		return false;

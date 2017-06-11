@@ -1,4 +1,4 @@
-package SearchLib;
+package SokobanSolver;
 
 
 import java.util.ArrayList;
@@ -7,6 +7,10 @@ import java.util.HashMap;
 import Model.Data.Item;
 import Model.Data.Level2D;
 import Model.Data.Position;
+import SearchLib.Action;
+import SearchLib.ComplexAction;
+import SearchLib.Searchable;
+import SearchLib.State;
 
 public class SearchableSokoban implements Searchable<SokobanState>
 {
