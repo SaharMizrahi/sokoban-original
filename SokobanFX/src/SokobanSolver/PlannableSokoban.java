@@ -159,7 +159,6 @@ public class PlannableSokoban implements Plannable
 		
 			if(solution!=null)
 			{
-				solution.showSolution();
 				//this is the player last position
 				playerCurrentPosition=(Position) mainBfs.getFinalState().getCameFrom().getState();
 				boxCurrentPositions.remove(boxPos);
