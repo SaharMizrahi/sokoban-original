@@ -153,6 +153,8 @@ public class PlannableSokoban implements Plannable
 			searchable.setSearcher(pbfs);
 			searchable.setPlayerPosition(playerPos);
 			searchable.setCurrentBoxPositions(boxCurrentPositions);
+			searchable.setCurrentSearchableBox(boxPos);
+			
 			Solution solution=mainBfs.search(searchable);
 		
 			if(solution!=null)

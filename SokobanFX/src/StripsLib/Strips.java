@@ -45,8 +45,18 @@ public class Strips implements Planner
 						}
 						else
 						{
-							System.out.println("*****block*****");
-							return null;
+							if(predicatesStack.size()>1)//there is another predicate
+							{
+								System.out.println("trying another way");
+								predicatesStack.pop();
+								Predicate p=predicatesStack.pop();
+								predicatesStack.push(topPredicate);
+							}
+							else
+							{
+								System.out.println("*****block*****");
+								return null;
+							}
 						}
 					}
 				} 

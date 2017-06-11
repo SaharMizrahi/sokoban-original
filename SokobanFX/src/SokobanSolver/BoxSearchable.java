@@ -19,10 +19,11 @@ public class BoxSearchable extends CommonSearchable
 	private Position playerPosition;
 	private char[][] charMap;
 	private LinkedList<Position> currentBoxPositions;
+	private Position currentSearchableBox;
 
 	
 
-	public BoxSearchable(Position fromPosition, Position toPosition, Level2D level,
+ 	public BoxSearchable(Position fromPosition, Position toPosition, Level2D level,
 			Searcher<Position> searcher,PlayerSearchable playerSearchable) {
 		super(fromPosition, toPosition, level);
 		// TODO Auto-generated constructor stub
@@ -108,8 +109,10 @@ public class BoxSearchable extends CommonSearchable
 		{
 		temp=s.getCameFrom().getState();
 		playerPosition=temp;
-		currentBoxPositions.remove(temp);
+		currentBoxPositions.remove(currentSearchableBox);
 		currentBoxPositions.add(s.getState());
+		playerSearchable.setCurrentBoxPositions(currentBoxPositions);
+		//System.out.println(currentBoxPositions);
 		}
 		
 		
@@ -129,7 +132,6 @@ public class BoxSearchable extends CommonSearchable
 				playerSearchable.setFromPosition(playerPosition);
 				playerSearchable.setToPosition(this.getPlayerNeededPosition(boxPos, action));
 				playerSearchable.setLevel(getLevel());
-				playerSearchable.setCurrentBoxPositions(currentBoxPositions);
 				playerPath=searcher.search(playerSearchable);
 				if(playerPath!=null)
 				{
@@ -144,8 +146,11 @@ public class BoxSearchable extends CommonSearchable
 		}
 		if(s.getCameFrom()!=null)
 		{
+
 			currentBoxPositions.remove(s.getState());
-			currentBoxPositions.add(temp);
+			currentBoxPositions.add(currentSearchableBox);
+			//System.out.println(currentBoxPositions);
+
 			
 		}
 		return possibleStates;
@@ -156,6 +161,14 @@ public class BoxSearchable extends CommonSearchable
 
 
 
+	public Position getCurrentSearchableBox()
+	{
+		return currentSearchableBox;
+	}
+	public void setCurrentSearchableBox(Position currentSearchableBox)
+	{
+		this.currentSearchableBox = currentSearchableBox;
+	}
 	@Override
 	public boolean checkPossibleMove(Position currentPosition, Action action)
 	{

@@ -25,10 +25,10 @@ public class BFS<T> extends CommonSearcher<T>
 		State<T> state=searchable.getInitialState();
 		//state.setCameFrom(getFinalState());
 		this.openList.add(state);
-		
+		State<T> currentState=null;
 		while(!this.openList.isEmpty())
 		{
-			State<T> currentState=this.openList.poll();
+			currentState=this.openList.poll();
 			this.evaluatedNodes++;
 			closed.add(currentState);
 			if(currentState.equals(searchable.getGoalState()))
@@ -69,7 +69,6 @@ public class BFS<T> extends CommonSearcher<T>
 
 			
 		}
-		System.err.println("no way");
 		return null;
 	
 		

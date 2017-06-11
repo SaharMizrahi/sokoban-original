@@ -30,7 +30,7 @@ public abstract class CommonSearcher<T> implements Searcher<T>
 					list.addFirst(current.getAction().getAction());
 					if(current.getAction().getHistory()!=null)
 					{
-						for(int i=0;i<current.getAction().getHistory().size();i++)
+						for(int i=current.getAction().getHistory().size()-1;i>=0;i--)
 						{
 							list.addFirst(current.getAction().getHistory().get(i));
 						}

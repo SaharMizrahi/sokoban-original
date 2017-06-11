@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import Model.Data.Item;
 import Model.Data.Level2D;
 import Model.Data.Position;
+import Model.Data.Wall;
 import SearchLib.Action;
 import SearchLib.ComplexAction;
 import SearchLib.State;
@@ -50,6 +51,7 @@ public class PlayerSearchable extends CommonSearchable
 		if(checkPossibleMove(currentPosition, Action.RIGHT))
 			possibleStates.put(new ComplexAction(Action.RIGHT, null), new State<>(s,s.getCost()+1,currentPosition.getRight(),new ComplexAction(Action.RIGHT, null)));
 
+		
 		return possibleStates;
 	}
 
@@ -82,25 +84,22 @@ public class PlayerSearchable extends CommonSearchable
 		{
 			if(this.getLevel().isValidPosition(firstPos))
 			{
-				it=this.getLevel().getItemByPosition(firstPos);
-
-				c=it.getChar();
-				if(c==' '||c=='A'||c=='o')
-					return true;
-				if(c=='@')
+				for( Position pos : currentBoxPositions)//if there is a box
 				{
-					for(Position p : currentBoxPositions)
-					{
-						if(firstPos.equals(p))
-						{
-							return false;
-						}
-					}
-					return true;
+					if(firstPos.equals(pos))
+						return false;
 				}
+				
+				it=this.getLevel().getItemByPosition(firstPos);
+				if(it instanceof Wall)//if its a wall
+					return false;
+				return true;
+				
 
 				
 			}
+			else
+				return false;
 		}
 
 
