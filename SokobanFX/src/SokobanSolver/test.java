@@ -18,7 +18,7 @@ public class test
 	{
 		Level2D level=null;
 		try {
-			level=(Level2D) new MyTextLevelLoader().loadLevel(new FileInputStream(new File("resources/Levels/test.txt")));
+			level=(Level2D) new MyTextLevelLoader().loadLevel(new FileInputStream(new File(args[0])));
 			PlannableSokoban ps=new PlannableSokoban(level);
 			Strips strips=new Strips();
 			List<PlanAction> list=strips.plan(ps);
