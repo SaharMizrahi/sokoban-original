@@ -64,10 +64,11 @@ public class MainWindowController extends Observable implements Initializable, V
 	private Stage primarystage;
 	private DBWindowController dbwc;
 	@FXML
-
 	private Button saveRecButton = new Button();
-	
-
+	@FXML
+	private Button solveButton = new Button();
+	@FXML
+	private Button restartButton = new Button();
 	public Scene getDbScene()
 	{
 		return dbScene;
@@ -547,6 +548,8 @@ public class MainWindowController extends Observable implements Initializable, V
 	{
 		time.cancel();
 		this.saveRecButton.setDisable(true);
+		this.solveButton.setDisable(true);
+		this.restartButton.setDisable(true);
 		FileChooser fc = new FileChooser();
 
 		fc.setTitle("open sokoban level file:");
@@ -625,4 +628,12 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.setUserCommand("exit");
 	}
 
+	public void solveLevel()
+	{
+		this.setUserCommand("solve");
+	}
+	public void restartLevel()
+	{
+		
+	}
 }
