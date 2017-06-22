@@ -34,85 +34,85 @@ public class Level2D extends Level implements Serializable {
 	public void setInPlace(Item it, Position dest)
 	{
 		Position oldPos=it.getPos();
-		if (this.Map[dest.getCol()][dest.getRow()] instanceof Destination)
+		if (this.Map[dest.getRow()][dest.getCol()] instanceof Destination)
 		{
 			if (it.isOnDest())
 			{
-				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;		
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Destination();
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(temp.getPos());
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setOnDest(false);
-				this.Map[dest.getCol()][dest.getRow()]=null;
-				this.Map[dest.getCol()][dest.getRow()]=temp;
-				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
-				this.Map[dest.getCol()][dest.getRow()].setOnDest(true);
+				Item temp=this.Map[it.getPos().getRow()][it.getPos().getCol()];
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=null;		
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=new Destination();
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setPos(temp.getPos());
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setOnDest(false);
+				this.Map[dest.getRow()][dest.getCol()]=null;
+				this.Map[dest.getRow()][dest.getCol()]=temp;
+				this.Map[dest.getRow()][dest.getCol()].setPos(dest);
+				this.Map[dest.getRow()][dest.getCol()].setOnDest(true);
 			}
 			else
 			{
-				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;		
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Floor();
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(temp.getPos());
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setOnDest(false);
-				this.Map[dest.getCol()][dest.getRow()]=null;
-				this.Map[dest.getCol()][dest.getRow()]=temp;
-				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
-				this.Map[dest.getCol()][dest.getRow()].setOnDest(true);
+				Item temp=this.Map[it.getPos().getRow()][it.getPos().getCol()];
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=null;		
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=new Floor();
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setPos(temp.getPos());
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setOnDest(false);
+				this.Map[dest.getRow()][dest.getCol()]=null;
+				this.Map[dest.getRow()][dest.getCol()]=temp;
+				this.Map[dest.getRow()][dest.getCol()].setPos(dest);
+				this.Map[dest.getRow()][dest.getCol()].setOnDest(true);
 			}
 		}
 		else if (it.isOnDest())
 		{
 			
-			if (this.Map[dest.getCol()][dest.getRow()].isOnDest())
+			if (this.Map[dest.getRow()][dest.getCol()].isOnDest())
 			{
-				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;		
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Destination();
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setOnDest(false);
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(oldPos);
-				this.Map[dest.getCol()][dest.getRow()]=null;
-				this.Map[dest.getCol()][dest.getRow()]=temp;
-				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
-				this.Map[dest.getCol()][dest.getRow()].setOnDest(true);
+				Item temp=this.Map[it.getPos().getRow()][it.getPos().getCol()];
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=null;		
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=new Destination();
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setOnDest(false);
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setPos(oldPos);
+				this.Map[dest.getRow()][dest.getCol()]=null;
+				this.Map[dest.getRow()][dest.getCol()]=temp;
+				this.Map[dest.getRow()][dest.getCol()].setPos(dest);
+				this.Map[dest.getRow()][dest.getCol()].setOnDest(true);
 			}
 			else
 			{
-				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Destination();
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(oldPos);
-				this.Map[dest.getCol()][dest.getRow()]=null;
-				this.Map[dest.getCol()][dest.getRow()]=temp;
-				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
-				this.Map[dest.getCol()][dest.getRow()].setOnDest(false);
+				Item temp=this.Map[it.getPos().getRow()][it.getPos().getCol()];
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=null;
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=new Destination();
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setPos(oldPos);
+				this.Map[dest.getRow()][dest.getCol()]=null;
+				this.Map[dest.getRow()][dest.getCol()]=temp;
+				this.Map[dest.getRow()][dest.getCol()].setPos(dest);
+				this.Map[dest.getRow()][dest.getCol()].setOnDest(false);
 			}
 		}
 		else
 		{
-			if (this.Map[dest.getCol()][dest.getRow()].isOnDest())
+			if (this.Map[dest.getRow()][dest.getCol()].isOnDest())
 			{
-				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;
+				Item temp=this.Map[it.getPos().getRow()][it.getPos().getCol()];
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=null;
 				
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Floor();
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(oldPos);
-				this.Map[dest.getCol()][dest.getRow()]=null;
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=new Floor();
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setPos(oldPos);
+				this.Map[dest.getRow()][dest.getCol()]=null;
 				
-				this.Map[dest.getCol()][dest.getRow()]=temp;
-				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
-				this.Map[dest.getCol()][dest.getRow()].setOnDest(true);
+				this.Map[dest.getRow()][dest.getCol()]=temp;
+				this.Map[dest.getRow()][dest.getCol()].setPos(dest);
+				this.Map[dest.getRow()][dest.getCol()].setOnDest(true);
 
 			}
 			else
 			{
-				Item temp=this.Map[it.getPos().getCol()][it.getPos().getRow()];
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=null;
-				this.Map[it.getPos().getCol()][it.getPos().getRow()]=new Floor();
-				this.Map[it.getPos().getCol()][it.getPos().getRow()].setPos(oldPos);
-				this.Map[dest.getCol()][dest.getRow()]=null;
-				this.Map[dest.getCol()][dest.getRow()]=temp;
-				this.Map[dest.getCol()][dest.getRow()].setPos(dest);
+				Item temp=this.Map[it.getPos().getRow()][it.getPos().getCol()];
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=null;
+				this.Map[it.getPos().getRow()][it.getPos().getCol()]=new Floor();
+				this.Map[it.getPos().getRow()][it.getPos().getCol()].setPos(oldPos);
+				this.Map[dest.getRow()][dest.getCol()]=null;
+				this.Map[dest.getRow()][dest.getCol()]=temp;
+				this.Map[dest.getRow()][dest.getCol()].setPos(dest);
 			}
 		}
 		

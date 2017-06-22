@@ -8,10 +8,12 @@ import Model.Data.Wall;
 import Model.Policy.MySokobanPolicy;
 
 public class MoveCommand extends FunctionalCommand implements Command {
+	private MySokobanPolicy msp;
 
 	public MoveCommand(Level lev) {
 		super(lev);
 		// TODO Auto-generated constructor stub
+		msp=new MySokobanPolicy();
 	}
 	public void execute() throws Exception
 	{
@@ -24,7 +26,7 @@ public class MoveCommand extends FunctionalCommand implements Command {
 		int howManyMoves=0;
 		String []s=this.getStr().split(" ");
 		A=this.getLev().getCharacter();
-		this.getLev().getCharacterList().remove(A);
+		//this.getLev().getCharacterList().remove(A);
 		switch (s[1].toLowerCase())
 		{
 			case "up":
@@ -54,8 +56,56 @@ public class MoveCommand extends FunctionalCommand implements Command {
 		}
 		B=this.getLev().getItemByPosition(posB);
 		C=this.getLev().getItemByPosition(posC);
-		System.out.println(B.getChar()+" "+C.getChar() );
+		if(B!=null)
+		{
+		switch(B.getChar())
+		{
+		case ' ':
+			howManyMoves=1;
+			break;
+		case '@':
+			
+			howManyMoves=2;
+			break;
+		case '$':
+			howManyMoves=2;
+			break;
+		case 'o':
+			howManyMoves=1;
+			break;
+		case '#':
+			howManyMoves=0;
+			break;
+		}
+		if(howManyMoves==2)
+		{
+			if(C!=null)
+			{
+				if(C.getChar()=='#'||C.getChar()=='$'||C.getChar()=='@')
+				{
+					howManyMoves=0;
+				}
+				else
+				{
+					temp=B.getPos();
+					this.getLev().setInPlace(B, C.getPos());
+					this.getLev().setInPlace(A, temp);
+					this.getLev().setStepsCounter(this.getLev().getStepsCounter()+1);
+					this.getmM().setCurrentLevel(this.getLev());
+				}
+			}
+		}
+		else if(howManyMoves==1)
+		{
+			this.getLev().setInPlace(A ,posB);
+			this.getLev().setStepsCounter(this.getLev().getStepsCounter()+1);
+			this.getmM().setCurrentLevel(this.getLev());
 
+		}
+
+		}
+		
+		
 		/*if (posB==null)
 		{
 			B=null;

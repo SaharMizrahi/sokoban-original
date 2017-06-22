@@ -171,7 +171,6 @@ public class SokobanController implements Observer {
 	 */
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub	
-		System.out.println(arg0+" "+arg1);
 		boolean ifHappend=false;
 	
 			if (arg0==ms.getCh())
