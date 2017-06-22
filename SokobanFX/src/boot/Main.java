@@ -26,7 +26,7 @@ import javassist.compiler.ast.Member;
 import view.DBWindowController;
 import view.MainWindowController;
 
-
+//
 public class Main extends Application {
 
 	private static SessionFactory factory;
