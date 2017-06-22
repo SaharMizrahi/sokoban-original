@@ -47,12 +47,45 @@ public class Level implements Serializable{
 		{
 			
 		}
-		public boolean checkPosition(Position pos)
+		/*public boolean checkPosition(Position pos)
 		{
-			return false;
-		}
+			char c=this.getItemByPosition(pos).getChar();
+			switch(c)
+			{
+			case 'A':
+			{
+				return 0;
+				
+			}
+			case ' ':
+			{
+				return 0;
+				
+			}
+			case '@':
+			{
+				return 1;
+				
+			}
+			case '$'://box on target
+			{
+				return 2;
+				
+			}
+			case 'o':
+			{
+				return 2;
+				
+			}
+				
+				
+			}
+			
+			return -1;
+		}*/
 		public Item getItemByPosition(Position ItemPos)
 		{
+			
 			return this.getCharacter();
 		}
 		public Item getCharacter()

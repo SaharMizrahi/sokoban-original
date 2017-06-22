@@ -52,7 +52,11 @@ public class MoveCommand extends FunctionalCommand implements Command {
 				
 				
 		}
-		if (posB==null)
+		B=this.getLev().getItemByPosition(posB);
+		C=this.getLev().getItemByPosition(posC);
+		System.out.println(B.getChar()+" "+C.getChar() );
+
+		/*if (posB==null)
 		{
 			B=null;
 		}
@@ -103,7 +107,7 @@ public class MoveCommand extends FunctionalCommand implements Command {
 		//this.getLev().print();
 		
 	
-	
+	*/
 	}
 	
 	public int checkIfPossible(Item A,Item B,Item C)

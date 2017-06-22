@@ -170,7 +170,8 @@ public class SokobanController implements Observer {
 	 * After one observable did notifyObservers() this method check which observable has changed, and act in a specific way 
 	 */
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub	
+		System.out.println(arg0+" "+arg1);
 		boolean ifHappend=false;
 	
 			if (arg0==ms.getCh())
@@ -215,6 +216,7 @@ public class SokobanController implements Observer {
 				
 				
 			}
+			
 		
 		
 

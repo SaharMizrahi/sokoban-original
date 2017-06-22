@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<!-- <?import view.SokobanDisplayer?>-->
+<?import view.SokobanDisplayer?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
    <top>
@@ -130,7 +130,7 @@
       <VBox prefHeight="500.0" prefWidth="233.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
- <!--  <SokobanDisplayer fx:id="sd" height="500.0" width="500.0" BorderPane.alignment="CENTER" wall="./resources/Images/wall.jpg"  character="./resources/Images/f.jpg" box="./resources/Images/box.jpg" floor="./resources/Images/floor.jpg" destination="./resources/Images/target.jpg" open="./resources/Images/open.jpg" over="./resources/Images/over.gif"  />-->
+ <SokobanDisplayer fx:id="sd" height="500.0" width="500.0" BorderPane.alignment="CENTER" wall="./resources/Images/wall.jpg"  character="./resources/Images/f.jpg" box="./resources/Images/box.jpg" floor="./resources/Images/floor.jpg" destination="./resources/Images/target.jpg" open="./resources/Images/open.jpg" over="./resources/Images/over.gif"  />
 
    </center>
    <bottom>
