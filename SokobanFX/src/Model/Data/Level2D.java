@@ -14,6 +14,37 @@ public class Level2D extends Level implements Serializable {
 	private int Width;
 	private Item[][] Map;
 	
+	@Override
+	public String getCompressLevel()
+	{
+		char current='*',prev='*';
+		int count=0;
+		String result="*";
+		result+="Level2D-"+Length+"-"+Width;
+		for(int i=0;i<Length;i++)
+		{
+			for(int j=0;j<Width;j++)
+			{
+				current=Map[i][j].getChar();
+				if(prev=='*')//this is the first char
+				{
+					prev=current;
+					count=1;
+				}
+				else if(current==prev)//this is the same char
+					count++;
+				else//this is diffrent char
+				{
+					result+="-"+count+""+prev;
+					prev=current;
+					count=1;
+				}
+				
+			}
+		}
+		
+		return result+"*";
+	}
 	
 	public boolean isValidPosition(Position position)
 	{

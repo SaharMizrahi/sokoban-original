@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import Controller.Server.MyServer;
 import Model.ModelInterface;
 import view.ViewInterface;
 
@@ -24,40 +23,13 @@ public class SokobanController implements Observer {
 	private ModelInterface MM;
 	private Controller controller;
 	private CommandsFactory cF;
-	private MyServer ms;
+	//private MyServer ms;
 	private boolean isFinish=false;
 	
 	
 	
-			/**
-	 * 
-	 * @return the server
-	 */
-	public MyServer getMs()
-	{
-		
-		return ms;
-	}
-	/**sets the server
-	 * 
-	 * @param ms out source server
-	 */
-	public void setMs(MyServer ms)
-	{
-		this.ms = ms;
-	}
-	/**
-	 * Starts the Server thread
-	 */
-	public void runServer()
-	{
-		try {
-			ms.runServer();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
+
 	/**Saving the level befor exit
 	 * 
 	 * @param fileName that the saved file will be named
@@ -73,7 +45,6 @@ public class SokobanController implements Observer {
 	public void closeAll()
 	{
 		this.controller.finishAllCommands();
-		this.ms.closeAllSockets();
 
 		
 	}
@@ -171,32 +142,8 @@ public class SokobanController implements Observer {
 	 */
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub	
-		boolean ifHappend=false;
 	
-			if (arg0==ms.getCh())
-			{
-		
-					ifHappend=this.runUserCommand(arg1.toString());
-					this.getMv().setDone(this.MM.getCurrentLevel().checkIfFinish());
-	
-					if(ifHappend)
-					{
-						if(arg1.toString().toLowerCase().compareTo("display")==0)
-						{
-							this.ms.getCh().setMsgToUser(""+mv.getArrByString());
-	
-						}
-						else
-							this.ms.getCh().setMsgToUser("succsses");
-					}
-					else
-					{
-						this.ms.getCh().setMsgToUser("fail");
-	
-					}
-				
-			
-			}
+
 			if (arg0==MM)
 			{
 				this.isFinish=MM.getCurrentLevel().checkIfFinish();
@@ -207,7 +154,6 @@ public class SokobanController implements Observer {
 					mv.setSteps(mv.getSteps()+1);
 					MM.setChanged(false);
 				}
-				ms.getCh().setIfHappend(true);
 			}
 			else if (arg0==mv)
 			{			
@@ -292,9 +238,7 @@ public class SokobanController implements Observer {
 		
 		this.cF=new CommandsFactory();
 		
-		this.ms=new MyServer();
 		
-		ms.getCh().addObserver(this);
 		this.controller.start();
 	}
 	/**Initialize Model and View from out sources, and start the Controller thread

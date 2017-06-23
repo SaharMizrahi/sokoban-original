@@ -22,29 +22,18 @@ public class CommandsFactory {
 		CM.put("save", new SaveLevelCommandCreator());
 		CM.put("exit", new ExitCommandCreator());
 		CM.put("record", new saveRecCommandCreator());
-		CM.put("derecord",new deleteRecCommandCreator());
-		CM.put("query", new queryCommandCreator());
-		
+		CM.put("solve", new solveCommandCreator());
+
 	}
-	public class deleteRecCommandCreator implements CommandCreator
+
+	public class solveCommandCreator implements CommandCreator
 	{
 
 		@Override
 		public FunctionalCommand create()
 		{
 			// TODO Auto-generated method stub
-			return null;
-		}
-		
-	}
-	public class queryCommandCreator implements CommandCreator
-	{
-
-		@Override
-		public FunctionalCommand create()
-		{
-			// TODO Auto-generated method stub
-			return null;
+			return new SolveCommand();
 		}
 		
 	}

@@ -3,7 +3,6 @@ package boot;
  * */
 
 import java.io.File;
-import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -65,14 +64,7 @@ public class Main extends Application {
 
 
 
-			Thread serverThread=new Thread(new Runnable() {
 
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					sc.runServer();
-				}
-			});
 
 			Thread musicThread=new Thread(new Runnable() {
 
@@ -82,7 +74,7 @@ public class Main extends Application {
 							// TODO Auto-generated method stub
 
 							
-							m.cycleCountProperty().set(5);
+							//m.cycleCountProperty().set(5);
 							m.play();
 
 
@@ -97,20 +89,11 @@ public class Main extends Application {
 				{
 					// TODO Auto-generated method stub
 					primaryStage.show();
+					musicThread.start();
 				}
 			});
 
-			List<String> args=getParameters().getRaw();
-			if (args.size()>0)
-			{
-				int port=0;
-				int size=0;
-				port=Integer.parseInt(args.get(1));
 
-				sc.getMs().setPort(port);
-			serverThread.start();
-			}
-			musicThread.start();
 
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -34,16 +34,14 @@ public class LoadLevelCommand extends FunctionalCommand implements Command {
 		LL=LLF.getLLHM().get(FileType).create();
 		try{
 		this.setLev(LL.loadLevel(new FileInputStream("./resources/Levels/"+args[1])));
+		this.getLev().setLevelName(args[1]);
 		}
 		catch (IOException e)
 		{
 			System.out.println("caught IOException");
 		}
 		
-		/*if (this.getLev()!=null)
-			System.out.println("level upload succsess");
-		else
-			System.out.println("level upload failed");*/
+
 		sc.close();
 		
 		

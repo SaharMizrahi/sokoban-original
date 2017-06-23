@@ -439,7 +439,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		// TODO Auto-generated method stub
 		time = new Timer();
 		this.setFocus();
-
+		this.solveButton.setDisable(true);
 		hm = new HashMap<String, String>();
 		this.readKeysFromXML();
 
@@ -512,11 +512,13 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.userCommand = userCommand;
 		this.setChanged();
 		this.notifyObservers(userCommand);
+		
 	}
 
 	/**
 	 * exit the program by clicking on 'exit' button
 	 */
+	@FXML
 	public void exit()
 	{
 		this.setUserCommand("exit");
@@ -525,6 +527,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	/**
 	 * saving the level
 	 */
+	@FXML
 	public void saveFileMethod()
 	{
 		List<String> choices = new ArrayList<>();
@@ -544,11 +547,12 @@ public class MainWindowController extends Observable implements Initializable, V
 	/**
 	 * loading new level
 	 */
+	@FXML
 	public void loadFileMethod()
 	{
 		time.cancel();
 		this.saveRecButton.setDisable(true);
-		this.solveButton.setDisable(true);
+		this.solveButton.setDisable(false);
 		this.restartButton.setDisable(true);
 		FileChooser fc = new FileChooser();
 

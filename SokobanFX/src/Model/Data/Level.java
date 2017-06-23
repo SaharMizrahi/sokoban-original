@@ -17,11 +17,23 @@ public class Level implements Serializable{
 		private ArrayList<Item> DestinationList;
 		private ArrayList<Item> WallList;
 		private ArrayList<Position> ConquredDestinations;
-		
+		private String levelName;
 		
 		private int stepsCounter;
 		
 		
+		public String getCompressLevel()
+		{
+			return "";
+		}
+		public String getLevelName()
+		{
+			return levelName;
+		}
+		public void setLevelName(String levelName)
+		{
+			this.levelName = levelName;
+		}
 		public char[][] toCharArray()
 		{
 			return null;
