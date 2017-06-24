@@ -98,6 +98,7 @@ public class MyModel extends Observable implements ModelInterface {
 	
 	public void setCurrentLevel(Level currentLevel) {
 
+
 		CurrentLevel = currentLevel;
 		this.setDone(CurrentLevel.checkIfFinish());
 		this.setChanged();

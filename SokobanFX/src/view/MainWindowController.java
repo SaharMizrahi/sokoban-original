@@ -30,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -46,33 +47,39 @@ import javafx.stage.WindowEvent;
 
 public class MainWindowController extends Observable implements Initializable, ViewInterface
 {
-	private String levelName;
+	
 	@FXML
-	private SokobanDisplayer sd = new SokobanDisplayer(400,400);
-	private LinkedList<String> solution;
+	private SokobanDisplayer sd= new SokobanDisplayer(400,400);;
 	private String userCommand;
-	private char[][] arr;
-	private int count;
-	private int steps;
-	private HashMap<String, String> hm;
-	@FXML
-	private Text myText;
-	private Timer time;
-	@FXML
-	private Text mySteps;
-	private StringProperty Counter;
-	private StringProperty stepCounter;
-	private int levelID;
+	private HashMap<String, String> movesHm;
 	private Scene dbScene;
 	private Stage primarystage;
 	private DBWindowController dbwc;
+	/********Time & Steps*******/
+	private StringProperty stepCounter;
+	@FXML
+	private Text mySteps;
+	private int steps;
+	
+	private int count;
+	private Timer time;
+	private StringProperty timeCounter;
+	@FXML
+	private Text myTime;
+	/*********Level Info********/
+	private String levelName;
+	private LinkedList<String> solution;
+	private char[][] arr;
+	private int levelID;
+	/*********Buttons***********/
 	@FXML
 	private Button saveRecButton = new Button();
 	@FXML
 	private Button solveButton = new Button();
 	@FXML
 	private Button restartButton = new Button();
-	
+	@FXML
+	private Button showSolutionButton=new Button();
 
 	/**************************************************/
 	/**************************************************/
@@ -165,10 +172,10 @@ public class MainWindowController extends Observable implements Initializable, V
 	 */
 	public void initializeDefaultKeys()
 	{
-		hm.put("UP", "move up");
-		hm.put("DOWN", "move down");
-		hm.put("LEFT", "move left");
-		hm.put("RIGHT", "move right");
+		movesHm.put("UP", "move up");
+		movesHm.put("DOWN", "move down");
+		movesHm.put("LEFT", "move left");
+		movesHm.put("RIGHT", "move right");
 
 	}
 	/**
@@ -176,20 +183,20 @@ public class MainWindowController extends Observable implements Initializable, V
 	 */
 	public void initializeLettersKeys()
 	{
-		hm.put("W", "move up");
-		hm.put("S", "move down");
-		hm.put("A", "move left");
-		hm.put("D", "move right");
+		movesHm.put("W", "move up");
+		movesHm.put("S", "move down");
+		movesHm.put("A", "move left");
+		movesHm.put("D", "move right");
 	}
 	/**
 	 * set the keys to 8 6 4 2
 	 */
 	public void initializeNumbersKeys()
 	{
-		hm.put("8", "move up");
-		hm.put("2", "move down");
-		hm.put("4", "move left");
-		hm.put("6", "move right");
+		movesHm.put("8", "move up");
+		movesHm.put("2", "move down");
+		movesHm.put("4", "move left");
+		movesHm.put("6", "move right");
 	}
 	/**
 	 * read the keys from the xml file.. the user can change it by changing the
@@ -200,10 +207,10 @@ public class MainWindowController extends Observable implements Initializable, V
 		XMLDecoder xd;
 		try {
 			xd = new XMLDecoder(new FileInputStream(new File("./resources/keys.xml")));
-			hm.put((String) xd.readObject(), "move up");
-			hm.put((String) xd.readObject(), "move down");
-			hm.put((String) xd.readObject(), "move right");
-			hm.put((String) xd.readObject(), "move left");
+			movesHm.put((String) xd.readObject(), "move up");
+			movesHm.put((String) xd.readObject(), "move down");
+			movesHm.put((String) xd.readObject(), "move right");
+			movesHm.put((String) xd.readObject(), "move left");
 
 			
 		} catch (FileNotFoundException e) {
@@ -252,12 +259,11 @@ public class MainWindowController extends Observable implements Initializable, V
 	/**
 	 * start the seconds counter
 	 */
-	public void startCounter()
+	public void startTimeCounter()
 	{
 
-		setCount(0);
-		time = new Timer();
-		time.scheduleAtFixedRate(new TimerTask()
+				time = new Timer();
+				time.scheduleAtFixedRate(new TimerTask()
 		{
 
 			@Override
@@ -266,9 +272,41 @@ public class MainWindowController extends Observable implements Initializable, V
 				setCount(getCount() + 1);
 			}
 		}, 0, 1000);
-		if (sd.isDone()) {
-			time.cancel();
+				if (sd.isDone())
+				{
+					time.cancel();
+				}
+		
+	}
+	public void startStepsCounter()
+	{
+		this.setSteps(0);
+	}
+	public void moveCommandAction(KeyCode code)
+	{
+		this.restartButton.setDisable(false);
+		String direction="";
+		switch (code)
+		{
+		case UP:
+			direction="up";
+			break;
+		case DOWN:
+			direction="down";
+			break;
+		case LEFT:
+			direction="left";
+			break;
+		case RIGHT:
+			direction="right";
+			break;
 		}
+		setUserCommand("move "+direction);
+		if(this.steps==0)
+		{
+			startTimeCounter();
+		}
+		
 	}
 	/**
 	 * initalized all variables
@@ -277,74 +315,41 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		// TODO Auto-generated method stub
+		
+		String str="";
 		time = new Timer();
 		this.setFocus();
 		this.solveButton.setDisable(true);
-		hm = new HashMap<String, String>();
+		movesHm = new HashMap<String, String>();
 		this.readKeysFromXML();
-		Counter = new SimpleStringProperty();
+		timeCounter = new SimpleStringProperty();
 		stepCounter = new SimpleStringProperty();
 		this.setSteps(0);
 		this.setCount(0);
-		myText.textProperty().bind(Counter);
+		myTime=new Text();
+		System.out.println(timeCounter);
+		myTime.textProperty().bind(timeCounter);
+		mySteps=new Text();
 		mySteps.textProperty().bind(stepCounter);
 		this.restartButton.setFocusTraversable(false);
 		this.saveRecButton.setFocusTraversable(false);
 		this.solveButton.setFocusTraversable(false);
 		sd.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> sd.setFocusTraversable(true));
 		sd.addEventFilter(KeyEvent.KEY_PRESSED, (e)->{
-			
-			switch(e.getCode())
+			if(levelName!=null)
 			{
-			case UP:
-				
-				setUserCommand("move up");
-				break;
-			case DOWN:
-				setUserCommand("move down");
-				break;
-			case LEFT:
-				setUserCommand("move left");
-				break;
-			case RIGHT:
-				setUserCommand("move right");
-
-				break;
+				if(e.getCode()==KeyCode.UP||e.getCode()==KeyCode.DOWN||e.getCode()==KeyCode.LEFT||e.getCode()==KeyCode.RIGHT)
+				{
+					moveCommandAction(e.getCode());
+				}
 				
 			}
 		});
-		// this.setFocus();
-		/*sd.setOnKeyTyped(new EventHandler<KeyEvent>()
-		{
 
-			@Override
-			public void handle(KeyEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				if (arr != null) {
-					setUserCommand(hm.get("" + arg0.getCode()));
-				}
-			}
-		});
-		sd.setOnKeyPressed(new EventHandler<KeyEvent>()
-		{
-
-			@Override
-			public void handle(KeyEvent arg0)
-			{
-				// TODO Auto-generated method stub
-
-				if (arr != null) {
-					setUserCommand(hm.get("" + arg0.getCode()));
-				}
-
-			}
-		});*/
 
 		sd.setLevelData(arr);
 
-		this.setChanged();
-		this.notifyObservers();
+
 
 
 	}
@@ -394,9 +399,9 @@ public class MainWindowController extends Observable implements Initializable, V
 			this.levelID =Integer.parseInt(""+fileName.charAt(0));
 			this.setUserCommand("load " + fileName);
 			this.levelName=fileName;
-			startCounter();
-			this.steps = 0;
-
+			startStepsCounter();
+			this.setCount(0);
+			
 		}
 		this.saveRecButton.setDisable(true);
 		this.solveButton.setDisable(false);
@@ -417,58 +422,23 @@ public class MainWindowController extends Observable implements Initializable, V
 	@FXML
 	public void restartLevel()
 	{
+		setCount(0);
+		startStepsCounter();
 		this.setUserCommand("load " + levelName);
 
+		this.restartButton.setDisable(true);
+
 	}
-
-
 	/**************************************************/
 	/**************************************************/
 	/**************getters and setters*****************/
 	/**************************************************/
 	/**************************************************/
-	public LinkedList<String> getSolution()
-	{
-		return solution;
-	}
+
 	public void setSolution(String otherSolution)
 	{
-		if(otherSolution!=null)
-		{
-			this.solution=new LinkedList<>();
-
-			String s[]=otherSolution.split(" ");
-			char current;
-			int num;
-			int i=0;
-			while(i<s.length)
-			{
-				String direction="";
-				num=Integer.parseInt(""+s[i].charAt(1));
-				current=s[i].charAt(0);
-				switch(current)
-				{
-				case 'u':
-					direction="up";
-					break;
-				case 'l':
-					direction="left";
-					break;
-				case 'd':
-					direction="down";
-					break;
-				case 'r':
-					direction="right";
-					break;
-				}
-				for(int j=num;j>0;j--)
-				{
-					solution.addLast("move "+direction);
-				}
-				i++;
-			}
-			System.out.println("got a solution");
-		}
+		
+		
 		
 	}
 	public Scene getDbScene()
@@ -487,21 +457,21 @@ public class MainWindowController extends Observable implements Initializable, V
 	{
 		this.dbwc = dbwc;
 	}
-	public HashMap<String, String> getHm()
+	public HashMap<String, String> getMovesHm()
 {
-	return hm;
+	return movesHm;
 }
-	public void setHm(HashMap<String, String> hm)
+	public void setMovesHm(HashMap<String, String> hm)
 {
-	this.hm = hm;
+	this.movesHm = hm;
 }
-	public Text getMyText()
+	public Text getMyTime()
 {
-	return myText;
+	return myTime;
 }
-	public void setMyText(Text myText)
+	public void setMyTime(Text myText)
 {
-	this.myText = myText;
+	this.myTime = myText;
 }
 	public Timer getTime()
 {
@@ -520,13 +490,13 @@ public class MainWindowController extends Observable implements Initializable, V
 	this.mySteps = mySteps;
 	
 }
-	public StringProperty getCounter()
+	public StringProperty getTimeCounter()
 {
-	return Counter;
+	return timeCounter;
 }
-	public void setCounter(StringProperty counter)
+	public void setTimeCounter(StringProperty counter)
 {
-	Counter = counter;
+	timeCounter = counter;
 }
 	public StringProperty getStepCounter()
 {
@@ -535,6 +505,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void setStepCounter(StringProperty stepCounter)
 {
 	this.stepCounter = stepCounter;
+	
 }
 	public int getLevelID()
 {
@@ -599,8 +570,9 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void setSteps(int steps)
 	{
 		this.steps = steps;
+		System.out.println(steps+" "+this.timeCounter.getValue());
 		stepCounter.set("" + steps);
-
+		
 	}
 	/**
 	 * 
@@ -618,7 +590,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void setCount(int count)
 	{
 		this.count = count;
-		this.Counter.set("" + count);
+		this.timeCounter.set("" + count);
 	}
 	public String getUserCommand()
 	{

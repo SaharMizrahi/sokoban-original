@@ -101,7 +101,10 @@ public class Level implements Serializable{
 		}
 		public Item getCharacter()
 		{
-			return this.CharacterList.get(0);
+			if(this.CharacterList!=null)
+				return this.CharacterList.get(0);
+			else
+				return null;
 		}
 		public XMLEncoder XMLSaving(XMLEncoder XE)
 		{

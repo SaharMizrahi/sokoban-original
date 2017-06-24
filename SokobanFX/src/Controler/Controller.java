@@ -122,7 +122,6 @@ public class Controller implements ControlerInterface {
 								try {
 									if(lastCommitedCommand!=null)
 										command.updateCommand(lastCommitedCommand);
-									System.out.println("executing: "+command.getStr());
 									command.execute();
 									lastCommitedCommand.updateCommand(command);
 								} catch (Exception e) {

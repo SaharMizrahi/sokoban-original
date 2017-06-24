@@ -17,7 +17,6 @@ public class MoveCommand extends FunctionalCommand implements Command {
 	}
 	public void execute() throws Exception
 	{
-		System.out.println("move");
 		Item A=null;
 		Item B=null;
 		Item C=null;

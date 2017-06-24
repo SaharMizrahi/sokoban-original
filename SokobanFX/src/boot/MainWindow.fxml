@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import view.SokobanDisplayer?>
+<?import view.SokobanDisplayer?> 
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
    <top>
@@ -98,7 +98,7 @@
                </font>
             </Text>
 
-            <Text fx:id="myText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+            <Text fx:id="myTime" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                <font>
                   <Font name="Arial Black" size="13.0" />
                </font>
@@ -129,7 +129,7 @@
       <VBox prefHeight="500.0" prefWidth="233.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
- <SokobanDisplayer fx:id="sd" height="500.0" width="500.0" BorderPane.alignment="CENTER" wall="./resources/Images/wall.jpg"  character="./resources/Images/f.jpg" box="./resources/Images/box.jpg" floor="./resources/Images/floor.jpg" destination="./resources/Images/target.jpg" open="./resources/Images/open.jpg" over="./resources/Images/over.gif"  />
+<SokobanDisplayer fx:id="sd" height="500.0" width="500.0" BorderPane.alignment="CENTER" wall="./resources/Images/wall.jpg"  character="./resources/Images/f.jpg" box="./resources/Images/box.jpg" floor="./resources/Images/floor.jpg" destination="./resources/Images/target.jpg" open="./resources/Images/open.jpg" over="./resources/Images/over.gif"  />
 
    </center>
    <bottom>

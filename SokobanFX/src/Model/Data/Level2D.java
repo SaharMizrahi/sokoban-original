@@ -138,10 +138,13 @@ public class Level2D extends Level implements Serializable {
 	{
 		int col=initPos.getCol();
 		int row=initPos.getRow();
-		if((col<0)||(row<0)||(col>this.Width)||(row>this.Length))
+
+		if((col<0)||(row<0)||(col>=this.Width)||(row>=this.Length))
 			return null;
 		else
+		{
 			return Map[row][col];
+		}
 	}
 	public XMLDecoder XMLReading(XMLDecoder XC)
 	{
