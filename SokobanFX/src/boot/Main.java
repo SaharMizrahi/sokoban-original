@@ -89,7 +89,7 @@ public class Main extends Application {
 				{
 					// TODO Auto-generated method stub
 					primaryStage.show();
-					musicThread.start();
+					//musicThread.start();
 				}
 			});
 

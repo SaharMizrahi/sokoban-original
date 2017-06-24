@@ -22,10 +22,9 @@ public class Level implements Serializable{
 		private int stepsCounter;
 		
 		
-		public String getCompressLevel()
-		{
-			return "";
-		}
+		
+
+
 		public String getLevelName()
 		{
 			return levelName;

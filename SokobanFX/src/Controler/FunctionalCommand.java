@@ -44,7 +44,6 @@ public class FunctionalCommand implements Command {
 	}
 
 	public void setLev(Level lev) {
-		
 		mM.setCurrentLevel(lev);
 		
 	}

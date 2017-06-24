@@ -17,10 +17,33 @@ import Model.Data.Level;
 public class MyModel extends Observable implements ModelInterface {
 
 
+	private boolean recvSolution;
 	private Level CurrentLevel;
 	private boolean isDone=false; 
 	private boolean isChanged=false;
+	private String soltuion=null;
 	
+	
+	
+	public boolean isRecvSolution()
+	{
+		return recvSolution;
+	}
+
+	public void setSoltuion(String newSoltuion)
+	{
+		if(newSoltuion!=null)
+		{
+			this.soltuion = newSoltuion;
+			this.recvSolution=true;
+			notifyObservers();
+		}
+		else
+		{
+			this.recvSolution=false;
+
+		}
+	}
 	public boolean isChanged()
 	{
 		return isChanged;
@@ -74,6 +97,7 @@ public class MyModel extends Observable implements ModelInterface {
 	}
 	
 	public void setCurrentLevel(Level currentLevel) {
+
 		CurrentLevel = currentLevel;
 		this.setDone(CurrentLevel.checkIfFinish());
 		this.setChanged();
@@ -88,12 +112,16 @@ public class MyModel extends Observable implements ModelInterface {
 			Socket s=new Socket("127.0.0.1", 8888);
 			PrintWriter out=new PrintWriter(s.getOutputStream(),true);
 			BufferedReader in=new BufferedReader(new InputStreamReader(s.getInputStream()));
+			LevelCompressorAndGenerator cg=new LevelCompressorAndGenerator();
 			//very important!!!!!!
-			out.println("solve "+this.getCurrentLevel().getCompressLevel());
+			out.println(cg.compress(this.getCurrentLevel()));
 			out.flush();
-			/*solution=in.readLine();
-			System.out.println(solution);*/
-
+			solution=in.readLine();
+			if(solution.compareTo("block")!=0)
+			{
+				this.soltuion=solution;
+				notifyObservers();
+			}
 
 		 } catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -106,6 +134,11 @@ public class MyModel extends Observable implements ModelInterface {
 		return solution;
 		
 	}
+	public String getSoltuion()
+	{
+		return soltuion;
+	}
+
 
 
 }

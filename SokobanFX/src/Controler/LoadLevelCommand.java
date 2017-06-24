@@ -41,7 +41,6 @@ public class LoadLevelCommand extends FunctionalCommand implements Command {
 			System.out.println("caught IOException");
 		}
 		
-
 		sc.close();
 		
 		

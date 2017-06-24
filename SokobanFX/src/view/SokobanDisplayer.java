@@ -11,7 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class SokobanDisplayer extends Canvas  {
+public class SokobanDisplayer extends Canvas {
 	private char[][]levelData;
 	private boolean isDone=false;
 	private double cRow;
@@ -24,6 +24,7 @@ public class SokobanDisplayer extends Canvas  {
 	private StringProperty destination;
 	private StringProperty open;
 	private StringProperty over;
+	private HashMap<Character,Image> HM;
 	
 	public String getDirection()
 	{
@@ -54,93 +55,47 @@ public class SokobanDisplayer extends Canvas  {
 	public SokobanDisplayer(double width, double height) {
 		super(width, height);
 		// TODO Auto-generated constructor stub
+
 	}
 	public void redraw()
 	{
-		
-		HashMap<Character,Image> HM=new HashMap<Character,Image>();
-		try {
-			HM.put('A', new Image(new FileInputStream(this.getCharacter())));
-			HM.put(' ', new Image(new FileInputStream(this.getFloor())));
-			HM.put('@',  new Image(new FileInputStream(this.getBox())));
-			HM.put('#', new Image(new FileInputStream(this.getWall())));
-			HM.put('o', new Image(new FileInputStream(this.getDestination())));
-			HM.put('X', new Image(new FileInputStream(this.getOpen())));
-			HM.put('D', new Image(new FileInputStream(this.getOver())));
-			HM.put('u', new Image(new FileInputStream(new File("./resources/Images/u.jpg"))));
-			HM.put('d', new Image(new FileInputStream(new File("./resources/Images/f.jpg"))));
-			HM.put('r', new Image(new FileInputStream(new File("./resources/Images/r.jpg"))));
-			HM.put('l', new Image(new FileInputStream(new File("./resources/Images/l.jpg"))));
-
-
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		int cI=0;
-		int cJ=0;
+		initalHm();
 		double W=getWidth();
 		double H=getHeight();
 		double w=W/cCol;
 		double h=H/cRow;
 		GraphicsContext gc=this.getGraphicsContext2D();
-		
 		Image A=null;
-		Image D=null;
 		if (this.levelData!=null)
 		{
 			gc.clearRect(0, 0, W, H);
-
-		
-			
-			if (this.isDone)
+			if (this.isDone)//finish level
 			{
 				gc.clearRect(0, 0, W, H);
 
 				A=HM.get('D');
 				gc.drawImage(A, 0, 0, W, H);
-				
 			}
 			else
 			{
-				for (int i=0;i<cRow;i++)
+				for (int i=0;i<cRow;i++)//update map
 					for(int j=0;j<cCol;j++)
 					{
-						
 						A=HM.get(this.levelData[i][j]);
 						if(this.levelData[i][j]=='A')
 						{
-							
-							
-								
 								if (this.getDirection()!=null)
 								{
 									A=HM.get(this.getDirection().charAt(0));
-									
-
-
-
 								}
 								else
 								{
 									A=HM.get(this.levelData[i][j]);
 								}
-
-							
-						
-
-						}
-						
+						}	
 						gc.drawImage(A, j*w, i*h, w, h);
-
 					}
-
-			
-			}
-			
-			
-		
-			
+			}	
 		}
 		else
 		{
@@ -166,7 +121,7 @@ public class SokobanDisplayer extends Canvas  {
 		
 		this.redraw();
 	}
-	
+
 	public String getOver() {
 		return over.get();
 	}
@@ -222,6 +177,34 @@ public class SokobanDisplayer extends Canvas  {
 	public void setDestination(String destination) {
 		this.destination.set(destination);
 	}
+	private void initalHm()
+	{
+		if(HM==null)
+		{
+			HM=new HashMap<Character,Image>();
+			try {
+				HM.put('A', new Image(new FileInputStream(this.getCharacter())));
+				HM.put(' ', new Image(new FileInputStream(this.getFloor())));
+				HM.put('@',  new Image(new FileInputStream(this.getBox())));
+				HM.put('#', new Image(new FileInputStream(this.getWall())));
+				HM.put('o', new Image(new FileInputStream(this.getDestination())));
+				HM.put('X', new Image(new FileInputStream(this.getOpen())));
+				HM.put('D', new Image(new FileInputStream(this.getOver())));
+				HM.put('u', new Image(new FileInputStream(new File("./resources/Images/u.jpg"))));
+				HM.put('d', new Image(new FileInputStream(new File("./resources/Images/f.jpg"))));
+				HM.put('r', new Image(new FileInputStream(new File("./resources/Images/r.jpg"))));
+				HM.put('l', new Image(new FileInputStream(new File("./resources/Images/l.jpg"))));
+
+
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+		
+	}
+
 
 	
 }

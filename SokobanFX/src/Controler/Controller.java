@@ -57,7 +57,7 @@ public class Controller implements ControlerInterface {
 	}
 	/**
 	 * 
-	 * @return Téhe Blocking queue 
+	 * @return The Blocking queue 
 	 */
 	public ArrayBlockingQueue<FunctionalCommand> getmQ() {
 		return mQ;
@@ -116,7 +116,7 @@ public class Controller implements ControlerInterface {
 					while(!isStopped)
 					{
 						try {
-							FunctionalCommand command=mQ.poll(1, TimeUnit.SECONDS);
+							FunctionalCommand command=mQ.poll(500, TimeUnit.MILLISECONDS);
 							if(command!=null)
 							{
 								try {
