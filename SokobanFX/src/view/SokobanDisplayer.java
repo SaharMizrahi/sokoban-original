@@ -59,6 +59,7 @@ public class SokobanDisplayer extends Canvas {
 	}
 	public void redraw()
 	{
+		
 		initalHm();
 		double W=getWidth();
 		double H=getHeight();
@@ -68,6 +69,7 @@ public class SokobanDisplayer extends Canvas {
 		Image A=null;
 		if (this.levelData!=null)
 		{
+			
 			gc.clearRect(0, 0, W, H);
 			if (this.isDone)//finish level
 			{

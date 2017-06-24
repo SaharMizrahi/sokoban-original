@@ -92,6 +92,8 @@ public class MoveCommand extends FunctionalCommand implements Command {
 					this.getLev().setInPlace(A, temp);
 					this.getLev().setStepsCounter(this.getLev().getStepsCounter()+1);
 					this.getmM().setCurrentLevel(this.getLev());
+					this.getmM().setChanged(true);
+
 				}
 			}
 		}
@@ -100,64 +102,13 @@ public class MoveCommand extends FunctionalCommand implements Command {
 			this.getLev().setInPlace(A ,posB);
 			this.getLev().setStepsCounter(this.getLev().getStepsCounter()+1);
 			this.getmM().setCurrentLevel(this.getLev());
+			this.getmM().setChanged(true);
 
 		}
 
 		}
 		
-		
-		/*if (posB==null)
-		{
-			B=null;
-		}
-		if (!this.getLev().checkPosition(posB))
-		{
-			B=null;
-			C=null;
-		
-		}
-		else
-			B=this.getLev().getItemByPosition(posB);
-		 if (!this.getLev().checkPosition(posC))
-				C=null;
-		 else
-			 C=this.getLev().getItemByPosition(posC);
-		
-			howManyMoves=this.checkIfPossible(A,B,C);
-			if (howManyMoves==1)
-			{
-				this.getLev().setInPlace(A, B.getPos());
-				this.getLev().setStepsCounter(this.getLev().getStepsCounter()+1);
-				this.getmM().setChanged(true);
-			}
-				
-			else if (howManyMoves==2)
-			{
-				this.getmM().setChanged(true);
 
-				temp=B.getPos();
-				this.getLev().setInPlace(B, C.getPos());
-				this.getLev().setInPlace(A, temp);
-				this.getLev().setStepsCounter(this.getLev().getStepsCounter()+1);
-				
-			}
-			else
-			{
-				this.getmM().setChanged(false);
-
-			}
-	
-			
-		
-		
-			
-		
-		this.getLev().getCharacterList().add(A);
-		//print the level to the console
-		//this.getLev().print();
-		
-	
-	*/
 	}
 	
 	public int checkIfPossible(Item A,Item B,Item C)

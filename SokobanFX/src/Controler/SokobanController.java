@@ -25,9 +25,14 @@ public class SokobanController implements Observer
 	private ModelInterface MM;
 	private Controller controller;
 	private CommandsFactory cF;
-	// private MyServer ms;
 	private boolean isFinish = false;
 
+	
+	/****************************/
+	/****************************/
+	/******functinal methods*****/
+	/****************************/
+	/****************************/
 	/**
 	 * Saving the level befor exit
 	 * 
@@ -160,6 +165,45 @@ public class SokobanController implements Observer
 
 	}
 
+
+	/**
+	 * Initialize all variables, and start the Controller thread
+	 */
+	public SokobanController() {
+		// TODO Auto-generated constructor stub
+
+		this.controller = new Controller();
+
+		this.cF = new CommandsFactory();
+
+		this.controller.start();
+	}
+
+	/**
+	 * Initialize Model and View from out sources, and start the Controller
+	 * thread
+	 * 
+	 * @param mV
+	 *            out source View
+	 * @param mM
+	 *            out source Model
+	 */
+	public SokobanController(ViewInterface mV, ModelInterface mM) {
+		super();
+
+		mv = mV;
+		MM = mM;
+		this.controller = new Controller();
+		this.cF = new CommandsFactory();
+		this.controller.start();
+	}
+
+	/****************************/
+	/****************************/
+	/******getters and setters***/
+	/****************************/
+	/****************************/
+	
 	/**
 	 * 
 	 * @return the queue controller
@@ -242,36 +286,6 @@ public class SokobanController implements Observer
 		return MM;
 	}
 
-	/**
-	 * Initialize all variables, and start the Controller thread
-	 */
-	public SokobanController() {
-		// TODO Auto-generated constructor stub
 
-		this.controller = new Controller();
-
-		this.cF = new CommandsFactory();
-
-		this.controller.start();
-	}
-
-	/**
-	 * Initialize Model and View from out sources, and start the Controller
-	 * thread
-	 * 
-	 * @param mV
-	 *            out source View
-	 * @param mM
-	 *            out source Model
-	 */
-	public SokobanController(ViewInterface mV, ModelInterface mM) {
-		super();
-
-		mv = mV;
-		MM = mM;
-		this.controller = new Controller();
-		this.cF = new CommandsFactory();
-		this.controller.start();
-	}
 
 }

@@ -288,10 +288,33 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.setCount(0);
 		myText.textProperty().bind(Counter);
 		mySteps.textProperty().bind(stepCounter);
-		
+		this.restartButton.setFocusTraversable(false);
+		this.saveRecButton.setFocusTraversable(false);
+		this.solveButton.setFocusTraversable(false);
 		sd.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> sd.setFocusTraversable(true));
+		sd.addEventFilter(KeyEvent.KEY_PRESSED, (e)->{
+			
+			switch(e.getCode())
+			{
+			case UP:
+				
+				setUserCommand("move up");
+				break;
+			case DOWN:
+				setUserCommand("move down");
+				break;
+			case LEFT:
+				setUserCommand("move left");
+				break;
+			case RIGHT:
+				setUserCommand("move right");
+
+				break;
+				
+			}
+		});
 		// this.setFocus();
-		sd.setOnKeyTyped(new EventHandler<KeyEvent>()
+		/*sd.setOnKeyTyped(new EventHandler<KeyEvent>()
 		{
 
 			@Override
@@ -316,7 +339,7 @@ public class MainWindowController extends Observable implements Initializable, V
 				}
 
 			}
-		});
+		});*/
 
 		sd.setLevelData(arr);
 
@@ -378,6 +401,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.saveRecButton.setDisable(true);
 		this.solveButton.setDisable(false);
 		this.restartButton.setDisable(true);
+
 
 	}
 	@Override
