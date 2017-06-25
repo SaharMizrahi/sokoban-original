@@ -261,7 +261,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	 */
 	public void startTimeCounter()
 	{
-
+		
 				time = new Timer();
 				time.scheduleAtFixedRate(new TimerTask()
 		{
@@ -284,28 +284,21 @@ public class MainWindowController extends Observable implements Initializable, V
 	}
 	public void moveCommandAction(KeyCode code)
 	{
-		this.restartButton.setDisable(false);
-		String direction="";
-		switch (code)
+		System.out.println(this.mySteps.getText());
+		if(movesHm!=null)
 		{
-		case UP:
-			direction="up";
-			break;
-		case DOWN:
-			direction="down";
-			break;
-		case LEFT:
-			direction="left";
-			break;
-		case RIGHT:
-			direction="right";
-			break;
+			String str=movesHm.get(""+code);
+			if(str!=null)
+			{
+				this.restartButton.setDisable(false);
+				if(this.steps==0)//this is the first move
+				{
+					startTimeCounter();
+				}
+				setUserCommand(str);
+			}
 		}
-		setUserCommand("move "+direction);
-		if(this.steps==0)
-		{
-			startTimeCounter();
-		}
+
 		
 	}
 	/**
@@ -315,26 +308,35 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		// TODO Auto-generated method stub
-		
-		String str="";
-		time = new Timer();
-		this.setFocus();
+		/****Initialize buttons disability****/
 		this.solveButton.setDisable(true);
-		movesHm = new HashMap<String, String>();
-		this.readKeysFromXML();
+		this.restartButton.setDisable(true);
+		this.saveRecButton.setDisable(true);
+		this.showSolutionButton.setDisable(true);
+		/**************************************/
+		/***setting focus only on the SokobanDisplayer***/
+		this.restartButton.setFocusTraversable(false);
+		this.saveRecButton.setFocusTraversable(false);
+		this.solveButton.setFocusTraversable(false);
+		this.showSolutionButton.setFocusTraversable(false);
+		/*************************************************/
+		/***************initlize time and steps**********/
 		timeCounter = new SimpleStringProperty();
 		stepCounter = new SimpleStringProperty();
 		this.setSteps(0);
 		this.setCount(0);
+		time = new Timer();
 		myTime=new Text();
-		System.out.println(timeCounter);
 		myTime.textProperty().bind(timeCounter);
+		
 		mySteps=new Text();
 		mySteps.textProperty().bind(stepCounter);
-		this.restartButton.setFocusTraversable(false);
-		this.saveRecButton.setFocusTraversable(false);
-		this.solveButton.setFocusTraversable(false);
-		sd.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> sd.setFocusTraversable(true));
+		
+
+		/**************************************************/
+		/**********Initlize moves**************************/
+		movesHm = new HashMap<String, String>();
+		this.readKeysFromXML();
 		sd.addEventFilter(KeyEvent.KEY_PRESSED, (e)->{
 			if(levelName!=null)
 			{
@@ -345,6 +347,12 @@ public class MainWindowController extends Observable implements Initializable, V
 				
 			}
 		});
+		/**********************************************/
+
+
+
+		sd.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> sd.setFocusTraversable(true));
+
 
 
 		sd.setLevelData(arr);
@@ -437,10 +445,36 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	public void setSolution(String otherSolution)
 	{
-		
-		
-		
-	}
+		System.out.println(otherSolution);
+		this.solution=new LinkedList<>();
+		char current;
+		int num=0;
+		String str="";
+		String s[]=otherSolution.split("-");
+		for(int i=0;i<s.length;i++)
+		{
+			current=s[i].charAt(0);
+			num=Integer.parseInt(s[i].substring(1, s[i].length()));
+			switch(current)
+			{
+			case 'u':
+				str="up";
+				break;
+			case 'd':
+				str="down";
+				break;
+			case 'r':
+				str="right";
+				break;
+			case 'l':
+				str="left";
+				break;
+			}
+			for(int j=0;j<num;j++)
+				this.solution.addLast("move "+str);
+		}
+ 
+}
 	public Scene getDbScene()
 	{
 		return dbScene;
@@ -465,14 +499,6 @@ public class MainWindowController extends Observable implements Initializable, V
 {
 	this.movesHm = hm;
 }
-	public Text getMyTime()
-{
-	return myTime;
-}
-	public void setMyTime(Text myText)
-{
-	this.myTime = myText;
-}
 	public Timer getTime()
 {
 	return time;
@@ -480,15 +506,6 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void setTime(Timer time)
 {
 	this.time = time;
-}
-	public Text getMySteps()
-{
-	return mySteps;
-}
-	public void setMySteps(Text mySteps)
-{
-	this.mySteps = mySteps;
-	
 }
 	public StringProperty getTimeCounter()
 {
@@ -570,7 +587,6 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void setSteps(int steps)
 	{
 		this.steps = steps;
-		System.out.println(steps+" "+this.timeCounter.getValue());
 		stepCounter.set("" + steps);
 		
 	}

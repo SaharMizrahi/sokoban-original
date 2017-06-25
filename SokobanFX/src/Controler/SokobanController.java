@@ -153,8 +153,9 @@ public class SokobanController implements Observer
 				}
 				else
 				{
-					((MainWindowController) this.mv).setSolution(((MyModel) MM).getSoltuion());
+					String str=((MyModel) MM).getSoltuion();
 					((MyModel)MM).setSoltuion(null);
+					((MainWindowController) this.mv).setSolution(str);
 					
 				}
 			}
