@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import db.DBManager;
 import db.Member;
@@ -47,31 +48,31 @@ import javafx.stage.WindowEvent;
 
 public class MainWindowController extends Observable implements Initializable, ViewInterface
 {
-	
+
 	@FXML
-	private SokobanDisplayer sd= new SokobanDisplayer(400,400);;
+	private SokobanDisplayer sd = new SokobanDisplayer(400, 400);
 	private String userCommand;
 	private HashMap<String, String> movesHm;
 	private Scene dbScene;
 	private Stage primarystage;
 	private DBWindowController dbwc;
-	/********Time & Steps*******/
+	private int numOfClues=0;
+	/******** Time & Steps *******/
 	private StringProperty stepCounter;
 	@FXML
 	private Text mySteps;
 	private int steps;
-	
 	private int count;
 	private Timer time;
 	private StringProperty timeCounter;
 	@FXML
 	private Text myTime;
-	/*********Level Info********/
+	/********* Level Info ********/
 	private String levelName;
 	private LinkedList<String> solution;
 	private char[][] arr;
 	private int levelID;
-	/*********Buttons***********/
+	/********* Buttons ***********/
 	@FXML
 	private Button saveRecButton = new Button();
 	@FXML
@@ -79,18 +80,79 @@ public class MainWindowController extends Observable implements Initializable, V
 	@FXML
 	private Button restartButton = new Button();
 	@FXML
-	private Button showSolutionButton=new Button();
-
+	private Button showSolutionButton = new Button();
+	@FXML
+	private Button clueButton=new Button();
+	
 	/**************************************************/
 	/**************************************************/
-	/**************functinal methods*******************/
+	/************** functinal methods *******************/
 	/**************************************************/
 	/**************************************************/
-
+	@FXML
+	private void showClue()
+	{
+		
+		numOfClues++;
+		if(numOfClues<=solution.size())
+		{
+			
+			this.setUserCommand("load " + levelName);
+			this.setSteps(0);
+			Thread t=new Thread(new Runnable()
+			{
+				
+				@Override
+				public void run()
+				{
+					// TODO Auto-generated method stub
+					for(int i=0;i<numOfClues;i++)
+					{
+						try {
+							TimeUnit.MILLISECONDS.sleep(500);;
+							setUserCommand(solution.get(i));
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+			t.start();
+		}
+	}
+	
+	@FXML
+	public void showFullSolution()
+	{
+		if(this.solution!=null)
+		{
+			Thread t=new Thread(new Runnable()
+			{
+				
+				@Override
+				public void run()
+				{
+					// TODO Auto-generated method stub
+					for(int i=0;i<solution.size();i++)
+					{
+						try {
+							TimeUnit.MILLISECONDS.sleep(500);;
+							setUserCommand(solution.get(i));
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+			t.start();
+		}
+	}
 	public void openDBStage()
 	{
 		saveRecButton.setDisable(true);
-		DBManager dbm=new DBManager();
+		DBManager dbm = new DBManager();
 		TextInputDialog usernameDialog = new TextInputDialog("USERNAME");
 		usernameDialog.setTitle("Saving Record Dialog");
 		usernameDialog.setHeaderText("Welcome To Our Sokoban DataBase:");
@@ -98,48 +160,37 @@ public class MainWindowController extends Observable implements Initializable, V
 
 		// Traditional way to get the response value.
 		Optional<String> result = usernameDialog.showAndWait();
-		if(!dbm.isMemberExist(result.get()))
-		{
+		if (!dbm.isMemberExist(result.get())) {
 			dbm.addRecord(new Member(result.get()));
 			dbm.addRecord(new Record(new RecordsKey(result.get(), levelID), count, steps));
-		}
-		else
-		{
-			if(dbm.isRecordExist(result.get(), levelID))
-			{
-				Record rec=(Record)dbm.findRecord(result.get(), levelID);
-				if((rec.getSteps()>steps)||((rec.getSteps()==steps)&&(rec.getTime()>count)))
-				{
-				dbm.deleteRecord(rec);
+		} else {
+			if (dbm.isRecordExist(result.get(), levelID)) {
+				Record rec = (Record) dbm.findRecord(result.get(), levelID);
+				if ((rec.getSteps() > steps) || ((rec.getSteps() == steps) && (rec.getTime() > count))) {
+					dbm.deleteRecord(rec);
 
-				dbm.addRecord(new Record(new RecordsKey(result.get(), levelID), count, steps));
-				}
-				else
-				{
+					dbm.addRecord(new Record(new RecordsKey(result.get(), levelID), count, steps));
+				} else {
 					System.out.println("You have an old record that is better that your current, try again :)");
 				}
 
-			}
-			else
-			{
+			} else {
 				dbm.addRecord(new Record(new RecordsKey(result.get(), levelID), count, steps));
 
 			}
 		}
-		
 
 		dbwc.updateTable();
-		if(primarystage!=null)
-		{
-			if(dbScene!=null)
-			{
-				
+		if (primarystage != null) {
+			if (dbScene != null) {
+
 				primarystage.setScene(dbScene);
 				primarystage.show();
-				
+
 			}
 		}
 	}
+
 	public void saveLevelRecord()
 	{
 
@@ -154,6 +205,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		record = "record " + usernameInput + " " + levelID + " " + mySteps + " " + time;
 		this.setUserCommand(record);
 	}
+
 	public String getArrByString()
 	{
 		if (arr != null) {
@@ -167,6 +219,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		}
 		return "level is empty";
 	}
+
 	/**
 	 * set the default keys(arrows)
 	 */
@@ -178,6 +231,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		movesHm.put("RIGHT", "move right");
 
 	}
+
 	/**
 	 * set the keys to W S D A
 	 */
@@ -188,6 +242,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		movesHm.put("A", "move left");
 		movesHm.put("D", "move right");
 	}
+
 	/**
 	 * set the keys to 8 6 4 2
 	 */
@@ -198,6 +253,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		movesHm.put("4", "move left");
 		movesHm.put("6", "move right");
 	}
+
 	/**
 	 * read the keys from the xml file.. the user can change it by changing the
 	 * xml file from outside
@@ -212,13 +268,13 @@ public class MainWindowController extends Observable implements Initializable, V
 			movesHm.put((String) xd.readObject(), "move right");
 			movesHm.put((String) xd.readObject(), "move left");
 
-			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
+
 	/**
 	 * write the default keys to xml file
 	 */
@@ -238,6 +294,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		}
 
 	}
+
 	/**
 	 * set the focus
 	 */
@@ -256,14 +313,15 @@ public class MainWindowController extends Observable implements Initializable, V
 		});
 		t.start();
 	}
+
 	/**
 	 * start the seconds counter
 	 */
 	public void startTimeCounter()
 	{
-		
-				time = new Timer();
-				time.scheduleAtFixedRate(new TimerTask()
+
+		time = new Timer();
+		time.scheduleAtFixedRate(new TimerTask()
 		{
 
 			@Override
@@ -272,25 +330,24 @@ public class MainWindowController extends Observable implements Initializable, V
 				setCount(getCount() + 1);
 			}
 		}, 0, 1000);
-				if (sd.isDone())
-				{
-					time.cancel();
-				}
-		
+		if (sd.isDone()) {
+			time.cancel();
+		}
+
 	}
+
 	public void startStepsCounter()
 	{
 		this.setSteps(0);
 	}
+
 	public void moveCommandAction(KeyCode code)
 	{
-		if(movesHm!=null)
-		{
-			String str=movesHm.get(""+code);
-			if(str!=null)
-			{
+		if (movesHm != null) {
+			String str = movesHm.get("" + code);
+			if (str != null) {
 				this.restartButton.setDisable(false);
-				if(this.steps==0)//this is the first move
+				if (this.steps == 0)// this is the first move
 				{
 					startTimeCounter();
 				}
@@ -298,8 +355,8 @@ public class MainWindowController extends Observable implements Initializable, V
 			}
 		}
 
-		
 	}
+
 	/**
 	 * initalized all variables
 	 */
@@ -307,19 +364,20 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		// TODO Auto-generated method stub
-		/****Initialize buttons disability****/
+
+		/**** Initialize buttons disability ****/
 		this.solveButton.setDisable(true);
 		this.restartButton.setDisable(true);
 		this.saveRecButton.setDisable(true);
 		this.showSolutionButton.setDisable(true);
 		/**************************************/
-		/***setting focus only on the SokobanDisplayer***/
+		/*** setting focus only on the SokobanDisplayer ***/
 		this.restartButton.setFocusTraversable(false);
 		this.saveRecButton.setFocusTraversable(false);
 		this.solveButton.setFocusTraversable(false);
 		this.showSolutionButton.setFocusTraversable(false);
 		/*************************************************/
-		/***************initialize time and steps**********/
+		/*************** initialize time and steps **********/
 		timeCounter = new SimpleStringProperty();
 		stepCounter = new SimpleStringProperty();
 		time = new Timer();
@@ -327,38 +385,28 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.setCount(0);
 		mySteps.textProperty().bind(stepCounter);
 		myTime.textProperty().bind(timeCounter);
-		
-
-		
 
 		/**************************************************/
-		/**********Initlize moves**************************/
+		/********** Initlize moves **************************/
 		movesHm = new HashMap<String, String>();
 		this.readKeysFromXML();
-		sd.addEventFilter(KeyEvent.KEY_PRESSED, (e)->{
-			if(levelName!=null)
-			{
-				if(e.getCode()==KeyCode.UP||e.getCode()==KeyCode.DOWN||e.getCode()==KeyCode.LEFT||e.getCode()==KeyCode.RIGHT)
-				{
+		sd.addEventFilter(KeyEvent.KEY_PRESSED, (e) -> {
+			if (levelName != null) {
+				if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.DOWN || e.getCode() == KeyCode.LEFT
+						|| e.getCode() == KeyCode.RIGHT) {
 					moveCommandAction(e.getCode());
 				}
-				
+
 			}
 		});
 		/**********************************************/
 
-
-
 		sd.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> sd.setFocusTraversable(true));
-
-
 
 		sd.setLevelData(arr);
 
-
-
-
 	}
+
 	/**
 	 * exit the program by clicking on 'exit' button
 	 */
@@ -367,6 +415,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	{
 		this.setUserCommand("exit");
 	}
+
 	/**
 	 * saving the level
 	 */
@@ -386,184 +435,222 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.setUserCommand("save " + this.levelID + "." + dialog.getSelectedItem());
 
 	}
+
 	/**
 	 * loading new level
 	 */
 	@FXML
 	public void loadFileMethod()
 	{
+		numOfClues=0;
 		time.cancel();
 
 		FileChooser fc = new FileChooser();
 
 		fc.setTitle("open sokoban level file:");
 		fc.setInitialDirectory(new File("./resources/Levels"));
-		
+
 		File chosen = fc.showOpenDialog(null);
 		if (chosen != null) {
 			String fileName = chosen.getName();
-			this.levelID =Integer.parseInt(""+fileName.charAt(0));
+			this.levelID = Integer.parseInt("" + fileName.charAt(0));
 			this.setUserCommand("load " + fileName);
-			this.levelName=fileName;
+			this.levelName = fileName;
 			startStepsCounter();
 			this.setCount(0);
-			
+
 		}
 		this.saveRecButton.setDisable(true);
 		this.solveButton.setDisable(false);
 		this.restartButton.setDisable(true);
+		this.showSolutionButton.setDisable(true);
+		this.clueButton.setDisable(true);
 
 
 	}
+
 	@Override
 	public void closeAllThreads()
 	{
 		// TODO Auto-generated method stub
 		this.setUserCommand("exit");
 	}
+
 	public void solveLevel()
 	{
 		this.setUserCommand("solve");
 	}
+
 	@FXML
 	public void restartLevel()
 	{
+		numOfClues=0;
 		setCount(0);
 		startStepsCounter();
 		this.setUserCommand("load " + levelName);
 
 		this.restartButton.setDisable(true);
+		this.showSolutionButton.setDisable(true);
+		this.saveRecButton.setDisable(true);
+		this.solveButton.setDisable(false);
+		this.clueButton.setDisable(true);
 
 	}
+
 	/**************************************************/
 	/**************************************************/
-	/**************getters and setters*****************/
+	/************** getters and setters *****************/
 	/**************************************************/
 	/**************************************************/
 
 	public void setSolution(String otherSolution)
 	{
-		this.solution=new LinkedList<>();
+		this.solution = new LinkedList<>();
 		char current;
-		int num=0;
-		String str="";
-		String s[]=otherSolution.split("-");
-		for(int i=0;i<s.length;i++)
+		int num = 0;
+		String str = "";
+		if (otherSolution.compareTo("block") != 0) 
 		{
-			current=s[i].charAt(0);
-			num=Integer.parseInt(s[i].substring(1, s[i].length()));
-			switch(current)
-			{
-			case 'u':
-				str="up";
-				break;
-			case 'd':
-				str="down";
-				break;
-			case 'r':
-				str="right";
-				break;
-			case 'l':
-				str="left";
-				break;
+			String s[] = otherSolution.split("-");
+			for (int i = 0; i < s.length; i++) {
+				current = s[i].charAt(0);
+				num = Integer.parseInt(s[i].substring(1, s[i].length()));
+				switch (current) {
+				case 'u':
+					str = "up";
+					break;
+				case 'd':
+					str = "down";
+					break;
+				case 'r':
+					str = "right";
+					break;
+				case 'l':
+					str = "left";
+					break;
+				}
+				for (int j = 0; j < num; j++)
+					this.solution.addLast("move " + str);
 			}
-			for(int j=0;j<num;j++)
-				this.solution.addLast("move "+str);
+			System.out.println(solution);
+			this.showSolutionButton.setDisable(false);
+			this.clueButton.setDisable(false);
 		}
- 
-}
+
+	}
+
 	public Scene getDbScene()
 	{
 		return dbScene;
 	}
+
 	public void setDbScene(Scene dbScene)
 	{
 		this.dbScene = dbScene;
 	}
+
 	public DBWindowController getDbwc()
 	{
 		return dbwc;
 	}
+
 	public void setDbwc(DBWindowController dbwc)
 	{
 		this.dbwc = dbwc;
 	}
+
 	public HashMap<String, String> getMovesHm()
-{
-	return movesHm;
-}
-	public void setMovesHm(HashMap<String, String> hm)
-{
-	this.movesHm = hm;
-}
-	public Timer getTime()
-{
-	return time;
-}
-	public void setTime(Timer time)
-{
-	this.time = time;
-}
-	public StringProperty getTimeCounter()
-{
-	return timeCounter;
-}
-	public void setTimeCounter(StringProperty counter)
-{
-	timeCounter = counter;
-}
-	public StringProperty getStepCounter()
-{
-	return stepCounter;
-}
-	public void setStepCounter(StringProperty stepCounter)
-{
-	this.stepCounter = stepCounter;
-	
-}
-	public int getLevelID()
-{
-	return levelID;
-}
-	public void setLevelID(int levelID)
-{
-	this.levelID = levelID;
-}
-	public Scene getDBScene()
-{
-	return dbScene;
-}
-	public void setDBScene(Scene dbScene)
-{
-	this.dbScene = dbScene;
-}
-	public Stage getPrimarystage()
-{
-	return primarystage;
-}
-	public void setPrimarystage(Stage primarystage)
-{
-	this.primarystage = primarystage;
-	this.primarystage.setOnCloseRequest(new EventHandler<WindowEvent>()
 	{
-		
-		@Override
-		public void handle(WindowEvent event)
+		return movesHm;
+	}
+
+	public void setMovesHm(HashMap<String, String> hm)
+	{
+		this.movesHm = hm;
+	}
+
+	public Timer getTime()
+	{
+		return time;
+	}
+
+	public void setTime(Timer time)
+	{
+		this.time = time;
+	}
+
+	public StringProperty getTimeCounter()
+	{
+		return timeCounter;
+	}
+
+	public void setTimeCounter(StringProperty counter)
+	{
+		timeCounter = counter;
+	}
+
+	public StringProperty getStepCounter()
+	{
+		return stepCounter;
+	}
+
+	public void setStepCounter(StringProperty stepCounter)
+	{
+		this.stepCounter = stepCounter;
+
+	}
+
+	public int getLevelID()
+	{
+		return levelID;
+	}
+
+	public void setLevelID(int levelID)
+	{
+		this.levelID = levelID;
+	}
+
+	public Scene getDBScene()
+	{
+		return dbScene;
+	}
+
+	public void setDBScene(Scene dbScene)
+	{
+		this.dbScene = dbScene;
+	}
+
+	public Stage getPrimarystage()
+	{
+		return primarystage;
+	}
+
+	public void setPrimarystage(Stage primarystage)
+	{
+		this.primarystage = primarystage;
+		this.primarystage.setOnCloseRequest(new EventHandler<WindowEvent>()
 		{
-			// TODO Auto-generated method stub
-			closeAllThreads();
-			
-		}
-	});
-}
+
+			@Override
+			public void handle(WindowEvent event)
+			{
+				// TODO Auto-generated method stub
+				closeAllThreads();
+
+			}
+		});
+	}
+
 	public Button getSaveRecButton()
-{
-	return saveRecButton;
-}
+	{
+		return saveRecButton;
+	}
+
 	public void setSaveRecButton(Button saveRecButton)
-{
-	this.saveRecButton = saveRecButton;
-}
+	{
+		this.saveRecButton = saveRecButton;
+	}
+
 	public void setDone(boolean b)
 	{
 		this.sd.setDone(b);
@@ -573,6 +660,7 @@ public class MainWindowController extends Observable implements Initializable, V
 			saveRecButton.setDisable(false);
 		}
 	}
+
 	/**
 	 * 
 	 * @return the number of steps the has done
@@ -581,12 +669,14 @@ public class MainWindowController extends Observable implements Initializable, V
 	{
 		return steps;
 	}
+
 	public void setSteps(int steps)
 	{
-		
+
 		this.steps = steps;
 		stepCounter.set("" + steps);
 	}
+
 	/**
 	 * 
 	 * @return the seconds count
@@ -595,6 +685,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	{
 		return count;
 	}
+
 	/**
 	 * 
 	 * @param count
@@ -605,10 +696,12 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.count = count;
 		this.timeCounter.set("" + count);
 	}
+
 	public String getUserCommand()
 	{
 		return userCommand;
 	}
+
 	/**
 	 * update the user command
 	 * 
@@ -621,8 +714,9 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.userCommand = userCommand;
 		this.setChanged();
 		this.notifyObservers(userCommand);
-		
+
 	}
+
 	/**
 	 * .
 	 * 
@@ -632,6 +726,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	{
 		return sd;
 	}
+
 	/**
 	 * 
 	 * @param sd
@@ -641,6 +736,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	{
 		this.sd = sd;
 	}
+
 	/**
 	 * 
 	 * @return our level in char array
@@ -651,12 +747,14 @@ public class MainWindowController extends Observable implements Initializable, V
 			return arr;
 		return null;
 	}
+
 	public void setArr(char[][] arr)
 	{
 
 		this.arr = arr;
 		this.sd.setLevelData(arr);
 	}
+
 	@Override
 	public void setDirection(String s)
 	{
@@ -664,6 +762,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.sd.setDirection(s);
 
 	}
+
 	@Override
 	public String getDirection()
 	{

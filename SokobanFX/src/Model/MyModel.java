@@ -40,6 +40,7 @@ public class MyModel extends Observable implements ModelInterface {
 		}
 		else
 		{
+			this.mySoltuion=null;
 			this.recvSolution=false;
 
 		}

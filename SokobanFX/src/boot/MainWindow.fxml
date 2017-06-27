@@ -90,10 +90,30 @@
                   <InnerShadow />
                </effect>
             </Button>
-            <Button fx:id="showSolutionButton" mnemonicParsing="false" text="Show solution" />
+            <Button fx:id="showSolutionButton" disable="true" mnemonicParsing="false" onAction="#showFullSolution" prefHeight="26.0" prefWidth="139.0" text="Show solution" textFill="RED">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <effect>
+                  <InnerShadow choke="0.23" />
+               </effect></Button>
+            <Button disable="true" fx:id="clueButton" onAction="#showClue" mnemonicParsing="false" prefHeight="26.0" prefWidth="131.0" text="Clue" textFill="RED">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <effect>
+                  <InnerShadow />
+               </effect>
+            </Button>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="timer:">
                <VBox.margin>
-                  <Insets left="10.0" top="400.0" />
+                  <Insets left="10.0" top="350.0" />
                </VBox.margin>
                <font>
                   <Font name="Arial Black" size="14.0" />
@@ -116,7 +136,13 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Text>
-            <Text fx:id="mySteps"  strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="mySteps" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+               <font>
+                  <Font name="Arial Black" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin></Text>
          </children>
       </VBox>
    </left>
