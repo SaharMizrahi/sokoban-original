@@ -40,7 +40,6 @@ public class Main extends Application {
 			m=new MediaPlayer(song);
 			FXMLLoader fl1=new FXMLLoader();
 			FXMLLoader fl2=new FXMLLoader();
-			System.out.println(getClass());
 			BorderPane gameRoot = fl1.load(getClass().getResource("MainWindow.fxml").openStream());
 			BorderPane DBRoot=fl2.load(getClass().getResource("DBWindow.fxml").openStream());
 			MainWindowController mwc=fl1.getController();

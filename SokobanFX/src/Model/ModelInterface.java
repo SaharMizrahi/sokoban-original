@@ -20,5 +20,5 @@ public interface ModelInterface {
 
 	public boolean isChanged();
 	public void setChanged(boolean isChanged);
-	public String solveLevel();
+	public void solveLevel();
 }

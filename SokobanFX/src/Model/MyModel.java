@@ -21,7 +21,7 @@ public class MyModel extends Observable implements ModelInterface {
 	private Level CurrentLevel;
 	private boolean isDone=false; 
 	private boolean isChanged=false;
-	private String soltuion=null;
+	private String mySoltuion=null;
 	
 	
 	
@@ -34,7 +34,7 @@ public class MyModel extends Observable implements ModelInterface {
 	{
 		if(newSoltuion!=null)
 		{
-			this.soltuion = newSoltuion;
+			this.mySoltuion = newSoltuion;
 			this.recvSolution=true;
 			notifyObservers();
 		}
@@ -105,22 +105,22 @@ public class MyModel extends Observable implements ModelInterface {
 		this.notifyObservers();
 		
 	}
-	public String solveLevel()
+	public void solveLevel()
 	{
 		String solution=null;
 	
 		try {
-			Socket s=new Socket("127.0.0.1", 8888);
-			PrintWriter out=new PrintWriter(s.getOutputStream(),true);
-			BufferedReader in=new BufferedReader(new InputStreamReader(s.getInputStream()));
+			Socket socket=new Socket("127.0.0.1", 8888);
+			PrintWriter out=new PrintWriter(socket.getOutputStream(),true);
+			BufferedReader in=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			LevelCompressorAndGenerator cg=new LevelCompressorAndGenerator();
 			//very important!!!!!!
-			out.println(cg.compress(this.getCurrentLevel()));
+			out.println("solve-"+cg.compress(this.getCurrentLevel()));
 			out.flush();
 			solution=in.readLine();
 			if(solution.compareTo("block")!=0)
 			{
-				this.soltuion=solution;
+				this.setSoltuion(solution);
 				notifyObservers();
 			}
 
@@ -132,12 +132,12 @@ public class MyModel extends Observable implements ModelInterface {
 			e.printStackTrace();
 		}
 		 
-		return solution;
+	
 		
 	}
 	public String getSoltuion()
 	{
-		return soltuion;
+		return mySoltuion;
 	}
 
 

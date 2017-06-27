@@ -284,7 +284,6 @@ public class MainWindowController extends Observable implements Initializable, V
 	}
 	public void moveCommandAction(KeyCode code)
 	{
-		System.out.println(this.mySteps.getText());
 		if(movesHm!=null)
 		{
 			String str=movesHm.get(""+code);
@@ -320,17 +319,16 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.solveButton.setFocusTraversable(false);
 		this.showSolutionButton.setFocusTraversable(false);
 		/*************************************************/
-		/***************initlize time and steps**********/
+		/***************initialize time and steps**********/
 		timeCounter = new SimpleStringProperty();
 		stepCounter = new SimpleStringProperty();
+		time = new Timer();
 		this.setSteps(0);
 		this.setCount(0);
-		time = new Timer();
-		myTime=new Text();
+		mySteps.textProperty().bind(stepCounter);
 		myTime.textProperty().bind(timeCounter);
 		
-		mySteps=new Text();
-		mySteps.textProperty().bind(stepCounter);
+
 		
 
 		/**************************************************/
@@ -445,7 +443,6 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	public void setSolution(String otherSolution)
 	{
-		System.out.println(otherSolution);
 		this.solution=new LinkedList<>();
 		char current;
 		int num=0;
@@ -586,9 +583,9 @@ public class MainWindowController extends Observable implements Initializable, V
 	}
 	public void setSteps(int steps)
 	{
+		
 		this.steps = steps;
 		stepCounter.set("" + steps);
-		
 	}
 	/**
 	 * 

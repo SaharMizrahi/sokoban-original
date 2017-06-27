@@ -20,7 +20,7 @@ public class LevelCompressorAndGenerator {
 		if(lev instanceof Level2D)
 		{
 			int len=((Level2D) lev).getLength(),wid=((Level2D) lev).getWidth();
-			result+="Level2D-"+len+"-"+wid;
+			result+="Level2D"+"$"+len+"$"+wid;
 			for(int i=0;i<len;i++)
 			{
 				for(int j=0;j<wid;j++)
@@ -35,7 +35,7 @@ public class LevelCompressorAndGenerator {
 						count++;
 					else//this is diffrent char
 					{
-						result+="-"+prev+""+count;
+						result+="$"+prev+""+count;
 						prev=current;
 						count=1;
 					}
@@ -43,7 +43,7 @@ public class LevelCompressorAndGenerator {
 				}
 			}
 			
-			result+="-"+prev+""+count;
+			result+="$"+prev+""+count;
 
 		}
 		
@@ -59,10 +59,9 @@ public class LevelCompressorAndGenerator {
 		int num=0;
 		char current;
 		Level lev=null;
-		String strArr[]=str.split("-");
+		String strArr[]=str.split("\\$");
 		if(strArr[0].compareTo("Level2D")==0)
 		{
-			System.out.println("check");
 			lev=new Level2D();
 			int len=Integer.parseInt(strArr[1]);
 			int wid=Integer.parseInt(strArr[2]);
