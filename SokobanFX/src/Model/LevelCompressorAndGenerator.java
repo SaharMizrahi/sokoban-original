@@ -9,9 +9,17 @@ import Model.Data.Level;
 import Model.Data.Level2D;
 import Model.Data.Position;
 import Model.Data.Wall;
-
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ *
+ */
 public class LevelCompressorAndGenerator {
-	
+	/**
+	 * 
+	 * @param lev
+	 * @return level compressed to string
+	 */
 	public String compress(Level lev)
 	{
 		char current='*',prev='*';
@@ -53,7 +61,11 @@ public class LevelCompressorAndGenerator {
 		
 		
 	}
-	
+	/**
+	 * 
+	 * @param str
+	 * @return level generated from string
+	 */
 	public Level generate(String str)
 	{
 		int num=0;
