@@ -12,11 +12,11 @@ import Model.Data.Wall;
 /**
  * 
  * @author Sahar Mizrahi and Gal Ezra
- *
+ *	this class compress level to string and generate string to level
  */
 public class LevelCompressorAndGenerator {
 	/**
-	 * 
+	 * compress level to string
 	 * @param lev
 	 * @return level compressed to string
 	 */
@@ -62,7 +62,7 @@ public class LevelCompressorAndGenerator {
 		
 	}
 	/**
-	 * 
+	 * generate string to level
 	 * @param str
 	 * @return level generated from string
 	 */

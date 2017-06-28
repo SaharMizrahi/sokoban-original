@@ -1,10 +1,17 @@
 package Model.Data;
 
 import java.util.HashMap;
-
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ *	this is out level item factory, FACTORY design pattern
+ */
 public class ObjectFactory  {
 	private HashMap<String,Creator> HM;
 
+	/**
+	 * constructor,init the hash map
+	 */
 	public ObjectFactory() {
 		// TODO Auto-generated constructor stub
 		HM=new HashMap<String,Creator>();
@@ -17,12 +24,18 @@ public class ObjectFactory  {
 		HM.put(" ", new FloorCreator());
 	}
 
-	
+	/**
+	 * 
+	 * @return the item hash map
+	 */
 	public HashMap<String, Creator> getHM() {
 		return HM;
 	}
 
-
+	/**
+	 * update the hash map
+	 * @param hM-new hash map
+	 */
 	public void setHM(HashMap<String, Creator> hM) {
 		HM = hM;
 	}

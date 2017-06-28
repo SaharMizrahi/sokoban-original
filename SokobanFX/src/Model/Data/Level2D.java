@@ -8,14 +8,22 @@ import java.io.OutputStream;
 import java.io.Serializable;
 
 
-
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ *	this class is 2D implementation of level
+ */
 public class Level2D extends Level implements Serializable {
 	private int Length;
 	private int Width;
 	private Item[][] Map;
 	
 	
-
+	/**
+	 * 
+	 * @param position in the map
+	 * @return true if the position is not outside the map
+	 */
 	public boolean isValidPosition(Position position)
 	{
 		if(position.getRow()<0||position.getRow()>Length-1||position.getCol()<0||position.getCol()>Width-1)
@@ -23,6 +31,9 @@ public class Level2D extends Level implements Serializable {
 		else return true;
 		
 	}
+	/**
+	 * return the level in char map
+	 */
 	public char[][] toCharArray()
 	{
 		char[][] arr=new char[Length][Width];
@@ -32,6 +43,9 @@ public class Level2D extends Level implements Serializable {
 		return arr;
 		
 	}
+	/**
+	 * put item it in the position dest int the map
+	 */
 	public void setInPlace(Item it, Position dest)
 	{
 		Position oldPos=it.getPos();
@@ -119,12 +133,24 @@ public class Level2D extends Level implements Serializable {
 		
 		
 	}
+	/***
+	 * 
+	 * @return the item's map
+	 */
 	public Item[][] getMap() {
 		return Map;
 	}
+	/**
+	 * set the new item's map
+	 * @param map-new map
+	 */
 	public void setMap(Item[][] map) {
 		Map = map;
 	}
+	/**
+	 * put in the position pos a floor item
+	 * @param pos
+	 */
 	public void clearPosition(Position pos)
 	{
 		if(isValidPosition(pos))
@@ -134,6 +160,9 @@ public class Level2D extends Level implements Serializable {
 			Map[pos.getRow()][pos.getCol()].setPos(pos);
 		}
 	}
+	/***
+	 * return the item that in the initPos position in the map
+	 */
 	public Item getItemByPosition(Position initPos)
 	{
 		int col=initPos.getCol();
@@ -146,6 +175,9 @@ public class Level2D extends Level implements Serializable {
 			return Map[row][col];
 		}
 	}
+	/**
+	 * reading object from xml file
+	 */
 	public XMLDecoder XMLReading(XMLDecoder XC)
 	{
 		Map=new Item[this.Length][this.Width];
@@ -155,6 +187,9 @@ public class Level2D extends Level implements Serializable {
 		return XC;
 		
 	}
+	/**
+	 * saving item into xml file
+	 */
 	public XMLEncoder XMLSaving(XMLEncoder XE)
 	{
 		for (int i=0;i<Length;i++)
@@ -163,6 +198,9 @@ public class Level2D extends Level implements Serializable {
 		return XE;
 		
 	}
+	/**
+	 * write bytes to output
+	 */
 	public OutputStream writeToOutput(OutputStream out) throws IOException
 	{
 		out.write((""+Length+"\n"+Width+"").getBytes());
@@ -180,6 +218,9 @@ public class Level2D extends Level implements Serializable {
 		
 		return out;
 	}
+	/**
+	 * write the level into bw
+	 */
 	public BufferedWriter writeToBuffer(BufferedWriter BW) throws IOException
 	{
 	
@@ -200,12 +241,18 @@ public class Level2D extends Level implements Serializable {
 		}
 		return BW;
 	}
+	/**
+	 * to string method
+	 */
 	public String toString()
 	{
 		
 
 		return "Level2D";
 	}
+	/**
+	 * print the level map
+	 */
 	public void print()
 	{
 		
@@ -222,6 +269,9 @@ public class Level2D extends Level implements Serializable {
 		}
 			
 	}
+	/***************************/
+	/**getters and setters******/
+	/***************************/
 	public int getLength() {
 		return Length;
 	}
@@ -234,6 +284,9 @@ public class Level2D extends Level implements Serializable {
 	public void setWidth(int width) {
 		Width = width;
 	}
+	/**
+	 * default constructor
+	 */
 	public Level2D()
 	{
 		

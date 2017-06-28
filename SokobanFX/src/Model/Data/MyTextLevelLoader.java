@@ -5,8 +5,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ * this class load level from text file
+ */
 public class MyTextLevelLoader implements LevelLoader{
+	/**
+	 * 
+	 * @param s-string
+	 * @return-return the string length
+	 */
 	public int getLen(String s)
 	{
 		int len=0;
@@ -17,6 +26,9 @@ public class MyTextLevelLoader implements LevelLoader{
 		}
 		return len;
 	}
+	/**
+	 * implemented method
+	 */
 	public Level loadLevel(InputStream in) throws IOException {
 		Level newLev=new Level();
 		
@@ -51,7 +63,14 @@ public class MyTextLevelLoader implements LevelLoader{
 		return newLev;
 	}
 
-	
+	/**
+	 * load 2D level
+	 * @param arr-char map
+	 * @param length-map length
+	 * @param width-ap width
+	 * @return 2d level
+	 * @throws IOException
+	 */
 	public Level Loading2DLevel(char arr[][], int length, int width) throws IOException
 	{
 		Level2D newLev=new Level2D();
@@ -104,6 +123,8 @@ public class MyTextLevelLoader implements LevelLoader{
 		
 		return newLev;
 	}
+
+
 }
 				
 		

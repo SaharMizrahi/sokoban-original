@@ -4,12 +4,23 @@ import java.util.HashMap;
 
 public class LevelSaverFactory {
 	private HashMap<String,LevelSaverCreator> LSHM;
+	/**
+	 * 
+	 * @return the level savers hash map
+	 */
 	public HashMap<String, LevelSaverCreator> getLSHM() {
 		return LSHM;
 	}
+	/**
+	 * set the level savers hash map
+	 * @param lSHM-the hash map
+	 */
 	public void setLSHM(HashMap<String, LevelSaverCreator> lSHM) {
 		LSHM = lSHM;
 	}
+	/**
+	 * default constructor
+	 */
 	public LevelSaverFactory() {
 		// TODO Auto-generated constructor stub
 		LSHM=new HashMap<String,LevelSaverCreator>();

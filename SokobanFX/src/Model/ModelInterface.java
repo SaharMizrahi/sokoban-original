@@ -1,10 +1,10 @@
 package Model;
 
 import Model.Data.Level;
-/** our sokoban model interface
+/** 
  * 
  * @author Sahar Mizrahi and Gal Ezra
- *
+ *our sokoban model interface
  */
 public interface ModelInterface {
 	/**
@@ -17,8 +17,18 @@ public interface ModelInterface {
 	 * @param lev out soiurce level
 	 */
 	public void setCurrentLevel(Level lev);
-
+	/**
+	 * 
+	 * @return true if the model has changed
+	 */
 	public boolean isChanged();
+	/**
+	 * update the change flag
+	 * @param isChanged-new boolean 
+	 */
 	public void setChanged(boolean isChanged);
+	/**
+	 * solve our sokoban level
+	 */
 	public void solveLevel();
 }

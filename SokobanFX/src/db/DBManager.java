@@ -9,8 +9,11 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-/*This class managed the data base activity
- * */
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ *
+ */
 public class DBManager implements DBManagerInterface
 {
 	private static SessionFactory factory;
