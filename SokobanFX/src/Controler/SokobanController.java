@@ -11,12 +11,11 @@ import view.MainWindowController;
 import view.ViewInterface;
 
 /**
- * This is THE Controller of our sokoban game, Variables:
- * View,Model,Controller(of command queue),Commands Factory,Server and boolean
- * flag
+ 
  * 
  * @author Sahar Mizrahi and Gal Ezra
- *
+ **This is THE Controller of our sokoban game
+ * 
  */
 public class SokobanController implements Observer
 {

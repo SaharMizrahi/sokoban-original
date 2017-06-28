@@ -3,16 +3,17 @@ package Controler;
 import java.util.HashMap;
 
 import Model.Data.Level;
-
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ *	This class generate commandCreator from string. Factory design pattern
+ */
 public class CommandsFactory {
 	private HashMap<String,CommandCreator> CM;
 	
-	public HashMap<String, CommandCreator> getCM() {
-		return CM;
-	}
-	public void setCM(HashMap<String, CommandCreator> cM) {
-		CM = cM;
-	}
+/**
+ * Default constructor
+ */
 	public CommandsFactory()
 	{
 		CM=new HashMap<String,CommandCreator>();
@@ -21,9 +22,23 @@ public class CommandsFactory {
 		CM.put("load", new LoadLevelCommandCreator());
 		CM.put("save", new SaveLevelCommandCreator());
 		CM.put("exit", new ExitCommandCreator());
-		CM.put("record", new saveRecCommandCreator());
+
 		CM.put("solve", new solveCommandCreator());
 
+	}
+	/**
+	 * 
+	 * @return the command factory's hash map
+	 */
+	public HashMap<String, CommandCreator> getCM() {
+		return CM;
+	}
+	/**
+	 * sets the command factory hash map
+	 * @param cM-new hash map
+	 */
+	public void setCM(HashMap<String, CommandCreator> cM) {
+		CM = cM;
 	}
 
 	public class solveCommandCreator implements CommandCreator
@@ -37,17 +52,7 @@ public class CommandsFactory {
 		}
 		
 	}
-	public class saveRecCommandCreator implements CommandCreator
-	{
 
-		@Override
-		public FunctionalCommand create()
-		{
-			// TODO Auto-generated method stub
-			return new saveRecCommand();
-		}
-		
-	}
 	public class ExitCommandCreator implements CommandCreator
 	{
 

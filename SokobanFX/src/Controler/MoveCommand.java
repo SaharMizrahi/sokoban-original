@@ -6,15 +6,26 @@ import Model.Data.Level;
 import Model.Data.Position;
 import Model.Data.Wall;
 import Model.Policy.MySokobanPolicy;
-
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ *	this class execute moving commands in our game
+ */
 public class MoveCommand extends FunctionalCommand implements Command {
 	private MySokobanPolicy msp;
 
+	/**
+	 * constructor using level parameter
+	 * @param lev
+	 */
 	public MoveCommand(Level lev) {
 		super(lev);
 		// TODO Auto-generated constructor stub
 		msp=new MySokobanPolicy();
 	}
+	/**
+	 * implemented method
+	 */
 	public void execute() throws Exception
 	{
 		Item A=null;
@@ -109,8 +120,14 @@ public class MoveCommand extends FunctionalCommand implements Command {
 		
 
 	}
-	
-	public int checkIfPossible(Item A,Item B,Item C)
+	/**
+	 * This private method checks if the move action is possible
+	 * @param A-first item in the map
+	 * @param B-second item in the map
+	 * @param C- third item in the map 
+	 * @return how many move is necessary
+	 */
+	private int checkIfPossible(Item A,Item B,Item C)
 	{
 		MySokobanPolicy MSP=new MySokobanPolicy();
 		if (B==null)

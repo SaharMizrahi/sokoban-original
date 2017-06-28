@@ -8,17 +8,27 @@ import java.util.Scanner;
 import Model.Data.Level;
 import Model.Data.LevelLoader;
 import Model.Data.LevelLoaderFactory;
-
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ *	This command loading level from file (txt/obj/xml)
+ */
 public class LoadLevelCommand extends FunctionalCommand implements Command {
 	
 	HashMap<String,LevelLoader> LLM;
+	/**
+	 * constructor using level parameter
+	 * @param lev
+	 */
 	public LoadLevelCommand(Level lev) 
 	{
 		super(lev);
 		// TODO Auto-generated constructor stub
 	
 	}
-
+	/**
+	 * implemented method
+	 */
 	public void execute() throws FileNotFoundException, IOException, ClassNotFoundException
 	{
 		String FileType;

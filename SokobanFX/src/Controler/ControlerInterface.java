@@ -1,10 +1,10 @@
 package Controler;
 
 
-/** This interface define the controller interface 
+/** 
  * 
  * @author Sahar Mizrahi and Gal Ezra
- *
+ *This interface define the commands controller interface 
  */
 public interface ControlerInterface  {
 	/**

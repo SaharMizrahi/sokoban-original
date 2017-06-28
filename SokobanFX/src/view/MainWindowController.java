@@ -376,6 +376,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		this.saveRecButton.setFocusTraversable(false);
 		this.solveButton.setFocusTraversable(false);
 		this.showSolutionButton.setFocusTraversable(false);
+		this.clueButton.setFocusTraversable(false);
 		/*************************************************/
 		/*************** initialize time and steps **********/
 		timeCounter = new SimpleStringProperty();

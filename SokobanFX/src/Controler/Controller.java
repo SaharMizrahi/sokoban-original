@@ -3,13 +3,13 @@ package Controler;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
-/**This class implements the controller interface and holding:
+/**
+ * 
+ * @author Sahar Mizrahi and Gal Ezra
+ *This class implements the controller interface and holding:
  *  queue of commands
  *  refernce of the current command that we polled
  *  boolean variable that stops the thread
- * 
- * @author Sahar Mizrahi and Gal Ezra
- *
  */
 public class Controller implements ControlerInterface {
 	

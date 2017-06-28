@@ -1,5 +1,7 @@
 package boot;
 /*Gal Ezra and Sahar Mizrahi Sokoban project
+ * 
+ * Our project Main Class
  * */
 
 import java.io.File;
@@ -14,7 +16,6 @@ import Controler.SokobanController;
 import Model.MyModel;
 import db.RecLevel;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +26,7 @@ import javassist.compiler.ast.Member;
 import view.DBWindowController;
 import view.MainWindowController;
 
-//
+
 public class Main extends Application {
 
 	private static SessionFactory factory;
@@ -33,19 +34,24 @@ public class Main extends Application {
 
 	public void start(Stage primaryStage) {
 		try {
-			MediaPlayer m;
-			//initalizeDataBase(); אם תרצה להעלות קצת נתונים לדטא בייס אצלך
+			//initalizeDataBase(); 
+			
+			
+			
+			//Initialize background song
 			String musicFile="./resources/Music/song.mp3";
 			Media song=new Media(new File(musicFile).toURI().toString());
-			m=new MediaPlayer(song);
+			MediaPlayer m=new MediaPlayer(song);
+			m.play();
+			 //loading two stages
 			FXMLLoader fl1=new FXMLLoader();
 			FXMLLoader fl2=new FXMLLoader();
 			BorderPane gameRoot = fl1.load(getClass().getResource("MainWindow.fxml").openStream());
 			BorderPane DBRoot=fl2.load(getClass().getResource("DBWindow.fxml").openStream());
-			MainWindowController mwc=fl1.getController();
-			DBWindowController dbwc=fl2.getController();
-			SokobanController sc=new SokobanController();
-			MyModel mm=new MyModel();
+			MainWindowController mwc=fl1.getController();//View (main view)
+			DBWindowController dbwc=fl2.getController();//View (db view)
+			SokobanController sc=new SokobanController();//Controller
+			MyModel mm=new MyModel();//Model
 			Scene gameScene = new Scene(gameRoot,650,650);
 			Scene dbScene=new Scene(DBRoot, 650, 650);
 			gameScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -55,54 +61,19 @@ public class Main extends Application {
 			mwc.setDbwc(dbwc);
 			dbwc.setPrimarystage(primaryStage);
 			dbwc.setGameScene(gameScene);
+			primaryStage.setTitle("CART-BAN");
 			primaryStage.show();
+			//MVC model
 			mwc.addObserver(sc);
 			sc.setMv(mwc);
 			sc.setMM(mm);
 			mm.addObserver(sc);
 
-
-
-
-
-
-			Thread musicThread=new Thread(new Runnable() {
-
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-
-							
-							//m.cycleCountProperty().set(5);
-							m.play();
-
-
-						}
-					});
-			//runs the gui
-			Platform.runLater(new Runnable()
-			{
-
-				@Override
-				public void run()
-				{
-					// TODO Auto-generated method stub
-					primaryStage.show();
-					//musicThread.start();
-				}
-			});
-
-
-
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public void stop()
-	{
 
-	}
 	public static void main(String[] args) {
 
 
