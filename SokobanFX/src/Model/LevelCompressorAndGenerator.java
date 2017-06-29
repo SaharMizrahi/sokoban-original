@@ -28,12 +28,28 @@ public class LevelCompressorAndGenerator {
 		if(lev instanceof Level2D)
 		{
 			int len=((Level2D) lev).getLength(),wid=((Level2D) lev).getWidth();
-			result+="Level2D"+"$"+len+"$"+wid;
+			result+="Level2D"+"S"+len+"S"+wid;
 			for(int i=0;i<len;i++)
 			{
 				for(int j=0;j<wid;j++)
 				{
 					current=((Level2D) lev).getMap()[i][j].getChar();
+					if(current=='@')
+					{
+						current='B';
+					}
+					else if(current==' ')
+					{
+						current='F';
+					}
+					else if(current=='#')
+					{
+						current='W';
+					}
+					else if(current=='$')
+					{
+						current='b';
+					}
 					if(prev=='*')//this is the first char
 					{
 						prev=current;
@@ -43,7 +59,7 @@ public class LevelCompressorAndGenerator {
 						count++;
 					else//this is diffrent char
 					{
-						result+="$"+prev+""+count;
+						result+="S"+prev+""+count;
 						prev=current;
 						count=1;
 					}
@@ -51,7 +67,7 @@ public class LevelCompressorAndGenerator {
 				}
 			}
 			
-			result+="$"+prev+""+count;
+			result+="S"+prev+""+count;
 
 		}
 		
@@ -71,7 +87,7 @@ public class LevelCompressorAndGenerator {
 		int num=0;
 		char current;
 		Level lev=null;
-		String strArr[]=str.split("\\$");
+		String strArr[]=str.split("S");
 		if(strArr[0].compareTo("Level2D")==0)
 		{
 			lev=new Level2D();
@@ -91,23 +107,23 @@ public class LevelCompressorAndGenerator {
 					
 					switch(current)
 					{
-					case ' ':
+					case 'F':
 						map[row][col]=new Floor();
 						break;
 					case 'A':
 						map[row][col]=new Character();
 						lev.getCharacterList().add(map[row][col]);
 						break;
-					case '@':
+					case 'B':
 						map[row][col]=new Box();
 						lev.getBoxList().add(map[row][col]);
 						break;
-					case '$':
+					case 'b':
 						map[row][col]=new Box();
 						map[row][col].setOnDest(true);
 						lev.getBoxList().add(map[row][col]);
 						break;
-					case '#':
+					case 'W':
 						map[row][col]=new Wall();
 						break;
 					case 'o':

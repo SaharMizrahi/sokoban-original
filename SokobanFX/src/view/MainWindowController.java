@@ -327,6 +327,7 @@ public class MainWindowController extends Observable implements Initializable, V
 			@Override
 			public void run()
 			{
+				if(!sd.isDone())
 				setCount(getCount() + 1);
 			}
 		}, 0, 1000);
@@ -488,6 +489,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		numOfClues=0;
 		setCount(0);
 		startStepsCounter();
+		time.cancel();
 		this.setUserCommand("load " + levelName);
 
 		this.restartButton.setDisable(true);
@@ -512,7 +514,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		String str = "";
 		if (otherSolution.compareTo("block") != 0) 
 		{
-			String s[] = otherSolution.split("-");
+			String s[] = otherSolution.split("P");
 			for (int i = 0; i < s.length; i++) {
 				current = s[i].charAt(0);
 				num = Integer.parseInt(s[i].substring(1, s[i].length()));
