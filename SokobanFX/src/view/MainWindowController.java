@@ -512,6 +512,8 @@ public class MainWindowController extends Observable implements Initializable, V
 		char current;
 		int num = 0;
 		String str = "";
+		if(otherSolution!=null)
+		{
 		if (otherSolution.compareTo("block") != 0) 
 		{
 			String s[] = otherSolution.split("P");
@@ -539,6 +541,7 @@ public class MainWindowController extends Observable implements Initializable, V
 			this.showSolutionButton.setDisable(false);
 			this.clueButton.setDisable(false);
 		}
+	}
 
 	}
 
